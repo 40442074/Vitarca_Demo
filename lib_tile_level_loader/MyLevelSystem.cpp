@@ -109,6 +109,9 @@ void LevelSystem::loadLevelFile(const std::string& path, float tileSize) {
             h++; // increment height
             std::cout<<"";
             break;
+        case '\t':
+            throw string("File includes tabs") + path;;
+            break;
         default:
             cout << c << endl; // Don't know what this tile type is
         }

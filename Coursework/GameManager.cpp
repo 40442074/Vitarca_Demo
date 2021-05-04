@@ -1,3 +1,4 @@
+#include "Windows.h"
 #include "GameManager.h"
 #include "ecm.h"
 #include "MyLevelSystem.h"
@@ -50,10 +51,10 @@ void MenuScene::update(double dt) {
 	}
 }
 
-//sf::Font MenuScene::GetFont()
-//{
-//	return font;
-//}
+sf::Font MenuScene::GetFont()
+{
+	return font;
+}
 
 void MenuScene::render() {
 	for (int i = 0; i < buttonCount; i++)
@@ -64,7 +65,12 @@ void MenuScene::render() {
 }
 
 void MenuScene::load() {
-	font.loadFromFile("res/fonts/PressStart2P-Regular.ttf");
+	char c[MAX_PATH];
+	GetModuleFileName(NULL, c, MAX_PATH);
+	string s = string(c);
+	s = s.substr(0, s.find_last_of("\\/"));
+
+	font.loadFromFile(s + "res/fonts/PressStart2P-Regular.ttf");
 	////text.setPosition(Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 
 	for (int i = 0; i < buttonCount; i++)
@@ -113,33 +119,13 @@ void GameScene::render() {
 //}
 
 void GameScene::load() {
-
-	//auto pl = make_shared<Entity>();
-	//auto s = pl->addComponent<ShapeComponent>();
-	//pl->addComponent<PlayerMovementComponent>();
-	//s->setShape<sf::CircleShape>(12.f);
-	//s->getShape().setFillColor(Color::Yellow);
-	//s->getShape().setOrigin(Vector2f(12.f, 12.f));
-	//_ents.list.push_back(pl);
-	//player = _ents.list[0];
-	//const sf::Color ghost_cols[]{ {208, 62, 25},    // red Blinky
-	//						   {219, 133, 28},   // orange Clyde
-	//						   {70, 191, 238},   // cyan Inky
-	//						   {234, 130, 229} }; // pink Pinky
-	//for (int i = 0; i < GHOSTS_COUNT; ++i) {
-	//	auto ghost = make_shared<Entity>();
-	//	auto s = ghost->addComponent<ShapeComponent>();
-	//	ghost->addComponent<EnemyAIComponent>();
-	//	s->setShape<sf::CircleShape>(12.f);
-	//	s->getShape().setFillColor(ghost_cols[i % 4]);
-	//	s->getShape().setOrigin(Vector2f(12.f, 12.f));
-	//	_ents.list.push_back(ghost);
-	//	ghost_list.push_back(_ents.list[i + 1]);
-	//}
-
+	char c[MAX_PATH];
+	GetModuleFileName(NULL, c, MAX_PATH);
+	string s = string(c);
+	s = s.substr(0, s.find_last_of("\\/"));
 
 	//load level
-	lvlSys::loadLevelFile("res/test_level.txt", 60.0f);
+	lvlSys::loadLevelFile(s + "\\res\\test_level.txt", 60.0f);
 	bgSpriteLoader.ReadSpriteSheet();
 	bgSpriteLoader.Load();
 
