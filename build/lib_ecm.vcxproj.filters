@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Joseph\Documents\GitHub\Vitarca_Demo\lib_ecm\MyEcm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Joseph\Documents\GitHub\Vitarca_Demo\lib_ecm\ecm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Joseph\Documents\GitHub\Vitarca_Demo\lib_ecm\MyEcm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Joseph\Documents\GitHub\Vitarca_Demo\lib_ecm\ecm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Joseph\Documents\GitHub\Vitarca_Demo\lib_maths\maths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Joseph\Documents\GitHub\Vitarca_Demo\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{CBBE5993-E5B5-3E12-AEDD-C8660770E1BA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{11679852-AE2C-32FC-AA76-A096BB85A937}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
