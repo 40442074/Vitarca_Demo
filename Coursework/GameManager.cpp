@@ -1,5 +1,5 @@
 #include "GameManager.h"
-#include "MyEcm.h"
+#include "ecm.h"
 #include "MyLevelSystem.h"
 #include "SystemRenderer.h"
 #include "BGSpriteLoader.h"
@@ -33,7 +33,7 @@ void Scene::render() { _ents.render(/*window*/); }
 
 void Scene::update(double dt) {
 	for (int i = 0; i < _ents.list.size(); i++) {
-		_ents.list[i]->Update(dt);
+		_ents.list[i]->update(dt);
 	}
 }
 
@@ -42,7 +42,7 @@ void MenuScene::update(double dt) {
 		activeScene = gameScene;
 	}
 	Scene::update(dt);
-	text.setString("MainMenu");
+	_text.setString("MainMenu");
 
 	for (int i = 0; i < buttonCount; i++)
 	{
@@ -50,10 +50,10 @@ void MenuScene::update(double dt) {
 	}
 }
 
-sf::Font MenuScene::GetFont()
-{
-	return font;
-}
+//sf::Font MenuScene::GetFont()
+//{
+//	return font;
+//}
 
 void MenuScene::render() {
 	for (int i = 0; i < buttonCount; i++)
