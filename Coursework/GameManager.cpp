@@ -30,7 +30,7 @@ sf::Font font;
 sf::Color white = Color(255, 255, 255, 255);
 
 sf::RenderWindow window;
-void Scene::render() { _ents.render(/*window*/); }
+void Scene::render() { _ents.render(); }
 
 void Scene::update(double dt) {
 	for (int i = 0; i < _ents.list.size(); i++) {

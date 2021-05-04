@@ -22,7 +22,7 @@ add_library(lib_tile_level_loader STATIC ${SOURCE_FILES})
 target_include_directories(lib_tile_level_loader INTERFACE "${CMAKE_SOURCE_DIR}/lib_tile_level_loader/" )
 target_link_libraries(lib_tile_level_loader lib_maths sfml-graphics)
 
-# B2D - Box2D phyics library
+## B2D
 add_subdirectory("lib/b2d/Box2D")
 #include_directories("lib/b2d/Box2D/")
 set(B2D_INCS "lib/b2d/Box2D/")
@@ -55,6 +55,10 @@ add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND}
 
 #### Coursework ####
 file(GLOB_RECURSE SOURCES Coursework/*.cpp Coursework/*.h)
+file(GLOB_RECURSE CMPNTS Coursework/components/*.cpp Coursework/components/*.h)
+file(GLOB_RECURSE SCENES Coursework/scenes/*.cpp Coursework/scenes/*.h)
 add_executable(Coursework ${SOURCES})
+source_group("components" FILES ${CMPNTS})
+source_group("resources" FILES ${RESOURCE_FILES})
 target_include_directories(Coursework PRIVATE ${SFML_INCS})
-target_link_libraries(Coursework lib_tile_level_loader sfml-graphics lib_ecm)
+target_link_libraries(Coursework lib_engine)
