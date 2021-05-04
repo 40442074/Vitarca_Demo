@@ -1,5 +1,6 @@
 #include "BGSpriteLoader.h"
 #include <iostream>
+#include "LevelSystem.h"
 
 using namespace std;
 using namespace sf;
@@ -25,53 +26,53 @@ void BGSpriteLoader::ReadSpriteSheet()
 
 void BGSpriteLoader::Load()
 {
-    auto tiles = lvlSys::getTileNames();
+    auto tiles = ls::getTileNames();
     //for each tile in the list, how many are of wall or empty etc.
     //want to set the position of all of the sprites
-    auto width = lvlSys::getWidth();
+    auto width = ls::getWidth();
     for (int i = 0; i < tiles.size(); i++)
     {
-        if (tiles[i] == lvlSys::WALL)
+        if (tiles[i] == ls::WALL)
         {
             totalSprites.push_back(spriteTypes[1]);
         }
-        else if (tiles[i] == lvlSys::CAMERA1)
+        else if (tiles[i] == ls::CAMERA1)
         {
             totalSprites.push_back(spriteTypes[3]);
         }
-        else if (tiles[i] == lvlSys::CAMERA2)
+        else if (tiles[i] == ls::CAMERA2)
         {
             totalSprites.push_back(spriteTypes[4]);
         }
-        else if (tiles[i] == lvlSys::CAMERA3)
+        else if (tiles[i] == ls::CAMERA3)
         {
             totalSprites.push_back(spriteTypes[5]);
         }
-        else if (tiles[i] == lvlSys::CAMERA4)
+        else if (tiles[i] == ls::CAMERA4)
         {
             totalSprites.push_back(spriteTypes[6]);
         }
-        else if (tiles[i] == lvlSys::ENEMY)
+        else if (tiles[i] == ls::ENEMY)
         {
             totalSprites.push_back(spriteTypes[2]);
         }
-        else if (tiles[i] == lvlSys::FINISH)
+        else if (tiles[i] == ls::END)
         {
             totalSprites.push_back(spriteTypes[2]);
         }
-        else if (tiles[i] == lvlSys::START)
+        else if (tiles[i] == ls::START)
         {
             totalSprites.push_back(spriteTypes[2]);
         }
-        else if (tiles[i] == lvlSys::EMPTY)
+        else if (tiles[i] == ls::EMPTY)
         {
             totalSprites.push_back(spriteTypes[0]);
         }
-        else if (tiles[i] == lvlSys::PUZZLE)
+        else if (tiles[i] == ls::PUZZLE)
         {
             totalSprites.push_back(spriteTypes[2]);
         }
-        totalSprites[i].setPosition(lvlSys::getTilePosition(Vector2ul(i % width, (i - (i % width)) / width)));
+        totalSprites[i].setPosition(ls::getTilePosition(Vector2ul(i % width, (i - (i % width)) / width)));
     }
 
 

@@ -16,14 +16,7 @@ public:
 
   typedef unsigned char Tile;
 
-  enum TILES {
-    EMPTY = ' ',
-    START = 's',
-    END = 'e',
-    WALL = 'w',
-    ENEMY = 'n',
-    WAYPOINT = '+'
-  };
+  enum TILE { WALL, CAMERA1, CAMERA2, CAMERA3, CAMERA4, ENEMY, END, START, EMPTY, PUZZLE };
 
   static Tile getTile(sf::Vector2ul);
 
@@ -48,6 +41,8 @@ public:
   static const sf::Vector2f& getOffset();
 
   static float getTileSize();
+  static int GetTileSize();
+  static std::vector<TILE> getTileNames();
 
 protected:
   static std::unique_ptr<Tile[]> _tiles;

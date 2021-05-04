@@ -1,6 +1,5 @@
 #include "button.h"
-#include "GameManager.h"
-#include "SystemRenderer.h"
+#include "engine.h"
 
 using namespace sf;
 using namespace std;
@@ -18,7 +17,7 @@ void Button::load(Color c, int cs, string s, Vector2f p, Font f) {
 	_rect = IntRect(_position.x, _position.y, xLength, _charSize);
 }
 
-void Button::update(double dt, RenderWindow& window) {
+void Button::update(double dt) {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		mousethis = true;
@@ -29,7 +28,7 @@ void Button::update(double dt, RenderWindow& window) {
 	}
 
 	if (mousethis && !mouselast
-		&& _rect.contains(static_cast<sf::Vector2i>(sf::Mouse::getPosition(window))))
+		&& _rect.contains(static_cast<sf::Vector2i>(sf::Mouse::getPosition(Engine::GetWindow()))))
 	{
 		std::cout << "mouse click";
 	}
@@ -43,5 +42,5 @@ void Button::render() {
 	rendertext.setString(_string);
 	rendertext.setPosition(_position);
 	rendertext.setFont(_font);
-	Renderer::getWindow().draw(rendertext);
+	Engine::GetWindow().draw(rendertext);
 }
