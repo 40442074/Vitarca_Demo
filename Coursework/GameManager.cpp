@@ -21,9 +21,9 @@ std::shared_ptr<Entity> player;
 std::vector<std::shared_ptr<Entity>> enemy_list;
 std::vector<std::shared_ptr<Entity>> camera_list;
 
-BGSpriteLoader bgSpriteLoader;
-std::vector<Button> buttons;
-int buttonCount = 3;
+//BGSpriteLoader bgSpriteLoader;
+//std::vector<Button> buttons;
+//int buttonCount = 3;
 
 sf::Font font;
 sf::Color white = Color(255, 255, 255, 255);

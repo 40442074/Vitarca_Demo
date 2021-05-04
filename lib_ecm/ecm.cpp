@@ -37,6 +37,7 @@ const sf::Vector2f& Entity::getPosition() const { return _position; }
 
 void Entity::setPosition(const sf::Vector2f& _position) {
   Entity::_position = _position;
+  std::cout << "";
 }
 
 float Entity::getRotation() const { return _rotation; }

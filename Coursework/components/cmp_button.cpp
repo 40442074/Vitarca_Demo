@@ -22,15 +22,17 @@ void ButtonComponent::update(double dt) {
 }
 
 void ButtonComponent::render() { Renderer::queue(&_text); }
-
-ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int charSize, const sf::Color c, const std::string& str)
-    : Component(p), _string(str) {
+ 
+ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int charSize, const sf::Color c, const sf::Vector2f pos, const std::string& str) : Component(p), _string(str) {
     _text.setString(_string);
     _font = Resources::get<sf::Font>(f);
     _text.setFont(*_font);
-
-	auto xLength = _string.length() * _charSize;
-	_rect = IntRect(p->getPosition().x, p->getPosition().y, xLength, _charSize);
+	_charSize = charSize;
+	_colour = c;
+	_pos = pos;
+	_text.setPosition(_pos);
+	auto xLength = _string.size() * _charSize;
+	_rect = IntRect(_pos.x, _pos.y, xLength, _charSize);
 }
 
 void ButtonComponent::SetText(const std::string& str) {

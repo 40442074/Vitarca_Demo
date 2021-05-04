@@ -5,6 +5,7 @@
 #include <LevelSystem.h>
 #include <iostream>
 #include <thread>
+#include "../BGSpriteLoader.h"
 
 using namespace std;
 using namespace sf;
@@ -13,7 +14,9 @@ static shared_ptr<Entity> player;
 
 void Level1Scene::Load() {
   cout << " Scene 1 Load" << endl;
-  ls::loadLevelFile("res/level_1.txt", 40.0f);
+  ls::loadLevelFile("res/level1.txt", 60.0f);
+  spriteLoader.ReadSpriteSheet();
+  spriteLoader.Load();
 
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
   ls::setOffset(Vector2f(0, ho));
@@ -66,5 +69,6 @@ void Level1Scene::Update(const double& dt) {
 
 void Level1Scene::Render() {
   ls::render(Engine::GetWindow());
+  spriteLoader.Render(Engine::GetWindow());
   Scene::Render();
 }
