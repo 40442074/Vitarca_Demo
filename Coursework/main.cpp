@@ -49,7 +49,7 @@ void Render(RenderWindow& window) {
 }
 
 int main(){
-  sf::RenderWindow window(sf::VideoMode(1920, 1080), "Vitarca", sf::Style::Titlebar | sf::Style::Close);
+  sf::RenderWindow window(sf::VideoMode(1280, 720), "Vitarca", sf::Style::Titlebar | sf::Style::Close);
   static Clock clock;
   float dt = clock.restart().asSeconds();
   Load();
