@@ -70,7 +70,7 @@ void MenuScene::load() {
 	string s = string(c);
 	s = s.substr(0, s.find_last_of("\\/"));
 
-	font.loadFromFile(s + "res/fonts/PressStart2P-Regular.ttf");
+	font.loadFromFile(s + "\\res\\fonts\\PressStart2P-Regular.ttf");
 	////text.setPosition(Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 
 	for (int i = 0; i < buttonCount; i++)
@@ -91,16 +91,6 @@ void GameScene::update(double dt) {
 }
 
 void GameScene::render() {
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	//Renderer::queue(_ents.list[i]->getShape());
-	//	Renderer::queue(_ents.list[i]->render());
-	//}
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	_ents.list[i]->Render();
-	//}
-
 	bgSpriteLoader.Render(Renderer::getWindow());
 }
 
