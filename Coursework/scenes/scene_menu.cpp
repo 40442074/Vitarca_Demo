@@ -29,7 +29,6 @@ void MenuScene::Load() {
         buttons[i]->setPosition(Vector2f(200, 200 * i));
      
     }
-    sounds.Load();
   setLoaded(true);
 }
 
@@ -40,7 +39,7 @@ void MenuScene::Update(const double& dt) {
     Engine::ChangeScene(&level1);
   }
   if (sf::Keyboard::isKeyPressed(Keyboard::P)) {
-      sounds.PlayButtonSound();
+      //sounds.PlayButtonSound();
   }
   Scene::Update(dt);
 }

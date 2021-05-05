@@ -9,8 +9,8 @@
 using namespace std;
 using namespace sf;
 
-std::shared_ptr<Entity> levelButtons[3];
-std::string levelText[3] = { "Level-1", "Level-2", "Level-3" };
+std::shared_ptr<Entity> levelButtons[4];
+std::string levelText[4] = { "Level-1", "Level-2", "Level-3", "Back to Main Menu" };
 
 void LevelMenuScene::Load() {
 	{
@@ -20,7 +20,7 @@ void LevelMenuScene::Load() {
 		txt->setPosition(Vector2f(200, 200));
 	}
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 
 		levelButtons[i] = makeEntity();
 		levelButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(200, 200 * i), levelText[i]);

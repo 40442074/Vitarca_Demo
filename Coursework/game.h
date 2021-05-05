@@ -7,12 +7,14 @@
 #include "scenes/scene_options.h"
 #include "BGSpriteLoader.h"
 #include "soundManager.h"
+#include "scenes/scene_splash.h"
 
 //extern int gameX = 720;
 //extern int gameY = 1080;
 
 extern BGSpriteLoader spriteLoader;
 extern SoundManager sounds;
+extern SplashScene splash;
 extern MenuScene menu;
 extern LevelMenuScene levelSelect;
 extern OptionsMenuScene optionsScene;

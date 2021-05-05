@@ -8,7 +8,7 @@ void SoundManager::Load() {
 	for (int i = 0; i < 2; i++)
 	{
 		_buffers[0].loadFromFile("res/sounds/button_click.wav");
-		_buffers[1].loadFromFile("res/sounds/soundtrack_01.mp3");
+		_buffers[1].loadFromFile("res/sounds/soundtrack_01.wav");
 		
 		_sounds[i].setBuffer(_buffers[i]);
 	}

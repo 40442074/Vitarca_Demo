@@ -70,7 +70,7 @@ ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int
 	auto xLength = _string.size() * _charSize;
 	_rect = IntRect(_pos.x, _pos.y, xLength, _charSize);
 
-	sounds.Load();
+	//sounds.Load();
 }
 
 void ButtonComponent::SetText(const std::string& str) {
