@@ -9,6 +9,8 @@
 #include "soundManager.h"
 #include "scenes/scene_splash.h"
 #include "GameManager.h"
+#include "scenes/scene_volume.h"
+#include "scenes/scene_res.h"
 
 //extern int gameX = 720;
 //extern int gameY = 1080;
@@ -20,6 +22,8 @@ extern GameManager gManager;
 extern MenuScene menu;
 extern LevelMenuScene levelSelect;
 extern OptionsMenuScene optionsScene;
+extern VolumeMenuScene volScene;
+extern ResMenuScene resScene;
 extern Level1Scene level1;
 extern Level2Scene level2;
 extern Level3Scene level3;

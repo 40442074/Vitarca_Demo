@@ -13,6 +13,8 @@ GameManager gManager;
 SplashScene splash;
 LevelMenuScene levelSelect;
 OptionsMenuScene optionsScene;
+VolumeMenuScene volScene;
+ResMenuScene resScene;
 
 Level1Scene level1;
 Level2Scene level2;

@@ -24,3 +24,11 @@ void SoundManager::PlayButtonSound()
 void SoundManager::PlaySoundtrack() {
 	_music.play();
 }
+
+void SoundManager::SetVolume(float vol) {
+	_sounds->setVolume(vol);
+}
+
+float SoundManager::GetVolume() {
+	return _sounds->getVolume();
+}

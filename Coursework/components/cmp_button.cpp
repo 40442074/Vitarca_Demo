@@ -19,6 +19,7 @@ void ButtonComponent::update(double dt) {
 	if (mousethis && !mouselast && _rect.contains(static_cast<sf::Vector2i>(sf::Mouse::getPosition(Engine::GetWindow()))))
 	{
 		sounds.PlayButtonSound();
+		float currVolume = sounds.GetVolume();
 		if (tag == "Start Game" || tag == "Level-1")
 		{
 			Engine::ChangeScene(&level1);
@@ -43,6 +44,26 @@ void ButtonComponent::update(double dt) {
 		{
 			//exit game
 			Engine::GetWindow().close();
+		}
+		else if (tag == "Volume")
+		{
+			Engine::ChangeScene(&volScene);
+		}
+		else if (tag == "+")
+		{
+			sounds.SetVolume(sounds.GetVolume() + 1.0f);
+		}
+		else if (tag == "-")
+		{
+			sounds.SetVolume(sounds.GetVolume() - 1.0f);
+		}
+		else if (tag < to_string(currVolume) || tag > to_string(currVolume))
+		{
+			tag == to_string(currVolume);
+		}
+		else if (tag == "Resolution")
+		{
+			Engine::ChangeScene(&resScene);
 		}
 		else if (tag == "Level-2")
 		{

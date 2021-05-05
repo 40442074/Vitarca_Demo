@@ -8,22 +8,15 @@
 using namespace std;
 using namespace sf;
 
-std::shared_ptr<Entity> OptionsButtons[4];
-std::string optionText[4] = {"Volume", "Resolution", "Credits", "Back to Main Menu"};
+std::shared_ptr<Entity> OptionsButtons[3];
+std::string optionText[3] = {"Volume", "Resolution", "Back to Main Menu"};
 
 void OptionsMenuScene::Load() {
-	{
-		auto txt = makeEntity();
-		auto t = txt->addComponent<TextComponent>(
-			"Vitarca Level Select\nPress Space to Start");
-		txt->setPosition(Vector2f(200, 200));
-	}
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 
 		OptionsButtons[i] = makeEntity();
 		OptionsButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), optionText[i]);
-		OptionsButtons[i]->setPosition(Vector2f(200, 200 * i));
 	}
 	setLoaded(true);
 }
