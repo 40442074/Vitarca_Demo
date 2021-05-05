@@ -12,22 +12,12 @@ int buttonCount = 5;
 std::shared_ptr<Entity> buttons[3];
 string buttonText[5] = { "Start Game", "Level Select", "Options", "Restart Game", "Exit Game" };
 
-
 void MenuScene::Load() {
     cout << "Menu Load \n";
-    {
-        auto txt = makeEntity();
-        auto t = txt->addComponent<TextComponent>(
-            "Vitarca\nPress Space to Start");
-        txt->setPosition(Vector2f(200, 200));
-    }
-    for (int i = 0; i < buttonCount; i++){
 
+    for (int i = 0; i < buttonCount; i++){
         buttons[i] = makeEntity();
-        
-        buttons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(200, 200 * i), buttonText[i]);
-        buttons[i]->setPosition(Vector2f(200, 200 * i));
-     
+        buttons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), buttonText[i]);
     }
   setLoaded(true);
 }
@@ -41,5 +31,8 @@ void MenuScene::Update(const double& dt) {
   if (sf::Keyboard::isKeyPressed(Keyboard::P)) {
       //sounds.PlayButtonSound();
   }
+
+  //renders menu sprite
+  gManager.Render();
   Scene::Update(dt);
 }

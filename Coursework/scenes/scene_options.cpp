@@ -22,7 +22,7 @@ void OptionsMenuScene::Load() {
 	for (int i = 0; i < 4; i++) {
 
 		OptionsButtons[i] = makeEntity();
-		OptionsButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(200, 200 * i), optionText[i]);
+		OptionsButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), optionText[i]);
 		OptionsButtons[i]->setPosition(Vector2f(200, 200 * i));
 	}
 	setLoaded(true);
@@ -32,6 +32,6 @@ void OptionsMenuScene::Update(const double& dt) {
 	if (sf::Keyboard::isKeyPressed(Keyboard::Space)) {
 		Engine::ChangeScene(&level1);
 	}
-
+	gManager.Render();
 	Scene::Update(dt);
 }

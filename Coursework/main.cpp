@@ -8,10 +8,12 @@ extern int gameY = 1080;
 
 MenuScene menu;
 SoundManager sounds;
+GameManager gManager;
 
 SplashScene splash;
 LevelMenuScene levelSelect;
 OptionsMenuScene optionsScene;
+
 Level1Scene level1;
 Level2Scene level2;
 Level3Scene level3;

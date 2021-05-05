@@ -42,6 +42,7 @@ void ButtonComponent::update(double dt) {
 		else if (tag == "Exit Game")
 		{
 			//exit game
+			Engine::GetWindow().close();
 		}
 		else if (tag == "Level-2")
 		{

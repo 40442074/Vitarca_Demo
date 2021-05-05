@@ -1,5 +1,6 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Music.hpp>
 #include "engine.h"
 
 class SoundManager {
@@ -9,9 +10,10 @@ public:
 	void Load();
 
 	void PlayButtonSound();
-	void PlaySountrack();
+	void PlaySoundtrack();
 	//void Update(const double& dt);
 protected:
-	sf::SoundBuffer _buffers[2];
-	sf::Sound _sounds[2];
+	sf::SoundBuffer _buffers[1];
+	sf::Sound _sounds[1];
+	sf::Music _music;
 };
