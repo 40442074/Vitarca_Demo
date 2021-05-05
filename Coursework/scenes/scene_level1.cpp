@@ -20,7 +20,7 @@ void Level1Scene::Load() {
   spriteLoader.Load();
 
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
-  ls::setOffset(Vector2f(0, ho));
+  ls::setOffset(Vector2f(0, 0));
 
   // Create player
   {
@@ -31,7 +31,7 @@ void Level1Scene::Load() {
     playertex.get()->loadFromFile("res/img/player_spritesheet.png");
     s->setTexture(playertex);
     s->getSprite().setTextureRect(IntRect(0, 0, 27, 48));
-    //s->getShape().setOrigin(10.f, 15.f);
+    s->getSprite().setOrigin(13.5f, 24.f);
 
     player->addComponent<PlayerPhysicsComponent>(Vector2f(27.f, 48.f));
   }

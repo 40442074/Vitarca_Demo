@@ -82,6 +82,10 @@ void PhysicsComponent::setVelocity(const sf::Vector2f& v) {
   _body->SetLinearVelocity(sv2_to_bv2(v, true));
 }
 
+const float PhysicsComponent::getAngVelocity() const {
+    return _body->GetAngularVelocity();
+}
+
 b2Fixture* const PhysicsComponent::getFixture() const { return _fixture; }
 
 PhysicsComponent::~PhysicsComponent() {
@@ -97,6 +101,10 @@ void PhysicsComponent::render() {}
 void PhysicsComponent::impulse(const sf::Vector2f& i) {
   auto a = b2Vec2(i.x, i.y * -1.0f);
   _body->ApplyLinearImpulseToCenter(a, true);
+}
+
+void PhysicsComponent::angimpulse(const float i) {
+    _body->ApplyAngularImpulse(i, true);
 }
 
 void PhysicsComponent::dampen(const sf::Vector2f& i) {

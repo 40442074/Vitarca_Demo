@@ -849,7 +849,7 @@ inline void b2Body::ApplyAngularImpulse(float32 impulse, bool wake)
 	// Don't accumulate velocity if the body is sleeping
 	if (m_flags & e_awakeFlag)
 	{
-		m_angularVelocity += m_invI * impulse;
+		m_angularVelocity += /*m_invI **/ impulse;
 	}
 }
 
