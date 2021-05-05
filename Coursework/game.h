@@ -8,6 +8,7 @@
 #include "BGSpriteLoader.h"
 #include "soundManager.h"
 #include "scenes/scene_splash.h"
+#include "GameManager.h"
 
 //extern int gameX = 720;
 //extern int gameY = 1080;
@@ -15,6 +16,7 @@
 extern BGSpriteLoader spriteLoader;
 extern SoundManager sounds;
 extern SplashScene splash;
+extern GameManager gManager;
 extern MenuScene menu;
 extern LevelMenuScene levelSelect;
 extern OptionsMenuScene optionsScene;

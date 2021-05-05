@@ -10,8 +10,9 @@ using namespace std;
 using namespace sf;
 
 void SplashScene::Load() {
-	cout << "loading";
 	sounds.Load();
+	sounds.PlaySoundtrack();
+	gManager.Load();
 	setLoaded(true);
 }
 
