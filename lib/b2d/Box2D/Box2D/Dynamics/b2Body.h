@@ -232,6 +232,7 @@ public:
 	/// @param impulse the angular impulse in units of kg*m*m/s
 	/// @param wake also wake up the body
 	void ApplyAngularImpulse(float32 impulse, bool wake);
+	void ApplyAngularImpulseWOInertia(float32 impulse, bool wake);
 
 	/// Get the total mass of the body.
 	/// @return the mass, usually in kilograms (kg).
@@ -849,7 +850,7 @@ inline void b2Body::ApplyAngularImpulse(float32 impulse, bool wake)
 	// Don't accumulate velocity if the body is sleeping
 	if (m_flags & e_awakeFlag)
 	{
-		m_angularVelocity += /*m_invI **/ impulse;
+		m_angularVelocity += m_invI * impulse;
 	}
 }
 

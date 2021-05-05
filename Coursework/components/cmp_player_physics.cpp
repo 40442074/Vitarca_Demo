@@ -44,13 +44,13 @@ void PlayerPhysicsComponent::update(double dt) {
       // Moving Either Left or Right
       if (Keyboard::isKeyPressed(Keyboard::Right)) {
           if (getAngVelocity() < 10)
-              angimpulse(10.0f * dt);
+              _body->SetAngularVelocity(_body->GetAngularVelocity() + 10.0f * dt);
           if (getVelocity().x < _maxVelocity.x)
               impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
       }
       else if (Keyboard::isKeyPressed(Keyboard::Left)) {
           if (getAngVelocity() > -10)
-              angimpulse(-10.0f * dt);
+              _body->SetAngularVelocity(_body->GetAngularVelocity() - 10.0f * dt);
           if (getVelocity().x > -_maxVelocity.x)
               impulse({ -(float)(dt * _groundspeed * 0.3f), 0 });
       }
@@ -90,7 +90,7 @@ void PlayerPhysicsComponent::update(double dt) {
 
   if (Keyboard::isKeyPressed(Keyboard::Down))
   {
-      setFriction(100.0f);
+      setFriction(0.0f);
   }
   else
   {
@@ -123,7 +123,6 @@ PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p,
     _groundspeed = 30.f;
     _grounded = false;
     _body->SetSleepingAllowed(false);
-    //_body->SetFixedRotation(false);
     //Bullet items have higher-res collision detection
     _body->SetBullet(true);
 
