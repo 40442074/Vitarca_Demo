@@ -8,8 +8,10 @@ public:
 
 	void Load();
 
+	void PlayButtonSound();
+	void PlaySountrack();
 	//void Update(const double& dt);
 protected:
-	sf::SoundBuffer _buffer;
-	sf::Sound _sound;
+	sf::SoundBuffer _buffers[2];
+	sf::Sound _sounds[2];
 };

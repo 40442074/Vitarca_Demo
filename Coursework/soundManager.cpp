@@ -1,11 +1,26 @@
 #include "soundManager.h"
-#include "game.h"
 
 using namespace std;
 using namespace sf;
 
+
 void SoundManager::Load() {
 
-	_buffer.loadFromFile("button_click.wav");
-	//_sound.setBuffer(_buffer);
+	for (int i = 0; i < 2; i++)
+	{
+		_buffers[0].loadFromFile("res/sounds/button_click.wav");
+		_buffers[1].loadFromFile("res/sounds/soundtrack.mp3");
+		
+		_sounds[i].setBuffer(_buffers[i]);
+	}
+	
+}
+
+void SoundManager::PlayButtonSound()
+{
+	_sounds[0].play();
+}
+
+void SoundManager::PlaySountrack() {
+	_sounds[1].play();
 }

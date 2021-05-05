@@ -4,8 +4,9 @@
 #include <engine.cpp>
 #include "../game.h"
 #include <SFML/Audio/Sound.hpp>
-//
+#include "../soundManager.h"
 
+SoundManager sound;
 void ButtonComponent::update(double dt) {
 	auto tag = _text.getString();
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -19,7 +20,7 @@ void ButtonComponent::update(double dt) {
 
 	if (mousethis && !mouselast && _rect.contains(static_cast<sf::Vector2i>(sf::Mouse::getPosition(Engine::GetWindow()))))
 	{
-		//sound.play();
+		sound.PlayButtonSound();
 		if (tag == "Start Game" || tag == "Level-1")
 		{
 			Engine::ChangeScene(&level1);
@@ -67,8 +68,7 @@ ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int
 	auto xLength = _string.size() * _charSize;
 	_rect = IntRect(_pos.x, _pos.y, xLength, _charSize);
 
-	//buffer.loadFromFile("button_click.wav");
-	//sound.setBuffer(buffer);
+	sound.Load();
 }
 
 void ButtonComponent::SetText(const std::string& str) {
