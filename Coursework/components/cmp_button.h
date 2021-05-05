@@ -7,6 +7,7 @@ class ButtonComponent : public Component {
 public:
 	ButtonComponent() = delete;
 	explicit ButtonComponent(Entity* p, const std::string fpath, const int charSize, const sf::Color c, const sf::Vector2f pos, const std::string& str = "");
+
 	void update(double dt) override;
 
 	void render() override;
