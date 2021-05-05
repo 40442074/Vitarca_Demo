@@ -1,5 +1,5 @@
 #include <memory>	//used code from PACMAN, whole thing
-#include "scene.h"
+#include "scenes/scene.h"
 #include <SFML/Graphics.hpp>
 
 extern std::shared_ptr<Scene> gameScene;

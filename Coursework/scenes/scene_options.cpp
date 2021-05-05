@@ -5,7 +5,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-
 using namespace std;
 using namespace sf;
 
