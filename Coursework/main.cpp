@@ -7,6 +7,8 @@ extern int gameX = 1920;
 extern int gameY = 1080;
 
 MenuScene menu;
+SoundManager sounds;
+
 LevelMenuScene levelSelect;
 OptionsMenuScene optionsScene;
 Level1Scene level1;

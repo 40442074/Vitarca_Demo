@@ -8,8 +8,8 @@
 using namespace std;
 using namespace sf;
 
-std::shared_ptr<Entity> OptionsButtons[3];
-std::string optionText[3] = {"Volume", "Resolution", "Credits"};
+std::shared_ptr<Entity> OptionsButtons[4];
+std::string optionText[4] = {"Volume", "Resolution", "Credits", "Back to Main Menu"};
 
 void OptionsMenuScene::Load() {
 	{
@@ -19,7 +19,7 @@ void OptionsMenuScene::Load() {
 		txt->setPosition(Vector2f(200, 200));
 	}
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 
 		OptionsButtons[i] = makeEntity();
 		OptionsButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(200, 200 * i), optionText[i]);
