@@ -17,7 +17,7 @@ void MenuScene::Load() {
 
     for (int i = 0; i < buttonCount; i++){
         buttons[i] = makeEntity();
-        buttons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), buttonText[i]);
+        buttons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Menu", buttonText[i]);
     }
   setLoaded(true);
 }

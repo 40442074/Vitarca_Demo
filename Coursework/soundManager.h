@@ -11,8 +11,11 @@ public:
 
 	void PlayButtonSound();
 	void PlaySoundtrack();
-	void SetVolume(float vol);
-	float GetVolume();
+	float GetSoundVolume();
+	float GetMusicVolume();
+	void SetMusicVolume(float vol);
+	void SetSoundVolume(float vol);
+
 	//void Update(const double& dt);
 protected:
 	sf::SoundBuffer _buffers[1];

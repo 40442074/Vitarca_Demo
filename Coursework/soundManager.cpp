@@ -25,10 +25,18 @@ void SoundManager::PlaySoundtrack() {
 	_music.play();
 }
 
-void SoundManager::SetVolume(float vol) {
-	_sounds->setVolume(vol);
+float SoundManager::GetSoundVolume() {
+	return _sounds->getVolume();
 }
 
-float SoundManager::GetVolume() {
-	return _sounds->getVolume();
+float SoundManager::GetMusicVolume() {
+	return _music.getVolume();
+}
+
+void SoundManager::SetMusicVolume(float vol) {
+	_music.setVolume(vol);
+}
+
+void SoundManager::SetSoundVolume(float vol) {
+	_sounds->setVolume(vol);
 }

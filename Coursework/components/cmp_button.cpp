@@ -4,9 +4,12 @@
 #include <engine.cpp>
 #include "../game.h"
 #include <SFML/Audio/Sound.hpp>
+#include <sstream>
+#include <iostream>
+#include <string>
 
 void ButtonComponent::update(double dt) {
-	auto tag = _text.getString();
+	string tag = _text.getString();
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		mousethis = true;
@@ -16,10 +19,22 @@ void ButtonComponent::update(double dt) {
 		mousethis = false;
 	}
 
+	//if string contains numbers for volume ui
+	if (_buttonType == "SoundNumber")
+	{
+		int vol = sounds.GetSoundVolume();
+		_text.setString(to_string(vol));
+	}
+	else if (_buttonType == "MusicNumber")
+	{
+		int vol = sounds.GetMusicVolume();
+		_text.setString(to_string(vol));
+	}
+
 	if (mousethis && !mouselast && _rect.contains(static_cast<sf::Vector2i>(sf::Mouse::getPosition(Engine::GetWindow()))))
 	{
 		sounds.PlayButtonSound();
-		float currVolume = sounds.GetVolume();
+
 		if (tag == "Start Game" || tag == "Level-1")
 		{
 			Engine::ChangeScene(&level1);
@@ -28,7 +43,7 @@ void ButtonComponent::update(double dt) {
 		{
 			Engine::ChangeScene(&levelSelect);
 		}
-		else if (tag == "Options")
+		else if (tag == "Options" || tag == "Back to Options")
 		{
 			Engine::ChangeScene(&optionsScene);
 		}
@@ -49,17 +64,45 @@ void ButtonComponent::update(double dt) {
 		{
 			Engine::ChangeScene(&volScene);
 		}
-		else if (tag == "+")
+		else if (tag == "+" && _buttonType == "Sound")
 		{
-			sounds.SetVolume(sounds.GetVolume() + 1.0f);
+			if (sounds.GetSoundVolume() < 100) {//limits on volume
+				sounds.SetSoundVolume(sounds.GetSoundVolume() + 10);
+			}
+			else if (sounds.GetSoundVolume() > 100) //limits on volume
+			{
+				sounds.SetSoundVolume(100);
+			}		
 		}
-		else if (tag == "-")
+		else if (tag == "-" && _buttonType == "Sound")
 		{
-			sounds.SetVolume(sounds.GetVolume() - 1.0f);
+			if (sounds.GetSoundVolume() > 0) { //limits on volume
+				sounds.SetSoundVolume(sounds.GetSoundVolume() - 10);
+			}
+			else if (sounds.GetSoundVolume() < 0) //limits on volume
+			{
+				sounds.SetSoundVolume(0);
+			}	
 		}
-		else if (tag < to_string(currVolume) || tag > to_string(currVolume))
+		else if (tag == "+" && _buttonType == "Music")
 		{
-			tag == to_string(currVolume);
+			if (sounds.GetMusicVolume() < 100) {//limits on volume
+				sounds.SetMusicVolume(sounds.GetMusicVolume() + 10);
+			}
+			else if (sounds.GetMusicVolume() > 100) //limits on volume
+			{
+				sounds.SetMusicVolume(100);
+			}		
+		}
+		else if (tag == "-" && _buttonType == "Music")
+		{
+			if (sounds.GetMusicVolume() > 0) { //limits on volume
+				sounds.SetMusicVolume(sounds.GetMusicVolume() - 10);
+			}
+			else if (sounds.GetMusicVolume() < 0) //limits on volume
+			{
+				sounds.SetMusicVolume(0);
+			}	
 		}
 		else if (tag == "Resolution")
 		{
@@ -80,7 +123,7 @@ void ButtonComponent::update(double dt) {
 
 void ButtonComponent::render() { Renderer::queue(&_text); }
  
-ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int charSize, const sf::Color c, const sf::Vector2f pos, const std::string& str) : Component(p), _string(str) {
+ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int charSize, const sf::Color c, const sf::Vector2f pos, std::string tag, const std::string& str) : Component(p), _string(str) {
     _text.setString(_string);
     _font = Resources::get<sf::Font>(f);
     _text.setFont(*_font);
@@ -91,7 +134,7 @@ ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int
 	_text.setColor(c);
 	auto xLength = _string.size() * _charSize;
 	_rect = IntRect(_pos.x, _pos.y, xLength, _charSize);
-
+	_buttonType = tag;
 	//sounds.Load();
 }
 
