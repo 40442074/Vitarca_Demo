@@ -41,6 +41,15 @@ const b2Vec2 sv2_to_bv2(const Vector2f& in, bool scale) {
   }
 }
 
+const float sv2_to_bv2(const float in, bool scale) {
+    if (scale) {
+        return in * physics_scale_inv;
+    }
+    else {
+        return in;
+    }
+}
+
 const Vector2f invert_height(const Vector2f& in) {
   return Vector2f(in.x, 720 - in.y);
 }

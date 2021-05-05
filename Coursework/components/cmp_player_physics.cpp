@@ -40,22 +40,24 @@ void PlayerPhysicsComponent::update(double dt) {
 
   if (Keyboard::isKeyPressed(Keyboard::Down))
   {
+      _body->GetFixtureList()[0].SetSensor(true);
       // Moving Either Left or Right
       if (Keyboard::isKeyPressed(Keyboard::Right)) {
           if (getAngVelocity() < 10)
               angimpulse(10.0f * dt);
           if (getVelocity().x < _maxVelocity.x)
-              impulse({ (float)(dt * _groundspeed * 0.2f), 0 });
+              impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
       }
       else if (Keyboard::isKeyPressed(Keyboard::Left)) {
           if (getAngVelocity() > -10)
               angimpulse(-10.0f * dt);
           if (getVelocity().x > -_maxVelocity.x)
-              impulse({ -(float)(dt * _groundspeed * 0.2f), 0 });
+              impulse({ -(float)(dt * _groundspeed * 0.3f), 0 });
       }
   }
   else
   {
+      _body->GetFixtureList()[0].SetSensor(false);
       _body->SetTransform(_body->GetPosition(), 0);
       _body->SetAngularVelocity(0);
       if (Keyboard::isKeyPressed(Keyboard::Left) ||
@@ -86,14 +88,22 @@ void PlayerPhysicsComponent::update(double dt) {
     }
   }
 
-  //Are we in air?
-  if (!_grounded) {
-    // Check to see if we have landed yet
-    _grounded = isGrounded();
-    // disable friction while jumping
-    setFriction(0.1f);
-  } else {
-    setFriction(0.1f);
+  if (Keyboard::isKeyPressed(Keyboard::Down))
+  {
+      setFriction(100.0f);
+  }
+  else
+  {
+      //Are we in air?
+      if (!_grounded) {
+          // Check to see if we have landed yet
+          _grounded = isGrounded();
+          // disable friction while jumping
+          setFriction(0.0f);
+      }
+      else {
+          setFriction(0.1f);
+      }
   }
 
   // Clamp velocity.
@@ -106,14 +116,22 @@ void PlayerPhysicsComponent::update(double dt) {
 }
 
 PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p,
-                                               const Vector2f& size)
+    const Vector2f& size)
     : PhysicsComponent(p, true, size) {
-  _size = sv2_to_bv2(size, true);
-  _maxVelocity = Vector2f(200.f, 400.f);
-  _groundspeed = 30.f;
-  _grounded = false;
-  _body->SetSleepingAllowed(false);
-  //_body->SetFixedRotation(false);
-  //Bullet items have higher-res collision detection
-  _body->SetBullet(true);
+    _size = sv2_to_bv2(size, true);
+    _maxVelocity = Vector2f(200.f, 400.f);
+    _groundspeed = 30.f;
+    _grounded = false;
+    _body->SetSleepingAllowed(false);
+    //_body->SetFixedRotation(false);
+    //Bullet items have higher-res collision detection
+    _body->SetBullet(true);
+
+    //Create leg space
+    b2PolygonShape legBottom;
+    legBottom.SetAsBox(_size.x * 0.5f, sv2_to_bv2(20.0f, true) * 0.5f, b2Vec2(0, -(_size.y / 2.0f) - sv2_to_bv2(10.0f, true)), 0);
+    b2FixtureDef legFixture;
+    legFixture.shape = &legBottom;
+    legFixture.isSensor = false;
+    _body->CreateFixture(&legFixture);
 }

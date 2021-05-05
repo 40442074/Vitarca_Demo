@@ -25,7 +25,7 @@ void Level1Scene::Load() {
   // Create player
   {
     player = makeEntity();
-    player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
+    player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(0, 20.0f));
     auto s = player->addComponent<SpriteComponent>();
     playertex = make_shared<Texture>(Texture());
     playertex.get()->loadFromFile("res/img/player_spritesheet.png");
