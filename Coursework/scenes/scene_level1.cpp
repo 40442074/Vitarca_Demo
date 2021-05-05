@@ -11,6 +11,7 @@ using namespace std;
 using namespace sf;
 
 static shared_ptr<Entity> player;
+static shared_ptr<Texture> playertex;
 
 void Level1Scene::Load() {
   cout << " Scene 1 Load" << endl;
@@ -25,12 +26,14 @@ void Level1Scene::Load() {
   {
     player = makeEntity();
     player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
-    auto s = player->addComponent<ShapeComponent>();
-    s->setShape<sf::RectangleShape>(Vector2f(20.f, 30.f));
-    s->getShape().setFillColor(Color::Magenta);
-    s->getShape().setOrigin(10.f, 15.f);
+    auto s = player->addComponent<SpriteComponent>();
+    playertex = make_shared<Texture>(Texture());
+    playertex.get()->loadFromFile("res/img/player_spritesheet.png");
+    s->setTexture(playertex);
+    s->getSprite().setTextureRect(IntRect(0, 0, 27, 48));
+    //s->getShape().setOrigin(10.f, 15.f);
 
-    player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 30.f));
+    player->addComponent<PlayerPhysicsComponent>(Vector2f(27.f, 48.f));
   }
 
   // Add physics colliders to level tiles.
@@ -38,10 +41,10 @@ void Level1Scene::Load() {
     auto walls = ls::findTiles(ls::WALL);
     for (auto w : walls) {
       auto pos = ls::getTilePosition(w);
-      pos += Vector2f(20.f, 20.f); //offset to center
+      pos += Vector2f(30.f, 30.f); //offset to center
       auto e = makeEntity();
       e->setPosition(pos);
-      e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f));
+      e->addComponent<PhysicsComponent>(false, Vector2f(60.f, 60.f));
     }
   }
 

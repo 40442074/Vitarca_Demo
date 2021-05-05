@@ -4,13 +4,13 @@
 
 using namespace std;
 
+//Sprite --------------------------------------------------
 
-void SpriteComponent::setTexure(std::shared_ptr<sf::Texture> tex)
+void SpriteComponent::setTexture(std::shared_ptr<sf::Texture> tex)
 {
   _texture = tex;
   _sprite->setTexture(*_texture);
 }
-
 
 SpriteComponent::SpriteComponent(Entity* p)
     : Component(p), _sprite(make_shared<sf::Sprite>()) {}
@@ -21,6 +21,10 @@ void SpriteComponent::update(double dt) {
 }
 
 void SpriteComponent::render() { Renderer::queue(_sprite.get()); }
+
+sf::Sprite& SpriteComponent::getSprite() const { return *_sprite; }
+
+//Shape ---------------------------------------------------
 
 void ShapeComponent::update(double dt) {
   _shape->setPosition(_parent->getPosition());
@@ -33,5 +37,3 @@ sf::Shape& ShapeComponent::getShape() const { return *_shape; }
 
 ShapeComponent::ShapeComponent(Entity* p)
     : Component(p), _shape(make_shared<sf::CircleShape>()) {}
-
-sf::Sprite& SpriteComponent::getSprite() const { return *_sprite; }
