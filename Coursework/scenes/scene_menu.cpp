@@ -8,9 +8,9 @@
 using namespace std;
 using namespace sf;
 
-int buttonCount = 3;
+int buttonCount = 5;
 std::shared_ptr<Entity> buttons[3];
-string buttonText[3] = { "Start Game", "Level Select", "Options" };
+string buttonText[5] = { "Start Game", "Level Select", "Options", "Restart Game", "Exit Game" };
 
 void MenuScene::Load() {
     cout << "Menu Load \n";
