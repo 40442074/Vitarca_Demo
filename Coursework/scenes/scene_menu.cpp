@@ -10,6 +10,7 @@ using namespace sf;
 
 int buttonCount = 3;
 std::shared_ptr<Entity> buttons[3];
+string buttonText[3] = { "Start Game", "Level Select", "Options" };
 
 void MenuScene::Load() {
     cout << "Menu Load \n";
@@ -22,16 +23,11 @@ void MenuScene::Load() {
     for (int i = 0; i < buttonCount; i++){
 
         buttons[i] = makeEntity();
-
-        buttons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(200, 200 * i), "Level-");
+        
+        buttons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(200, 200 * i), buttonText[i]);
         buttons[i]->setPosition(Vector2f(200, 200 * i));
      
     }
-  ////auto a = makeEntity();
-  ////a->setPosition(Vector2f(a->getPosition().x + 200, a->getPosition().y + 200));
-  ////auto as = a->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 24, Color::Blue, "Level-1");
-  //a->setPosition(Vector2f(400, 400));
-
   setLoaded(true);
 }
 
