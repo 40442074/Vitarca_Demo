@@ -4,7 +4,6 @@
 #include "../game.h"
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
-#include "../soundManager.h"
 
 using namespace std;
 using namespace sf;
@@ -13,7 +12,6 @@ int buttonCount = 5;
 std::shared_ptr<Entity> buttons[3];
 string buttonText[5] = { "Start Game", "Level Select", "Options", "Restart Game", "Exit Game" };
 
-SoundManager soundt;
 
 void MenuScene::Load() {
     cout << "Menu Load \n";
@@ -31,7 +29,7 @@ void MenuScene::Load() {
         buttons[i]->setPosition(Vector2f(200, 200 * i));
      
     }
-    soundt.Load();
+    sounds.Load();
   setLoaded(true);
 }
 
@@ -42,7 +40,7 @@ void MenuScene::Update(const double& dt) {
     Engine::ChangeScene(&level1);
   }
   if (sf::Keyboard::isKeyPressed(Keyboard::P)) {
-      soundt.PlayButtonSound();
+      sounds.PlayButtonSound();
   }
   Scene::Update(dt);
 }
