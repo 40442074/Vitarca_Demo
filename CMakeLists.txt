@@ -11,6 +11,8 @@ SET(OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
 # Ouput all DLLs from all libs into main build folder
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY})
 
+configure_file("lib/sfml/extlibs/bin/x64/openal32.dll" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/openal32.dll COPYONLY)
+
 #### Add External Dependencies ####
 add_subdirectory("lib/sfml")
 set(SFML_INCS "lib/sfml/include")

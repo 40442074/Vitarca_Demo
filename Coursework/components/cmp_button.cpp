@@ -5,8 +5,6 @@
 #include "../game.h"
 #include <SFML/Audio/Sound.hpp>
 //
-//sf::SoundBuffer buffer;
-//sf::Sound sound;
 
 void ButtonComponent::update(double dt) {
 	auto tag = _text.getString();
@@ -68,6 +66,7 @@ ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int
 	_text.setColor(c);
 	auto xLength = _string.size() * _charSize;
 	_rect = IntRect(_pos.x, _pos.y, xLength, _charSize);
+
 	//buffer.loadFromFile("button_click.wav");
 	//sound.setBuffer(buffer);
 }
