@@ -33,9 +33,6 @@ void PlayerPhysicsComponent::update(double dt) {
 
   const auto pos = _parent->getPosition();
 
-  if (isGrounded())
-      cout << "player is grounded";
-
   //Teleport to start if we fall off map.
   if (pos.y > ls::getHeight() * ls::getTileSize()) {
     teleport(ls::getTilePosition(ls::findTiles(ls::START)[0]));
@@ -49,14 +46,20 @@ void PlayerPhysicsComponent::update(double dt) {
             Keyboard::isKeyPressed(Keyboard::Right)) {
             // Moving Either Left or Right
             if (Keyboard::isKeyPressed(Keyboard::Right)) {
-                if (getAngVelocity() < 10)
-                    _body->SetAngularVelocity(_body->GetAngularVelocity() + 10.0f * dt);
+                if (getAngVelocity() > -10)
+                {
+                    //_body->SetAngularVelocity(_body->GetAngularVelocity() + 10.0f * dt);
+                    _body->ApplyAngularImpulse(-10.0f * dt, true);
+                }
                 if (getVelocity().x < _maxVelocity.x)
                     impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
             }
             else if (Keyboard::isKeyPressed(Keyboard::Left)) {
-                if (getAngVelocity() > -10)
-                    _body->SetAngularVelocity(_body->GetAngularVelocity() - 10.0f * dt);
+                if (getAngVelocity() < 10)
+                {
+                    //_body->SetAngularVelocity(_body->GetAngularVelocity() - 10.0f * dt);
+                    _body->ApplyAngularImpulse(10.0f * dt, true);
+                }
                 if (getVelocity().x > -_maxVelocity.x)
                     impulse({ -(float)(dt * _groundspeed * 0.3f), 0 });
             }
@@ -96,13 +99,13 @@ void PlayerPhysicsComponent::update(double dt) {
     if (_grounded) {
       setVelocity(Vector2f(getVelocity().x, 0.f));
       teleport(Vector2f(pos.x, pos.y - 2.0f));
-      impulse(Vector2f(0, -10.f));
+      impulse(Vector2f(0, -6.f));
     }
   }
 
   if (Keyboard::isKeyPressed(Keyboard::Down))
   {
-      setFriction(0.0f);
+      setFriction(1.0f);
   }
   else
   {
@@ -129,7 +132,8 @@ void PlayerPhysicsComponent::update(double dt) {
 
 PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p,
     const Vector2f& size)
-    : PhysicsComponent(p, true, size) {
+    : PhysicsComponent(p, true, size, 0.5f, 0.5f) {
+
     _size = sv2_to_bv2(size, true);
     _maxVelocity = Vector2f(200.f, 400.f);
     _groundspeed = 30.f;

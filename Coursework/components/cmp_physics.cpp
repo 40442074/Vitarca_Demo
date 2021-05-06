@@ -8,11 +8,11 @@ using namespace Physics;
 
 void PhysicsComponent::update(double dt) {
   _parent->setPosition(invert_height(bv2_to_sv2(_body->GetPosition())));
-  _parent->setRotation((180 / b2_pi) * _body->GetAngle());
+  _parent->setRotation(-(180 / b2_pi) * _body->GetAngle());
 }
 
 PhysicsComponent::PhysicsComponent(Entity* p, bool dyn,
-                                   const Vector2f& size)
+                                   const Vector2f& size, float dens, float rest)
     : Component(p), _dynamic(dyn) {
 
   b2BodyDef BodyDef;
@@ -30,9 +30,17 @@ PhysicsComponent::PhysicsComponent(Entity* p, bool dyn,
     Shape.SetAsBox(sv2_to_bv2(size).x * 0.5f, sv2_to_bv2(size).y * 0.5f);
     b2FixtureDef FixtureDef;
     // Fixture properties
-    // FixtureDef.density = _dynamic ? 10.f : 0.f;
+    if (dens == -1.0f)
+        FixtureDef.density = _dynamic ? 10.f : 0.f;
+    else
+        FixtureDef.density = dens;
     FixtureDef.friction = _dynamic ? 0.1f : 0.8f;
-    FixtureDef.restitution = .2;
+
+    if (rest == -1.0f)
+        FixtureDef.restitution = .2;
+    else
+        FixtureDef.restitution = rest;
+
     FixtureDef.shape = &Shape;
     // Add to body
     _fixture = _body->CreateFixture(&FixtureDef);

@@ -11,7 +11,7 @@ protected:
   b2Fixture* _fixture;
 
 public:
-  PhysicsComponent(Entity* p, bool dyn, const sf::Vector2f& size);
+  PhysicsComponent(Entity* p, bool dyn, const sf::Vector2f& size, float dens = -1.0f, float rest = -1.0f);
 
   b2Fixture* const getFixture() const;
   bool isTouching(const PhysicsComponent& pc) const;

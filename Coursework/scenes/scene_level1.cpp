@@ -27,13 +27,14 @@ void Level1Scene::Load() {
   spriteLoader.ReadSpriteSheet();
   spriteLoader.Load();
 
-  auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
+  auto ho = Engine::getWindowSize().y - (ls::getHeight() * 60.f);
   ls::setOffset(Vector2f(0, 0));
 
   // Create player
   {
     player = makeEntity();
-    player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(0, 20.0f));
+    player.get()->addTag("player");
+    player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(10.0f, 20.0f));
     auto s = player->addComponent<SpriteComponent>();
     playertex = make_shared<Texture>(Texture());
     playertex.get()->loadFromFile("res/img/player_spritesheet.png");
@@ -53,6 +54,7 @@ void Level1Scene::Load() {
       pos += Vector2f(30.f, 30.f); //offset to center
       auto e = makeEntity();
       e->setPosition(pos);
+      e.get()->addTag("wall");
       e->addComponent<PhysicsComponent>(false, Vector2f(60.f, 60.f));
     }
   }
@@ -63,7 +65,8 @@ void Level1Scene::Load() {
 
   //create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
   {
-      camera = makeEntity();                                
+      camera = makeEntity();      
+      camera.get()->addTag("camera");
       //get position of cam from spritesheet               
       auto camTiles = ls::findTiles(ls::CAMERA3);
 
@@ -87,6 +90,7 @@ void Level1Scene::Load() {
 
       auto tempPos = camera->getPosition();
       camTopE = makeEntity();
+      camTopE.get()->addTag("camtop");
       camTopSprite = camTopE->addComponent<SpriteComponent>();
       camTopE->setPosition(Vector2f(tempPos.x, tempPos.y - 15));
       cameraTex = make_shared<Texture>(Texture());
@@ -102,6 +106,7 @@ void Level1Scene::Load() {
   //Create test crate
   {
       crate = makeEntity();
+      crate.get()->addTag("crate");
 
       crate->setPosition(Vector2f(1000.0f, 100.0f));
       auto s = crate->addComponent<SpriteComponent>();
@@ -121,6 +126,7 @@ void Level1Scene::Load() {
 void Level1Scene::UnLoad() {
   cout << "Scene 1 Unload" << endl;
   player.reset();
+  crate.~shared_ptr();
   ls::unload();
   Scene::UnLoad();
 }
