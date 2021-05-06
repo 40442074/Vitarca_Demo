@@ -41,7 +41,7 @@ const b2Vec2 sv2_to_bv2(const Vector2f& in, bool scale) {
   }
 }
 
-const float sv2_to_bv2(const float in, bool scale) {
+const float sf_to_bf(const float in, bool scale) {
     if (scale) {
         return in * physics_scale_inv;
     }
@@ -52,5 +52,9 @@ const float sv2_to_bv2(const float in, bool scale) {
 
 const Vector2f invert_height(const Vector2f& in) {
   return Vector2f(in.x, 720 - in.y);
+}
+
+const bool checkFixtureCollision(b2Fixture* f1, b2Fixture* f2) {
+    //auto f = f1->GetAABB(f1->GetBody().);
 }
 } // namespace Physics

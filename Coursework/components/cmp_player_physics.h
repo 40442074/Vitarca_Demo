@@ -8,6 +8,7 @@ protected:
   sf::Vector2f _maxVelocity;
   bool _grounded;
   float _groundspeed;
+  b2Fixture* _legFixture;
 
   bool isGrounded() const;
 
@@ -17,4 +18,8 @@ public:
   explicit PlayerPhysicsComponent(Entity* p, const sf::Vector2f& size);
 
   PlayerPhysicsComponent() = delete;
+
+  b2Fixture* GetLegFixture() {
+	  return _legFixture;
+  }
 };

@@ -40,7 +40,7 @@ void PlayerPhysicsComponent::update(double dt) {
 
   if (Keyboard::isKeyPressed(Keyboard::Down))
   {
-      _body->GetFixtureList()[0].SetSensor(true);
+      _legFixture->SetSensor(true);
       // Moving Either Left or Right
       if (Keyboard::isKeyPressed(Keyboard::Right)) {
           if (getAngVelocity() < 10)
@@ -57,7 +57,7 @@ void PlayerPhysicsComponent::update(double dt) {
   }
   else
   {
-      _body->GetFixtureList()[0].SetSensor(false);
+      _legFixture->SetSensor(false);
       _body->SetTransform(_body->GetPosition(), 0);
       _body->SetAngularVelocity(0);
       if (Keyboard::isKeyPressed(Keyboard::Left) ||
@@ -128,9 +128,9 @@ PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p,
 
     //Create leg space
     b2PolygonShape legBottom;
-    legBottom.SetAsBox(_size.x * 0.5f, sv2_to_bv2(20.0f, true) * 0.5f, b2Vec2(0, -(_size.y / 2.0f) - sv2_to_bv2(10.0f, true)), 0);
+    legBottom.SetAsBox(_size.x * 0.5f, sf_to_bf(20.0f, true) * 0.5f, b2Vec2(0, -(_size.y / 2.0f) - sf_to_bf(10.0f, true)), 0);
     b2FixtureDef legFixture;
     legFixture.shape = &legBottom;
     legFixture.isSensor = false;
-    _body->CreateFixture(&legFixture);
+    _legFixture = _body->CreateFixture(&legFixture);
 }

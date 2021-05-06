@@ -8,11 +8,15 @@
 #include <thread>
 #include "../BGSpriteLoader.h"
 
+
 using namespace std;
 using namespace sf;
 
 static shared_ptr<Entity> player, camera;
 static shared_ptr<Texture> playertex, cameraTex;
+
+b2Fixture *playerBody, *cameraCone;
+//PhysicsComponent* playerBody, *cameraCone;
 
 void Level1Scene::Load() {
   cout << " Scene 1 Load" << endl;
@@ -34,29 +38,8 @@ void Level1Scene::Load() {
     s->getSprite().setTextureRect(IntRect(0, 0, 27, 48));
     s->getSprite().setOrigin(13.5f, 24.f);
 
-    player->addComponent<PlayerPhysicsComponent>(Vector2f(27.f, 48.f));
-  }
-
-  //create camera
-  {
-      camera = makeEntity();
-      //get position of cam from spritesheet
-      auto camTiles = ls::findTiles(ls::CAMERA3);
-      for (auto c : camTiles) {
-          auto pos = ls::getTilePosition(c);
-          pos += Vector2f(60.f, 60.f); //offset to center
-          camera->setPosition(pos);
-      }    
-
-      auto s = camera->addComponent<SpriteComponent>();
-      cameraTex = make_shared<Texture>(Texture());
-      cameraTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
-      
-      s->setTexture(cameraTex);
-      s->getSprite().setTextureRect(IntRect(0, 0, 317, 516));
-      s->getSprite().setOrigin(150.f, 24.f);
-
-      camera->addComponent<CameraComponent>();
+    auto p = player->addComponent<PlayerPhysicsComponent>(Vector2f(27.f, 48.f));
+    playerBody = p.get()->getFixture();
   }
 
   // Add physics colliders to level tiles.
@@ -74,6 +57,30 @@ void Level1Scene::Load() {
   //Simulate long loading times
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   cout << " Scene 1 Load Done" << endl;
+
+  //create camera
+  {
+      camera = makeEntity();                                
+      //get position of cam from spritesheet               
+      auto camTiles = ls::findTiles(ls::CAMERA3);
+
+      for (auto c : camTiles) {
+          auto camPos = ls::getTilePosition(c);
+          camPos += Vector2f(60.f, 60.f); //offset to center
+          camera->setPosition(camPos);
+      }
+
+      auto s = camera->addComponent<SpriteComponent>();
+      cameraTex = make_shared<Texture>(Texture());
+      cameraTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
+
+      s->setTexture(cameraTex);
+      s->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
+      
+      s->getSprite().setOrigin(165.f, 0.f);
+      auto c = camera->addComponent<CameraComponent>();
+      cameraCone = c.get()->getFixture();
+  }
 
   setLoaded(true);
 }
