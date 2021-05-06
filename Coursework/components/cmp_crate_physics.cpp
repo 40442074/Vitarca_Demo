@@ -7,9 +7,10 @@ using namespace std;
 
 void CratePhysicsComponent::update(double dt)
 {
-	if (_fixture->TestPoint(Physics::sv2_to_bv2(Physics::invert_height((Vector2f)Mouse::getPosition() - Vector2f(0, 30)))))
+	if (_fixture->TestPoint(Physics::sv2_to_bv2(Physics::invert_height((Vector2f)Mouse::getPosition() - Vector2f(0, 30))))
+		&& Mouse::isButtonPressed(Mouse::Button::Left))
 	{
-		cout << "mouse is over crate :)";
+		_body->SetTransform(Physics::sv2_to_bv2(Physics::invert_height((Vector2f)Mouse::getPosition() - Vector2f(0, 30))), _body->GetAngle());
 	}
 
 	PhysicsComponent::update(dt);
