@@ -2,6 +2,7 @@
 #include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
 #include "../components/cmp_camera.h"
+#include "../components/cmp_crate_physics.h"
 #include "../game.h"
 #include <LevelSystem.h>
 #include <iostream>
@@ -12,8 +13,8 @@
 using namespace std;
 using namespace sf;
 
-static shared_ptr<Entity> player, camera, camTopE;
-static shared_ptr<Texture> playertex, coneTex, cameraTex;
+static shared_ptr<Entity> player, camera, camTopE, crate;
+static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
 
 b2Fixture *playerBody, *cameraCone;
 shared_ptr<CameraComponent> cam, camTop;
@@ -96,6 +97,22 @@ void Level1Scene::Load() {
       camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
       camTop = camTopE->addComponent<CameraComponent>(playerBody, "Top");
     
+  }
+
+  //Create test crate
+  {
+      crate = makeEntity();
+
+      crate->setPosition(Vector2f(1000.0f, 100.0f));
+      auto s = crate->addComponent<SpriteComponent>();
+      cratetex = make_shared<Texture>(Texture());
+      cratetex.get()->loadFromFile("res/img/crate.png");
+
+      s->setTexture(cratetex);
+      s->getSprite().setTextureRect(IntRect(0, 0, 60, 60));
+      s->getSprite().setOrigin(30.f, 30.f);
+
+      crate->addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f));
   }
 
   setLoaded(true);

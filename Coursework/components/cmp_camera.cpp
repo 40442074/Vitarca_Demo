@@ -1,5 +1,4 @@
 #include "cmp_camera.h"
-#include <iostream>
 
 using namespace sf;
 using namespace std;
