@@ -84,7 +84,7 @@ void PlayerPhysicsComponent::update(double dt) {
     if (_grounded) {
       setVelocity(Vector2f(getVelocity().x, 0.f));
       teleport(Vector2f(pos.x, pos.y - 2.0f));
-      impulse(Vector2f(0, -10.f));
+      impulse(Vector2f(0, -8.f));
     }
   }
 

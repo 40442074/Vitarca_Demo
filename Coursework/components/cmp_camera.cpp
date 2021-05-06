@@ -1,8 +1,8 @@
 #include "cmp_camera.h"
-#include "system_physics.cpp"
-#include "cmp_player_physics.h"
+#include <iostream>
 
-
+using namespace sf;
+using namespace std;
 
 void CameraComponent::update(double dt) {	//needs to sentry back and forth and then detect if comes into contact with player
 	static float angle = 0.f;
@@ -12,18 +12,25 @@ void CameraComponent::update(double dt) {	//needs to sentry back and forth and t
 	//_body->SetAngularVelocity(0.f + sin(angle) * 45.f);
 	_body->SetTransform(_body->GetPosition(), 0.f + sin(angle) /** 45.f*/);
 	_parent->setPosition(Physics::invert_height(Physics::bv2_to_sv2(_body->GetPosition())));
-	_parent->setRotation((180 / b2_pi) * _body->GetAngle());
+	_parent->setRotation(-(180 / b2_pi) * _body->GetAngle());
 
 
 	//intersect code -- if player fixture intersects cone fixture. color::red
 	//b2Fixture playerBody;
+
+	if (b2TestOverlap(_playerBodyFixture->GetShape(), 0, _fixture->GetShape(), 0, _playerBodyFixture->GetBody()->GetTransform(), _body->GetTransform()))
+	{
+		cout << "player and camera overlap!!";
+	}
 }
 
 b2Fixture* CameraComponent::getFixture() {
 	return _fixture;
 }
 
-CameraComponent::CameraComponent(Entity* p) : Component(p) {
+CameraComponent::CameraComponent(Entity* p, b2Fixture *pb) : Component(p) {
+
+	_playerBodyFixture = pb;
 
 	b2BodyDef BodyDef;
 	// Is Dynamic(moving), or static(Stationary)
@@ -38,9 +45,8 @@ CameraComponent::CameraComponent(Entity* p) : Component(p) {
 	//_sprite = sprite;
 	//Create leg space
 	b2PolygonShape cone;
-	b2Vec2 points[4] = { Physics::sv2_to_bv2(Vector2f(-22, 0), true),  Physics::sv2_to_bv2(Vector2f(22, 0), true),  Physics::sv2_to_bv2(Vector2f(-100, 332), true),  Physics::sv2_to_bv2(Vector2f(100, 332), true) };
+	b2Vec2 points[4] = { Physics::sv2_to_bv2(Vector2f(22, 0), true), Physics::sv2_to_bv2(Vector2f(-22, 0), true), Physics::sv2_to_bv2(Vector2f(-100, -332), true),  Physics::sv2_to_bv2(Vector2f(100, -332), true) };
 	cone.Set(points, 4);
-	//legBottom.SetAsBox(_size.x * 0.5f, Physics::sf_to_bf(20.0f, true) * 0.5f, b2Vec2(0, -(_size.y / 2.0f) - Physics::sf_to_bf(10.0f, true)), 0);
 	b2FixtureDef coneFixture;
 	coneFixture.friction = 0.0f;
 	coneFixture.restitution = .0;

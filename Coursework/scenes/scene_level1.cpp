@@ -78,7 +78,7 @@ void Level1Scene::Load() {
       s->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
       
       s->getSprite().setOrigin(165.f, 0.f);
-      auto c = camera->addComponent<CameraComponent>();
+      auto c = camera->addComponent<CameraComponent>(playerBody);
       cameraCone = c.get()->getFixture();
   }
 

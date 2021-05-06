@@ -56,5 +56,6 @@ const Vector2f invert_height(const Vector2f& in) {
 
 const bool checkFixtureCollision(b2Fixture* f1, b2Fixture* f2) {
     //auto f = f1->GetAABB(f1->GetBody().);
+    return false;
 }
 } // namespace Physics
