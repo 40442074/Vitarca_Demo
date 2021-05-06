@@ -103,11 +103,17 @@ void PhysicsComponent::impulse(const sf::Vector2f& i) {
   _body->ApplyLinearImpulseToCenter(a, true);
 }
 
-void PhysicsComponent::dampen(const sf::Vector2f& i) {
+void PhysicsComponent::dampenLin(const sf::Vector2f& i) {
   auto vel = _body->GetLinearVelocity();
   vel.x *= i.x;
   vel.y *= i.y;
   _body->SetLinearVelocity(vel);
+}
+
+void PhysicsComponent::dampenAng(const float i) {
+    auto vel = _body->GetAngularVelocity();
+    vel *= i;
+    _body->SetAngularVelocity(vel);
 }
 
 bool PhysicsComponent::isTouching(const PhysicsComponent& pc) const {

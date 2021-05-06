@@ -25,7 +25,8 @@ public:
   void update(double dt) override;
   void render() override;
   void impulse(const sf::Vector2f& i);
-  void dampen(const sf::Vector2f& s);
+  void dampenLin(const sf::Vector2f& s);
+  void dampenAng(const float s);
   void setVelocity(const sf::Vector2f& v);
   void teleport(const sf::Vector2f& v);
   ~PhysicsComponent() override;

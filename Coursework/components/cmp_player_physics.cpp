@@ -33,28 +33,40 @@ void PlayerPhysicsComponent::update(double dt) {
 
   const auto pos = _parent->getPosition();
 
+  if (isGrounded())
+      cout << "player is grounded";
+
   //Teleport to start if we fall off map.
   if (pos.y > ls::getHeight() * ls::getTileSize()) {
     teleport(ls::getTilePosition(ls::findTiles(ls::START)[0]));
   }
 
-  if (Keyboard::isKeyPressed(Keyboard::Down))
-  {
-      _legFixture->SetSensor(true);
-      // Moving Either Left or Right
-      if (Keyboard::isKeyPressed(Keyboard::Right)) {
-          if (getAngVelocity() < 10)
-              _body->SetAngularVelocity(_body->GetAngularVelocity() + 10.0f * dt);
-          if (getVelocity().x < _maxVelocity.x)
-              impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
-      }
-      else if (Keyboard::isKeyPressed(Keyboard::Left)) {
-          if (getAngVelocity() > -10)
-              _body->SetAngularVelocity(_body->GetAngularVelocity() - 10.0f * dt);
-          if (getVelocity().x > -_maxVelocity.x)
-              impulse({ -(float)(dt * _groundspeed * 0.3f), 0 });
-      }
-  }
+    if (Keyboard::isKeyPressed(Keyboard::Down))
+    {
+        _legFixture->SetSensor(true);
+
+        if (Keyboard::isKeyPressed(Keyboard::Left) ||
+            Keyboard::isKeyPressed(Keyboard::Right)) {
+            // Moving Either Left or Right
+            if (Keyboard::isKeyPressed(Keyboard::Right)) {
+                if (getAngVelocity() < 10)
+                    _body->SetAngularVelocity(_body->GetAngularVelocity() + 10.0f * dt);
+                if (getVelocity().x < _maxVelocity.x)
+                    impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
+            }
+            else if (Keyboard::isKeyPressed(Keyboard::Left)) {
+                if (getAngVelocity() > -10)
+                    _body->SetAngularVelocity(_body->GetAngularVelocity() - 10.0f * dt);
+                if (getVelocity().x > -_maxVelocity.x)
+                    impulse({ -(float)(dt * _groundspeed * 0.3f), 0 });
+            }
+        }
+        else {
+            // Dampen X axis and angular movement
+            dampenAng(0.999f);
+            dampenLin({ 0.999f, 1.0f });
+        }
+    }
   else
   {
       _legFixture->SetSensor(false);
@@ -74,7 +86,7 @@ void PlayerPhysicsComponent::update(double dt) {
       }
       else {
           // Dampen X axis movement
-          dampen({ 0.9f, 1.0f });
+          dampenLin({ 0.99f, 1.0f });
       }
   }
 
@@ -84,7 +96,7 @@ void PlayerPhysicsComponent::update(double dt) {
     if (_grounded) {
       setVelocity(Vector2f(getVelocity().x, 0.f));
       teleport(Vector2f(pos.x, pos.y - 2.0f));
-      impulse(Vector2f(0, -8.f));
+      impulse(Vector2f(0, -10.f));
     }
   }
 
