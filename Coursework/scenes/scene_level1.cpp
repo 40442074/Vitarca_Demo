@@ -1,6 +1,7 @@
 #include "scene_level1.h"
 #include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
+#include "../components/cmp_camera.h"
 #include "../game.h"
 #include <LevelSystem.h>
 #include <iostream>
@@ -10,8 +11,8 @@
 using namespace std;
 using namespace sf;
 
-static shared_ptr<Entity> player;
-static shared_ptr<Texture> playertex;
+static shared_ptr<Entity> player, camera;
+static shared_ptr<Texture> playertex, cameraTex;
 
 void Level1Scene::Load() {
   cout << " Scene 1 Load" << endl;
@@ -36,6 +37,28 @@ void Level1Scene::Load() {
     player->addComponent<PlayerPhysicsComponent>(Vector2f(27.f, 48.f));
   }
 
+  //create camera
+  {
+      camera = makeEntity();
+      //get position of cam from spritesheet
+      auto camTiles = ls::findTiles(ls::CAMERA3);
+      for (auto c : camTiles) {
+          auto pos = ls::getTilePosition(c);
+          pos += Vector2f(60.f, 60.f); //offset to center
+          camera->setPosition(pos);
+      }    
+
+      auto s = camera->addComponent<SpriteComponent>();
+      cameraTex = make_shared<Texture>(Texture());
+      cameraTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
+      
+      s->setTexture(cameraTex);
+      s->getSprite().setTextureRect(IntRect(0, 0, 317, 516));
+      s->getSprite().setOrigin(150.f, 24.f);
+
+      camera->addComponent<CameraComponent>();
+  }
+
   // Add physics colliders to level tiles.
   {
     auto walls = ls::findTiles(ls::WALL);
@@ -49,7 +72,7 @@ void Level1Scene::Load() {
   }
 
   //Simulate long loading times
-  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   cout << " Scene 1 Load Done" << endl;
 
   setLoaded(true);
