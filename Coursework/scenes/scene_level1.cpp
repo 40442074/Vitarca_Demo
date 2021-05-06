@@ -12,11 +12,13 @@
 using namespace std;
 using namespace sf;
 
-static shared_ptr<Entity> player, camera;
-static shared_ptr<Texture> playertex, cameraTex;
+static shared_ptr<Entity> player, camera, camTopE;
+static shared_ptr<Texture> playertex, coneTex, cameraTex;
 
 b2Fixture *playerBody, *cameraCone;
-//PhysicsComponent* playerBody, *cameraCone;
+shared_ptr<CameraComponent> cam, camTop;
+shared_ptr<SpriteComponent> camSprite, camTopSprite;
+sf::Color camColour;
 
 void Level1Scene::Load() {
   cout << " Scene 1 Load" << endl;
@@ -58,7 +60,7 @@ void Level1Scene::Load() {
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   cout << " Scene 1 Load Done" << endl;
 
-  //create camera
+  //create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
   {
       camera = makeEntity();                                
       //get position of cam from spritesheet               
@@ -70,16 +72,30 @@ void Level1Scene::Load() {
           camera->setPosition(camPos);
       }
 
-      auto s = camera->addComponent<SpriteComponent>();
-      cameraTex = make_shared<Texture>(Texture());
-      cameraTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
+      camSprite = camera->addComponent<SpriteComponent>();
+      coneTex = make_shared<Texture>(Texture());
+      coneTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
 
-      s->setTexture(cameraTex);
-      s->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
-      
-      s->getSprite().setOrigin(165.f, 0.f);
-      auto c = camera->addComponent<CameraComponent>(playerBody);
-      cameraCone = c.get()->getFixture();
+
+      camSprite->setTexture(coneTex);
+      camSprite->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
+      camSprite->getSprite().setOrigin(165.f, 0.f);
+      camSprite->getSprite().setColor(Color::Blue);
+      cam = camera->addComponent<CameraComponent>(playerBody, "Vision");
+      cameraCone = cam->getFixture();
+
+      auto tempPos = camera->getPosition();
+      camTopE = makeEntity();
+      camTopSprite = camTopE->addComponent<SpriteComponent>();
+      camTopE->setPosition(Vector2f(tempPos.x, tempPos.y - 15));
+      cameraTex = make_shared<Texture>(Texture());
+      cameraTex.get()->loadFromFile("res/img/enemy/camera_top.png");
+      camTopSprite->setTexture(cameraTex);
+      camTopSprite->getSprite().setScale(Vector2f(1.9f, 1.9f));
+      camTopSprite->getSprite().setTextureRect(IntRect(0, 0, 39, 27));
+      camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
+      camTop = camTopE->addComponent<CameraComponent>(playerBody, "Top");
+    
   }
 
   setLoaded(true);
@@ -97,6 +113,9 @@ void Level1Scene::Update(const double& dt) {
   if (ls::getTileAt(player->getPosition()) == ls::END) {
     Engine::ChangeScene((Scene*)&level2);
   }
+
+  camColour = cam->GetColour();
+  camSprite->getSprite().setColor(camColour);
   Scene::Update(dt);
 }
 
