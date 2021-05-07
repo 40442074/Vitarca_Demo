@@ -16,7 +16,8 @@ using namespace sf;
 static shared_ptr<Entity> player, camera, camTopE, crate;
 static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
 
-b2Fixture *playerBody, *cameraCone;
+b2Body *playerBody;
+b2Fixture* playerMainFixture;
 shared_ptr<CameraComponent> cam, camTop;
 shared_ptr<SpriteComponent> camSprite, camTopSprite;
 sf::Color camColour;
@@ -43,7 +44,8 @@ void Level1Scene::Load() {
     s->getSprite().setOrigin(13.5f, 24.f);
 
     auto p = player->addComponent<PlayerPhysicsComponent>(Vector2f(27.f, 48.f));
-    playerBody = p.get()->getFixture();
+    playerMainFixture = p.get()->getFixture();
+    playerBody = playerMainFixture->GetBody();
   }
 
   // Add physics colliders to level tiles.
@@ -85,8 +87,7 @@ void Level1Scene::Load() {
       camSprite->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
       camSprite->getSprite().setOrigin(165.f, 0.f);
       camSprite->getSprite().setColor(Color::Blue);
-      cam = camera->addComponent<CameraComponent>(playerBody, "Vision");
-      cameraCone = cam->getFixture();
+      cam = camera->addComponent<CameraComponent>(playerMainFixture, "Vision");
 
       auto tempPos = camera->getPosition();
       camTopE = makeEntity();
@@ -99,7 +100,7 @@ void Level1Scene::Load() {
       camTopSprite->getSprite().setScale(Vector2f(1.9f, 1.9f));
       camTopSprite->getSprite().setTextureRect(IntRect(0, 0, 39, 27));
       camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
-      camTop = camTopE->addComponent<CameraComponent>(playerBody, "Top");
+      camTop = camTopE->addComponent<CameraComponent>(playerMainFixture, "Top");
     
   }
 
@@ -117,7 +118,7 @@ void Level1Scene::Load() {
       s->getSprite().setTextureRect(IntRect(0, 0, 60, 60));
       s->getSprite().setOrigin(30.f, 30.f);
 
-      crate->addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f));
+      crate->addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f), playerBody);
   }
 
   setLoaded(true);
