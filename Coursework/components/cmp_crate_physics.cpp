@@ -1,21 +1,41 @@
 #include "cmp_crate_physics.h"
 #include "system_physics.h"
 #include <SFML/Window/Mouse.hpp>
+#include "engine.h"
 
 using namespace sf;
 using namespace std;
 
 void CratePhysicsComponent::update(double dt)
 {
-	auto mousepos = Physics::sv2_to_bv2(Physics::invert_height((Vector2f)Mouse::getPosition() - Vector2f(0, 30)));
-
-	cout << to_string(length(Physics::bv2_to_sv2(_playerBody->GetPosition() - mousepos))) + "\n";
+	auto mousepos = Physics::sv2_to_bv2(Physics::invert_height((Vector2f)Mouse::getPosition(Engine::GetWindow())));
 
 	if (_fixture->TestPoint(mousepos) //Mouse is over crate
 		&& Mouse::isButtonPressed(Mouse::Button::Left) //Left mouse is held
+		&& !_beingHeld
 		&& length(Physics::bv2_to_sv2(_playerBody->GetPosition() - mousepos)) < 200.0f) //Mouse is less than 200 pixels from player
 	{
-		_body->SetTransform(mousepos, _body->GetAngle());
+		_beingHeld = true;
+	}
+
+	if (_beingHeld)
+	{
+		if (!Mouse::isButtonPressed(Mouse::Button::Left) || length(Physics::bv2_to_sv2(_body->GetPosition() - _playerBody->GetPosition())) > 300.0)
+			_beingHeld = false;
+
+		auto normtomouse = normalize(Physics::bv2_to_sv2(mousepos - _body->GetPosition())); //Direction (normal) from box to mouse
+		auto lengthtobody = (float)length(Physics::bv2_to_sv2(mousepos - _playerBody->GetPosition())); //Length from box to mouse
+
+		if (lengthtobody < 200.0f)
+			_body->ApplyLinearImpulseToCenter(Physics::sv2_to_bv2(normtomouse * 5000.0f * (float)dt), true);
+		else
+		{
+			auto playertomouse = normalize(Physics::bv2_to_sv2(mousepos - _playerBody->GetPosition())); //Direction from player to mouse
+			auto goalpoint = _playerBody->GetPosition() + Physics::sv2_to_bv2(playertomouse * 200.0f); 
+			auto normtopoint = normalize(Physics::bv2_to_sv2(goalpoint - _body->GetPosition()));
+
+			_body->ApplyLinearImpulseToCenter(Physics::sv2_to_bv2(normtopoint * 5000.0f * (float)dt), true);
+		}
 	}
 
 	PhysicsComponent::update(dt);
@@ -27,4 +47,6 @@ CratePhysicsComponent::CratePhysicsComponent(Entity* p, const sf::Vector2f& size
 
 	_body->SetTransform(_body->GetPosition(), 1);
 	_playerBody = pb;
+
+	_beingHeld = false;
 }

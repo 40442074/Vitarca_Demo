@@ -5,6 +5,7 @@ class CratePhysicsComponent : public PhysicsComponent {
 protected:
 	b2Vec2 _size;
 	b2Body* _playerBody;
+	bool _beingHeld;
 
 public:
 	void update(double dt) override;

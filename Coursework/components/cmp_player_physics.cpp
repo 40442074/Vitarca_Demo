@@ -38,26 +38,28 @@ void PlayerPhysicsComponent::update(double dt) {
     teleport(ls::getTilePosition(ls::findTiles(ls::START)[0]));
   }
 
-    if (Keyboard::isKeyPressed(Keyboard::Down))
+    if (Keyboard::isKeyPressed(Keyboard::Down) || 
+        Keyboard::isKeyPressed(Keyboard::S))
     {
         _legFixture->SetSensor(true);
 
         if (Keyboard::isKeyPressed(Keyboard::Left) ||
-            Keyboard::isKeyPressed(Keyboard::Right)) {
+            Keyboard::isKeyPressed(Keyboard::Right) ||
+            Keyboard::isKeyPressed(Keyboard::A) ||
+            Keyboard::isKeyPressed(Keyboard::D)) {
             // Moving Either Left or Right
-            if (Keyboard::isKeyPressed(Keyboard::Right)) {
+            if (Keyboard::isKeyPressed(Keyboard::Right) ||
+                Keyboard::isKeyPressed(Keyboard::D)) {
                 if (getAngVelocity() > -10)
                 {
-                    //_body->SetAngularVelocity(_body->GetAngularVelocity() + 10.0f * dt);
                     _body->ApplyAngularImpulse(-10.0f * dt, true);
                 }
                 if (getVelocity().x < _maxVelocity.x)
                     impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
             }
-            else if (Keyboard::isKeyPressed(Keyboard::Left)) {
+            else {
                 if (getAngVelocity() < 10)
                 {
-                    //_body->SetAngularVelocity(_body->GetAngularVelocity() - 10.0f * dt);
                     _body->ApplyAngularImpulse(10.0f * dt, true);
                 }
                 if (getVelocity().x > -_maxVelocity.x)
@@ -76,9 +78,12 @@ void PlayerPhysicsComponent::update(double dt) {
       _body->SetTransform(_body->GetPosition(), 0);
       _body->SetAngularVelocity(0);
       if (Keyboard::isKeyPressed(Keyboard::Left) ||
-          Keyboard::isKeyPressed(Keyboard::Right)) {
+          Keyboard::isKeyPressed(Keyboard::Right) ||
+          Keyboard::isKeyPressed(Keyboard::A) ||
+          Keyboard::isKeyPressed(Keyboard::D)) {
           // Moving Either Left or Right
-          if (Keyboard::isKeyPressed(Keyboard::Right)) {
+          if (Keyboard::isKeyPressed(Keyboard::Right) || 
+              Keyboard::isKeyPressed(Keyboard::D)) {
               if (getVelocity().x < _maxVelocity.x)
                   impulse({ (float)(dt * _groundspeed), 0 });
           }
@@ -94,7 +99,8 @@ void PlayerPhysicsComponent::update(double dt) {
   }
 
   // Handle Jump
-  if (Keyboard::isKeyPressed(Keyboard::Up)) {
+  if (Keyboard::isKeyPressed(Keyboard::Up) ||
+      Keyboard::isKeyPressed(Keyboard::W)) {
     _grounded = isGrounded();
     if (_grounded) {
       setVelocity(Vector2f(getVelocity().x, 0.f));
@@ -103,7 +109,8 @@ void PlayerPhysicsComponent::update(double dt) {
     }
   }
 
-  if (Keyboard::isKeyPressed(Keyboard::Down))
+  if (Keyboard::isKeyPressed(Keyboard::Down) ||
+      Keyboard::isKeyPressed(Keyboard::S))
   {
       setFriction(1.0f);
   }
