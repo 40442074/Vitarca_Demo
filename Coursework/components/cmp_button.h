@@ -16,6 +16,11 @@ public:
 
 	void SetText(const std::string& str);
 
+	std::string GetButtonType();
+
+	void SetButtonType(std::string s);
+
+
 protected:
 	std::shared_ptr<sf::Font> _font;
 	std::string _string;

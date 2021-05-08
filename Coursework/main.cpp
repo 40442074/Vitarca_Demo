@@ -15,10 +15,14 @@ LevelMenuScene levelSelect;
 OptionsMenuScene optionsScene;
 VolumeMenuScene volScene;
 ResMenuScene resScene;
+//PauseMenu pauseScene;
+
 
 Level1Scene level1;
 Level2Scene level2;
 Level3Scene level3;
+
+//SceneTracker sceneTracker;
 
 int main() {
 	Engine::Start(gameX, gameY, "Vitarca", &splash);

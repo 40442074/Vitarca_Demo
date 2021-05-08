@@ -35,7 +35,7 @@ void ButtonComponent::update(double dt) {
 	{
 		sounds.PlayButtonSound();
 
-		if (tag == "Start Game" || tag == "Level-1")
+		if (tag == "Start Game" || tag == "Level-1" || tag == "Restart Level")
 		{
 			Engine::ChangeScene(&level1);
 		}
@@ -116,6 +116,15 @@ void ButtonComponent::update(double dt) {
 		{
 			//Engine::ChangeScene(&level3);
 		}
+		else if (tag == "Resume")
+		{
+		/*	if (sceneTracker.GetPreviousScene() == "level1")
+			{
+				Engine::ChangeScene(&level1);
+			}*/
+			_buttonType = "NotPaused";
+			
+		}
 	}
 	mouselast = mousethis;
 }
@@ -141,4 +150,14 @@ ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int
 void ButtonComponent::SetText(const std::string& str) {
     _string = str;
     _text.setString(_string);
+}
+
+std::string ButtonComponent::GetButtonType()
+{
+	return _buttonType;
+}
+
+void ButtonComponent::SetButtonType(std::string s)
+{
+	_buttonType = s;
 }
