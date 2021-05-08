@@ -20,7 +20,7 @@ void CratePhysicsComponent::update(double dt)
 
 	if (_beingHeld)
 	{
-		if (!Mouse::isButtonPressed(Mouse::Button::Left) || length(Physics::bv2_to_sv2(_body->GetPosition() - _playerBody->GetPosition())) > 300.0)
+		if (!Mouse::isButtonPressed(Mouse::Button::Left) || length(Physics::bv2_to_sv2(_body->GetPosition() - _playerBody->GetPosition())) > 500.0)
 			_beingHeld = false;
 
 		auto normtomouse = normalize(Physics::bv2_to_sv2(mousepos - _body->GetPosition())); //Direction (normal) from box to mouse
