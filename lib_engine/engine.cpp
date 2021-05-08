@@ -64,7 +64,6 @@ void Engine::Update() {
   if (loading) {
     Loading_update(dt, _activeScene);
   } else if (_activeScene != nullptr) {
-    Physics::update(dt);
     _activeScene->Update(dt);
   }
 }
@@ -137,7 +136,10 @@ void Engine::ChangeScene(Scene* s) {
   }
 }
 
-void Scene::Update(const double& dt) { ents.update(dt); }
+void Scene::Update(const double& dt) { 
+    Physics::update(dt);
+    ents.update(dt); 
+}
 
 void Scene::Render() { ents.render(); }
 
@@ -190,5 +192,21 @@ long long last() {
   return dt;
 }
 } // namespace timing
+
+std::string Scene::GetCurrentScene()
+{
+    return currentScene;
+}
+
+std::string Scene::GetPreviousScene()
+{
+    return previousScene;
+}
+
+void Scene::SetScenes(std::string s)
+{
+    previousScene = currentScene;
+    currentScene = s;
+}
 
 Scene::~Scene() { UnLoad(); }

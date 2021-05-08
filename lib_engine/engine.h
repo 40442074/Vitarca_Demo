@@ -15,6 +15,9 @@ public:
   virtual void UnLoad();
   virtual void Update(const double& dt);
   virtual void Render();
+  std::string GetCurrentScene();
+  std::string GetPreviousScene();
+  virtual void SetScenes(std::string s);
   bool isLoaded() const;
   std::shared_ptr<Entity> makeEntity();
 
@@ -22,6 +25,8 @@ public:
 
 protected:
   void setLoaded(bool);
+  std::string currentScene;
+  std::string previousScene;
 private:
   mutable bool _loaded;
   mutable std::future<void> _loaded_future;

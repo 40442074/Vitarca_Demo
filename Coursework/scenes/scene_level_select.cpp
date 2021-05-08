@@ -33,6 +33,7 @@ void LevelMenuScene::Update(const double& dt) {
 	if (sf::Keyboard::isKeyPressed(Keyboard::Space)) {
 		Engine::ChangeScene(&level1);
 	}
+
 	gManager.Render();
 	Scene::Update(dt);
 }

@@ -9,18 +9,29 @@
 #include <thread>
 #include "../BGSpriteLoader.h"
 
+#include "../components/cmp_text.h"
+#include "../components/cmp_button.h"
+
 
 using namespace std;
 using namespace sf;
 
-static shared_ptr<Entity> player, camera, camTopE, crate;
+static shared_ptr<Entity> player, crate;
+static shared_ptr<Entity> camera, camTopE;
 static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
 
 b2Body *playerBody;
 b2Fixture* playerMainFixture;
-shared_ptr<CameraComponent> cam, camTop;
-shared_ptr<SpriteComponent> camSprite, camTopSprite;
+static shared_ptr<CameraComponent> cam;
+static shared_ptr<SpriteComponent> camSprite, camTopSprite;
 sf::Color camColour;
+
+bool hasUnloaded;
+
+//Pause menu
+shared_ptr<Entity> testButtons[3];
+std::string pauseText[3] = { "Resume", "Restart Level", "Back to Main Menu" };
+bool pthis, plast, isPaused;
 
 void Level1Scene::Load() {
   cout << " Scene 1 Load" << endl;
@@ -30,6 +41,12 @@ void Level1Scene::Load() {
 
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 60.f);
   ls::setOffset(Vector2f(0, 0));
+
+  //pause code
+  isPaused = false;
+  plast = false;
+  pthis = false;
+  hasUnloaded = false;
 
   // Create player
   {
@@ -62,10 +79,10 @@ void Level1Scene::Load() {
   }
 
   //Simulate long loading times
-  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  std::this_thread::sleep_for(std::chrono::milliseconds(500));
   cout << " Scene 1 Load Done" << endl;
 
-  //create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
+  ////create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
   {
       camera = makeEntity();      
       camera.get()->addTag("camera");
@@ -88,7 +105,7 @@ void Level1Scene::Load() {
       camSprite->getSprite().setOrigin(165.f, 0.f);
       camSprite->getSprite().setColor(Color::Blue);
       cam = camera->addComponent<CameraComponent>(playerMainFixture, "Vision");
-
+      
       auto tempPos = camera->getPosition();
       camTopE = makeEntity();
       camTopE.get()->addTag("camtop");
@@ -100,11 +117,10 @@ void Level1Scene::Load() {
       camTopSprite->getSprite().setScale(Vector2f(1.9f, 1.9f));
       camTopSprite->getSprite().setTextureRect(IntRect(0, 0, 39, 27));
       camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
-      camTop = camTopE->addComponent<CameraComponent>(playerMainFixture, "Top");
-    
+      camTopE->addComponent<CameraComponent>(playerMainFixture, "Top");
   }
 
-  //Create test crate
+  ////Create test crate
   {
       crate = makeEntity();
       crate.get()->addTag("crate");
@@ -121,15 +137,38 @@ void Level1Scene::Load() {
       crate->addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f), playerBody);
   }
 
+  //Pause Menu load
+  for (int i = 0; i < 3; i++)
+  {
+      testButtons[i] = makeEntity();
+      testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Pause", pauseText[i]);
+  }
+  
+  for (int i = 0; i < 3; i++)
+  {
+      testButtons[i]->setVisible(false);
+  }
   setLoaded(true);
 }
 
 void Level1Scene::UnLoad() {
   cout << "Scene 1 Unload" << endl;
   player.reset();
-  crate.~shared_ptr();
+  crate.reset();
   ls::unload();
+  camera.reset();
+  camTopE.reset();
+  camSprite.reset();
+  cam.reset();
+  camTopSprite.reset();
+  for (int i = 0; i < 3; i++)
+  {
+      //testButtons[i].reset();
+  }
   Scene::UnLoad();
+
+  hasUnloaded = true;
+
 }
 
 void Level1Scene::Update(const double& dt) {
@@ -138,9 +177,53 @@ void Level1Scene::Update(const double& dt) {
     Engine::ChangeScene((Scene*)&level2);
   }
 
-  camColour = cam->GetColour();
-  camSprite->getSprite().setColor(camColour);
-  Scene::Update(dt);
+  if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
+      pthis = true;
+  else
+      plast = false;
+
+  if (pthis && !plast) 
+  {  
+      isPaused = true;
+  }
+
+  if (!isPaused)
+  {
+      Scene::Update(dt);  
+  }
+  else
+  {
+      for (int i = 0; i < 3; i++)
+      {
+          if(!testButtons[i]->isVisible())
+          testButtons[i]->setVisible(true);
+
+          testButtons[i]->update(dt);
+      } 
+      //RESUME BELOW
+      auto t = testButtons[0].get()->get_components<ButtonComponent>();
+      auto b = t[0]->GetButtonType();
+
+      if (b == "NotPaused")
+      {
+          isPaused = false;
+          testButtons[0]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
+          for (int i = 0; i < 3; i++)
+          {
+              testButtons[i]->setVisible(false);
+          }
+          
+      }
+  }
+  
+  if (!hasUnloaded)
+  {
+      camColour = cam->GetColour();
+      camSprite->getSprite().setColor(camColour);
+  }
+  
+
+  pthis = plast;
 }
 
 void Level1Scene::Render() {

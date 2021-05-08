@@ -10,11 +10,9 @@ using namespace sf;
 
 void ResMenuScene::Load() {
 
-
 }
 
 void ResMenuScene::Update(const double& dt) {
-
 	gManager.Render();
 	Scene::Update(dt);
 }

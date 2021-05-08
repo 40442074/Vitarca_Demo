@@ -11,6 +11,8 @@
 #include "GameManager.h"
 #include "scenes/scene_volume.h"
 #include "scenes/scene_res.h"
+//#include "scenes/pause.h"
+//#include "scenes/scene_tracker.h"
 
 //extern int gameX = 720;
 //extern int gameY = 1080;
@@ -24,6 +26,9 @@ extern LevelMenuScene levelSelect;
 extern OptionsMenuScene optionsScene;
 extern VolumeMenuScene volScene;
 extern ResMenuScene resScene;
+//extern PauseMenu pauseScene;
 extern Level1Scene level1;
 extern Level2Scene level2;
 extern Level3Scene level3;
+
+//extern SceneTracker sceneTracker;

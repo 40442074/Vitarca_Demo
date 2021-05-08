@@ -19,7 +19,9 @@ void MenuScene::Load() {
         buttons[i] = makeEntity();
         buttons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Menu", buttonText[i]);
     }
+
   setLoaded(true);
+  
 }
 
 void MenuScene::Update(const double& dt) {
@@ -31,7 +33,7 @@ void MenuScene::Update(const double& dt) {
   if (sf::Keyboard::isKeyPressed(Keyboard::P)) {
       //sounds.PlayButtonSound();
   }
-
+  
   //renders menu sprite
   gManager.Render();
   Scene::Update(dt);

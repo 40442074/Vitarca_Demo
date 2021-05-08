@@ -69,7 +69,6 @@ void VolumeMenuScene::Load() {
 }
 
 void VolumeMenuScene::Update(const double& dt) {
-
 	gManager.Render();
 	Scene::Update(dt);
 }
