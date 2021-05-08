@@ -4,6 +4,7 @@
 #include "../components/cmp_camera.h"
 #include "../components/cmp_crate_physics.h"
 #include "../game.h"
+#include "../Player.h"
 #include <LevelSystem.h>
 #include <iostream>
 #include <thread>
@@ -12,16 +13,13 @@
 #include "../components/cmp_text.h"
 #include "../components/cmp_button.h"
 
-
 using namespace std;
 using namespace sf;
 
-static shared_ptr<Entity> player, crate;
-static shared_ptr<Entity> camera, camTopE;
+static shared_ptr<Player> player;
+static shared_ptr<Entity> camera, camTopE, crate;
 static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
 
-b2Body *playerBody;
-b2Fixture* playerMainFixture;
 static shared_ptr<CameraComponent> cam;
 static shared_ptr<SpriteComponent> camSprite, camTopSprite;
 sf::Color camColour;
@@ -50,19 +48,9 @@ void Level1Scene::Load() {
 
   // Create player
   {
-    player = makeEntity();
-    player.get()->addTag("player");
-    player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(10.0f, 20.0f));
-    auto s = player->addComponent<SpriteComponent>();
-    playertex = make_shared<Texture>(Texture());
-    playertex.get()->loadFromFile("res/img/player_spritesheet.png");
-    s->setTexture(playertex);
-    s->getSprite().setTextureRect(IntRect(0, 0, 27, 48));
-    s->getSprite().setOrigin(13.5f, 24.f);
-
-    auto p = player->addComponent<PlayerPhysicsComponent>(Vector2f(27.f, 48.f));
-    playerMainFixture = p.get()->getFixture();
-    playerBody = playerMainFixture->GetBody();
+    player = makeEntityChild<Player>();
+    player.get()->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
+    player.get()->load();
   }
 
   // Add physics colliders to level tiles.
@@ -104,7 +92,7 @@ void Level1Scene::Load() {
       camSprite->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
       camSprite->getSprite().setOrigin(165.f, 0.f);
       camSprite->getSprite().setColor(Color::Blue);
-      cam = camera->addComponent<CameraComponent>(playerMainFixture, "Vision");
+      cam = camera->addComponent<CameraComponent>(player.get()->getFixture(), "Vision");
       
       auto tempPos = camera->getPosition();
       camTopE = makeEntity();
@@ -117,10 +105,10 @@ void Level1Scene::Load() {
       camTopSprite->getSprite().setScale(Vector2f(1.9f, 1.9f));
       camTopSprite->getSprite().setTextureRect(IntRect(0, 0, 39, 27));
       camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
-      camTopE->addComponent<CameraComponent>(playerMainFixture, "Top");
+      camTopE->addComponent<CameraComponent>(player.get()->getFixture(), "Top");
   }
 
-  ////Create test crate
+  //Create test crate
   {
       crate = makeEntity();
       crate.get()->addTag("crate");
@@ -134,7 +122,7 @@ void Level1Scene::Load() {
       s->getSprite().setTextureRect(IntRect(0, 0, 60, 60));
       s->getSprite().setOrigin(30.f, 30.f);
 
-      crate->addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f), playerBody);
+      crate->addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f), player.get()->getBody());
   }
 
   //Pause Menu load
@@ -173,9 +161,12 @@ void Level1Scene::UnLoad() {
 
 void Level1Scene::Update(const double& dt) {
 
-  if (ls::getTileAt(player->getPosition()) == ls::END) {
+  /*if (ls::getTileAt(player->getPosition()) == ls::END) {
     Engine::ChangeScene((Scene*)&level2);
-  }
+  }*/
+
+
+    cout << "x: " + to_string(player->getPosition().x) + " y: " + to_string(player->getPosition().y) +"\n";
 
   if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
       pthis = true;

@@ -21,6 +21,14 @@ public:
   bool isLoaded() const;
   std::shared_ptr<Entity> makeEntity();
 
+  template <class T>
+  std::shared_ptr<T> makeEntityChild() {
+      static_assert(std::is_base_of<Entity, T>::value, "T != component");
+      std::shared_ptr<T> e = std::make_shared<T>(this);
+      ents.list.push_back(e);
+      return std::move(e);
+  }
+
   EntityManager ents;
 
 protected:
