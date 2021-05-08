@@ -31,6 +31,10 @@ shared_ptr<Entity> testButtons[3];
 std::string pauseText[3] = { "Resume", "Restart Level", "Back to Main Menu" };
 bool pthis, plast, isPaused;
 
+static shared_ptr<Texture> pauseTex;
+static shared_ptr<Entity> pauseTexE;
+static shared_ptr<SpriteComponent> pauseTexS;
+
 void Level1Scene::Load() {
   cout << " Scene 1 Load" << endl;
   ls::loadLevelFile("res/level1.txt", 60.0f);
@@ -130,12 +134,20 @@ void Level1Scene::Load() {
   {
       testButtons[i] = makeEntity();
       testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Pause", pauseText[i]);
+      testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
   }
   
   for (int i = 0; i < 3; i++)
   {
       testButtons[i]->setVisible(false);
   }
+
+  pauseTexE = makeEntity();
+  pauseTexS = pauseTexE->addComponent<SpriteComponent>();
+  pauseTex = make_shared<Texture>(Texture());
+  pauseTex.get()->loadFromFile("res/img/menu/pause_BG.png");
+  pauseTexS->setTexture(pauseTex);
+  pauseTexE->setVisible(false);
   setLoaded(true);
 }
 
@@ -149,6 +161,8 @@ void Level1Scene::UnLoad() {
   camSprite.reset();
   cam.reset();
   camTopSprite.reset();
+  pauseTexS.reset();
+  pauseTexE.reset();
   for (int i = 0; i < 3; i++)
   {
       //testButtons[i].reset();
@@ -188,7 +202,10 @@ void Level1Scene::Update(const double& dt) {
       {
           if(!testButtons[i]->isVisible())
           testButtons[i]->setVisible(true);
+          if(!hasUnloaded)
+          pauseTexE->setVisible(true);
 
+          testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
           testButtons[i]->update(dt);
       } 
       //RESUME BELOW
@@ -202,7 +219,10 @@ void Level1Scene::Update(const double& dt) {
           for (int i = 0; i < 3; i++)
           {
               testButtons[i]->setVisible(false);
+              if(i > 0)
+              testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
           }
+          pauseTexE->setVisible(false);
           
       }
   }

@@ -31,99 +31,102 @@ void ButtonComponent::update(double dt) {
 		_text.setString(to_string(vol));
 	}
 
-	if (mousethis && !mouselast && _rect.contains(static_cast<sf::Vector2i>(sf::Mouse::getPosition(Engine::GetWindow()))))
+	if (_buttonType != "NotPaused")
 	{
-		sounds.PlayButtonSound();
+		if (mousethis && !mouselast && _rect.contains(static_cast<sf::Vector2i>(sf::Mouse::getPosition(Engine::GetWindow()))))
+		{
+			sounds.PlayButtonSound();
 
-		if (tag == "Start Game" || tag == "Level-1" || tag == "Restart Level")
-		{
-			Engine::ChangeScene(&level1);
-		}
-		else if (tag == "Level Select")
-		{
-			Engine::ChangeScene(&levelSelect);
-		}
-		else if (tag == "Options" || tag == "Back to Options")
-		{
-			Engine::ChangeScene(&optionsScene);
-		}
-		else if (tag == "Back to Main Menu")
-		{
-			Engine::ChangeScene(&menu);
-		}
-		else if (tag == "Restart Game")
-		{
-			//delete progress
-		}
-		else if (tag == "Exit Game")
-		{
-			//exit game
-			Engine::GetWindow().close();
-		}
-		else if (tag == "Volume")
-		{
-			Engine::ChangeScene(&volScene);
-		}
-		else if (tag == "+" && _buttonType == "Sound")
-		{
-			if (sounds.GetSoundVolume() < 100) {//limits on volume
-				sounds.SetSoundVolume(sounds.GetSoundVolume() + 10);
-			}
-			else if (sounds.GetSoundVolume() > 100) //limits on volume
-			{
-				sounds.SetSoundVolume(100);
-			}		
-		}
-		else if (tag == "-" && _buttonType == "Sound")
-		{
-			if (sounds.GetSoundVolume() > 0) { //limits on volume
-				sounds.SetSoundVolume(sounds.GetSoundVolume() - 10);
-			}
-			else if (sounds.GetSoundVolume() < 0) //limits on volume
-			{
-				sounds.SetSoundVolume(0);
-			}	
-		}
-		else if (tag == "+" && _buttonType == "Music")
-		{
-			if (sounds.GetMusicVolume() < 100) {//limits on volume
-				sounds.SetMusicVolume(sounds.GetMusicVolume() + 10);
-			}
-			else if (sounds.GetMusicVolume() > 100) //limits on volume
-			{
-				sounds.SetMusicVolume(100);
-			}		
-		}
-		else if (tag == "-" && _buttonType == "Music")
-		{
-			if (sounds.GetMusicVolume() > 0) { //limits on volume
-				sounds.SetMusicVolume(sounds.GetMusicVolume() - 10);
-			}
-			else if (sounds.GetMusicVolume() < 0) //limits on volume
-			{
-				sounds.SetMusicVolume(0);
-			}	
-		}
-		else if (tag == "Resolution")
-		{
-			Engine::ChangeScene(&resScene);
-		}
-		else if (tag == "Level-2")
-		{
-			Engine::ChangeScene(&level2);
-		}
-		else if (tag == "Level-3")
-		{
-			//Engine::ChangeScene(&level3);
-		}
-		else if (tag == "Resume")
-		{
-		/*	if (sceneTracker.GetPreviousScene() == "level1")
+			if (tag == "Start Game" || tag == "Level-1" || tag == "Restart Level")
 			{
 				Engine::ChangeScene(&level1);
-			}*/
-			_buttonType = "NotPaused";
-			
+			}
+			else if (tag == "Level Select")
+			{
+				Engine::ChangeScene(&levelSelect);
+			}
+			else if (tag == "Options" || tag == "Back to Options")
+			{
+				Engine::ChangeScene(&optionsScene);
+			}
+			else if (tag == "Back to Main Menu")
+			{
+				Engine::ChangeScene(&menu);
+			}
+			else if (tag == "Restart Game")
+			{
+				//delete progress
+			}
+			else if (tag == "Exit Game")
+			{
+				//exit game
+				Engine::GetWindow().close();
+			}
+			else if (tag == "Volume")
+			{
+				Engine::ChangeScene(&volScene);
+			}
+			else if (tag == "+" && _buttonType == "Sound")
+			{
+				if (sounds.GetSoundVolume() < 100) {//limits on volume
+					sounds.SetSoundVolume(sounds.GetSoundVolume() + 10);
+				}
+				else if (sounds.GetSoundVolume() > 100) //limits on volume
+				{
+					sounds.SetSoundVolume(100);
+				}
+			}
+			else if (tag == "-" && _buttonType == "Sound")
+			{
+				if (sounds.GetSoundVolume() > 0) { //limits on volume
+					sounds.SetSoundVolume(sounds.GetSoundVolume() - 10);
+				}
+				else if (sounds.GetSoundVolume() < 0) //limits on volume
+				{
+					sounds.SetSoundVolume(0);
+				}
+			}
+			else if (tag == "+" && _buttonType == "Music")
+			{
+				if (sounds.GetMusicVolume() < 100) {//limits on volume
+					sounds.SetMusicVolume(sounds.GetMusicVolume() + 10);
+				}
+				else if (sounds.GetMusicVolume() > 100) //limits on volume
+				{
+					sounds.SetMusicVolume(100);
+				}
+			}
+			else if (tag == "-" && _buttonType == "Music")
+			{
+				if (sounds.GetMusicVolume() > 0) { //limits on volume
+					sounds.SetMusicVolume(sounds.GetMusicVolume() - 10);
+				}
+				else if (sounds.GetMusicVolume() < 0) //limits on volume
+				{
+					sounds.SetMusicVolume(0);
+				}
+			}
+			else if (tag == "Resolution")
+			{
+				Engine::ChangeScene(&resScene);
+			}
+			else if (tag == "Level-2")
+			{
+				Engine::ChangeScene(&level2);
+			}
+			else if (tag == "Level-3")
+			{
+				//Engine::ChangeScene(&level3);
+			}
+			else if (tag == "Resume")
+			{
+				/*	if (sceneTracker.GetPreviousScene() == "level1")
+					{
+						Engine::ChangeScene(&level1);
+					}*/
+				_buttonType = "NotPaused";
+
+			}
 		}
 	}
 	mouselast = mousethis;
