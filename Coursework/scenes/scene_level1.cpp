@@ -38,196 +38,193 @@ static shared_ptr<Entity> pauseTexE;
 static shared_ptr<SpriteComponent> pauseTexS;
 
 void Level1Scene::Load() {
-  cout << " Scene 1 Load" << endl;
-  ls::loadLevelFile("res/level1.txt", 60.0f);
-  spriteLoader.ReadSpriteSheet();
-  spriteLoader.Load();
+    cout << " Scene 1 Load" << endl;
+    ls::loadLevelFile("res/level1.txt", 60.0f);
+    spriteLoader.ReadSpriteSheet();
+    spriteLoader.Load();
 
-  auto ho = Engine::getWindowSize().y - (ls::getHeight() * 60.f);
-  ls::setOffset(Vector2f(0, 0));
+    auto ho = Engine::getWindowSize().y - (ls::getHeight() * 60.f);
+    ls::setOffset(Vector2f(0, 0));
 
-  //pause code
-  isPaused = false;
-  plast = false;
-  pthis = false;
-  hasUnloaded = false;
+    //pause code
+    isPaused = false;
+    plast = false;
+    pthis = false;
+    hasUnloaded = false;
 
-  // Create player
-  {
-    player = makeEntityChild<Player>();
-    player.get()->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
-    player.get()->load();
-  }
-
-  // Add physics colliders to level tiles.
-  {
-    auto walls = ls::findTiles(ls::WALL);
-    for (auto w : walls) {
-      auto pos = ls::getTilePosition(w);
-      pos += Vector2f(30.f, 30.f); //offset to center
-      auto e = makeEntity();
-      e->setPosition(pos);
-      e.get()->addTag("wall");
-      e->addComponent<PhysicsComponent>(false, Vector2f(60.f, 60.f));
+    // Create player
+    {
+        player = makeEntityChild<Player>();
+        player.get()->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
+        player.get()->load();
     }
-  }
 
-  //Simulate long loading times
-  std::this_thread::sleep_for(std::chrono::milliseconds(500));
-  cout << " Scene 1 Load Done" << endl;
+    // Add physics colliders to level tiles.
+    {
+        auto walls = ls::findTiles(ls::WALL);
+        for (auto w : walls) {
+            auto pos = ls::getTilePosition(w);
+            pos += Vector2f(30.f, 30.f); //offset to center
+            auto e = makeEntity();
+            e->setPosition(pos);
+            e.get()->addTag("wall");
+            e->addComponent<PhysicsComponent>(false, Vector2f(60.f, 60.f));
+        }
+    }
 
-  ////create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
-  {
-      camera = makeEntity();      
-      camera.get()->addTag("camera");
-      //get position of cam from spritesheet               
-      auto camTiles = ls::findTiles(ls::CAMERA3);
+    //Simulate long loading times
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    cout << " Scene 1 Load Done" << endl;
 
-      for (auto c : camTiles) {
-          auto camPos = ls::getTilePosition(c);
-          camPos += Vector2f(60.f, 60.f); //offset to center
-          camera->setPosition(camPos);
-      }
+    ////create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
+    {
+        camera = makeEntity();      
+        camera.get()->addTag("camera");
+        //get position of cam from spritesheet               
+        auto camTiles = ls::findTiles(ls::CAMERA3);
 
-      camSprite = camera->addComponent<SpriteComponent>();
-      coneTex = make_shared<Texture>(Texture());
-      coneTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
+        for (auto c : camTiles) {
+            auto camPos = ls::getTilePosition(c);
+            camPos += Vector2f(60.f, 60.f); //offset to center
+            camera->setPosition(camPos);
+        }
 
+        camSprite = camera->addComponent<SpriteComponent>();
+        coneTex = make_shared<Texture>(Texture());
+        coneTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
 
-      camSprite->setTexture(coneTex);
-      camSprite->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
-      camSprite->getSprite().setOrigin(165.f, 0.f);
-      camSprite->getSprite().setColor(Color::Blue);
-      cam = camera->addComponent<CameraComponent>(player.get()->getFixture(), "Vision");
+        camSprite->setTexture(coneTex);
+        camSprite->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
+        camSprite->getSprite().setOrigin(165.f, 0.f);
+        camSprite->getSprite().setColor(Color::Blue);
+        cam = camera->addComponent<CameraComponent>(player.get()->getFixture(), "Vision");
       
-      auto tempPos = camera->getPosition();
-      camTopE = makeEntity();
-      camTopE.get()->addTag("camtop");
-      camTopSprite = camTopE->addComponent<SpriteComponent>();
-      camTopE->setPosition(Vector2f(tempPos.x, tempPos.y - 15));
-      cameraTex = make_shared<Texture>(Texture());
-      cameraTex.get()->loadFromFile("res/img/enemy/camera_top.png");
-      camTopSprite->setTexture(cameraTex);
-      camTopSprite->getSprite().setScale(Vector2f(1.9f, 1.9f));
-      camTopSprite->getSprite().setTextureRect(IntRect(0, 0, 39, 27));
-      camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
-      camTopE->addComponent<CameraComponent>(player.get()->getFixture(), "Top");
-  }
+        auto tempPos = camera->getPosition();
+        camTopE = makeEntity();
+        camTopE.get()->addTag("camtop");
+        camTopSprite = camTopE->addComponent<SpriteComponent>();
+        camTopE->setPosition(Vector2f(tempPos.x, tempPos.y - 15));
+        cameraTex = make_shared<Texture>(Texture());
+        cameraTex.get()->loadFromFile("res/img/enemy/camera_top.png");
+        camTopSprite->setTexture(cameraTex);
+        camTopSprite->getSprite().setScale(Vector2f(1.9f, 1.9f));
+        camTopSprite->getSprite().setTextureRect(IntRect(0, 0, 39, 27));
+        camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
+        camTopE->addComponent<CameraComponent>(player.get()->getFixture(), "Top");
+    }
 
-  //Create test crate
-  {
-      crate = makeEntityChild<Crate>();
-      crate->setPosition(Vector2f(1000.0f, 100.0f));
-      crate->load(player->getBody());
-  }
+    //Create test crate
+    {
+        crate = makeEntityChild<Crate>();
+        crate->setPosition(Vector2f(1000.0f, 100.0f));
+        crate->load(player->getBody());
+    }
 
-  //Pause Menu load
-  for (int i = 0; i < 3; i++)
-  {
-      testButtons[i] = makeEntity();
-      testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Pause", pauseText[i]);
-      testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
-  }
+    //Pause Menu load
+    for (int i = 0; i < 3; i++)
+    {
+        testButtons[i] = makeEntity();
+        testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Pause", pauseText[i]);
+        testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
+    }
   
-  for (int i = 0; i < 3; i++)
-  {
-      testButtons[i]->setVisible(false);
-  }
+    for (int i = 0; i < 3; i++)
+    {
+        testButtons[i]->setVisible(false);
+    }
 
-  pauseTexE = makeEntity();
-  pauseTexS = pauseTexE->addComponent<SpriteComponent>();
-  pauseTex = make_shared<Texture>(Texture());
-  pauseTex.get()->loadFromFile("res/img/menu/pause_BG.png");
-  pauseTexS->setTexture(pauseTex);
-  pauseTexE->setVisible(false);
-  setLoaded(true);
+    pauseTexE = makeEntity();
+    pauseTexS = pauseTexE->addComponent<SpriteComponent>();
+    pauseTex = make_shared<Texture>(Texture());
+    pauseTex.get()->loadFromFile("res/img/menu/pause_BG.png");
+    pauseTexS->setTexture(pauseTex);
+    pauseTexE->setVisible(false);
+    setLoaded(true);
 }
 
 void Level1Scene::UnLoad() {
-  cout << "Scene 1 Unload" << endl;
+    cout << "Scene 1 Unload" << endl;
 
-  player.reset();
-  crate.reset();
-  ls::unload();
-  camera.reset();
-  camTopE.reset();
-  camSprite.reset();
-  cam.reset();
-  camTopSprite.reset();
-  pauseTexS.reset();
-  pauseTexE.reset();
-  for (int i = 0; i < 3; i++)
-  {
-      //testButtons[i].reset();
-  }
-  Scene::UnLoad();
+    player.reset();
+    crate.reset();
+    ls::unload();
+    camera.reset();
+    camTopE.reset();
+    camSprite.reset();
+    cam.reset();
+    camTopSprite.reset();
+    pauseTexS.reset();
+    pauseTexE.reset();
+    for (int i = 0; i < 3; i++)
+    {
+        //testButtons[i].reset();
+    }
+    Scene::UnLoad();
 
-  hasUnloaded = true;
+    hasUnloaded = true;
 }
 
 void Level1Scene::Update(const double& dt) {
 
-  /*if (ls::getTileAt(player->getPosition()) == ls::END) {
-    Engine::ChangeScene((Scene*)&level2);
-  }*/
+    /*if (ls::getTileAt(player->getPosition()) == ls::END) {
+        Engine::ChangeScene((Scene*)&level2);
+    }*/
 
-  if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
-      pthis = true;
-  else
-      plast = false;
+    if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
+        pthis = true;
+    else
+        plast = false;
 
-  if (pthis && !plast) 
-  {  
-      isPaused = true;
-  }
+    if (pthis && !plast) 
+    {  
+        isPaused = true;
+    }
 
-  if (!isPaused)
-  {
-      Scene::Update(dt);  
-  }
-  else
-  {
-      for (int i = 0; i < 3; i++)
-      {
-          if(!testButtons[i]->isVisible())
-          testButtons[i]->setVisible(true);
-          if(!hasUnloaded)
-          pauseTexE->setVisible(true);
+    if (!isPaused)
+    {
+        Scene::Update(dt);  
+    }
+    else
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if(!testButtons[i]->isVisible())
+                testButtons[i]->setVisible(true);
+            if(!hasUnloaded)
+                pauseTexE->setVisible(true);
 
-          testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
-          testButtons[i]->update(dt);
-      } 
-      //RESUME BELOW
-      auto t = testButtons[0].get()->get_components<ButtonComponent>();
-      auto b = t[0]->GetButtonType();
+            testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
+            testButtons[i]->update(dt);
+        } 
+        //RESUME BELOW
+        auto t = testButtons[0].get()->get_components<ButtonComponent>();
+        auto b = t[0]->GetButtonType();
 
-      if (b == "NotPaused")
-      {
-          isPaused = false;
-          testButtons[0]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
-          for (int i = 0; i < 3; i++)
-          {
-              testButtons[i]->setVisible(false);
-              if(i > 0)
-              testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
-          }
-          pauseTexE->setVisible(false);
-          
-      }
-  }
+        if (b == "NotPaused")
+        {
+            isPaused = false;
+            testButtons[0]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
+            for (int i = 0; i < 3; i++)
+            {
+                testButtons[i]->setVisible(false);
+                if(i > 0)
+                    testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
+            }
+            pauseTexE->setVisible(false);       
+        }
+    }
   
-  if (!hasUnloaded)
-  {
-      camColour = cam->GetColour();
-      camSprite->getSprite().setColor(camColour);
-  }
-  
+    if (!hasUnloaded)
+    {
+        camColour = cam->GetColour();
+        camSprite->getSprite().setColor(camColour);
+    }
 
-  pthis = plast;
+    pthis = plast;
 }
 
 void Level1Scene::Render() {
-  ls::render(Engine::GetWindow());
-  spriteLoader.Render(Engine::GetWindow());
-  Scene::Render();
+    ls::render(Engine::GetWindow());
+    spriteLoader.Render(Engine::GetWindow());
+    Scene::Render();
 }
