@@ -5,6 +5,7 @@
 #include "../components/cmp_crate_physics.h"
 #include "../game.h"
 #include "../Player.h"
+#include "../Enemy.h"
 #include "../Crate.h"
 #include <LevelSystem.h>
 #include <iostream>
@@ -18,6 +19,7 @@ using namespace std;
 using namespace sf;
 
 static shared_ptr<Player> player;
+static shared_ptr<Enemy> enemy;
 static shared_ptr<Crate> crate;
 static shared_ptr<Entity> camera, camTopE;
 static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
@@ -57,8 +59,15 @@ void Level1Scene::Load() {
     // Create player
     {
         player = makeEntityChild<Player>();
-        player.get()->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + (Vector2f(50.0f, 20.0f)));
-        player.get()->load();
+        player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
+        player->load();
+    }
+
+    //Create test enemy
+    {
+        enemy = makeEntityChild<Enemy>();
+        enemy->setPosition(Vector2f(1020.0f, 360.0f));
+        enemy->load();
     }
 
     // Add physics colliders to level tiles.
@@ -149,6 +158,7 @@ void Level1Scene::UnLoad() {
     cout << "Scene 1 Unload" << endl;
 
     player.reset();
+    enemy.reset();
     crate.reset();
     ls::unload();
     camera.reset();

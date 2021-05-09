@@ -32,7 +32,7 @@ bool CanBotPhysicsComponent::isGrounded() const {
 void CanBotPhysicsComponent::horizontalMove(bool right, double dt) {
     _movingx = true;
 
-    if (_state = Walking)
+    if (_state == Walking)
     {
         if (right && getVelocity().x < _maxVelocity.x)
             impulse({ (float)(dt * _groundspeed), 0 });

@@ -5,7 +5,6 @@
 
 using namespace std;
 using namespace sf;
-using namespace Physics;
 
 void PlayerPhysicsComponent::update(double dt) {
     const auto pos = _parent->getPosition();
