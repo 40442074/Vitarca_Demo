@@ -5,6 +5,7 @@
 #include "../components/cmp_crate_physics.h"
 #include "../game.h"
 #include "../Player.h"
+#include "../Crate.h"
 #include <LevelSystem.h>
 #include <iostream>
 #include <thread>
@@ -17,7 +18,8 @@ using namespace std;
 using namespace sf;
 
 static shared_ptr<Player> player;
-static shared_ptr<Entity> camera, camTopE, crate;
+static shared_ptr<Crate> crate;
+static shared_ptr<Entity> camera, camTopE;
 static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
 
 static shared_ptr<CameraComponent> cam;
@@ -114,19 +116,9 @@ void Level1Scene::Load() {
 
   //Create test crate
   {
-      crate = makeEntity();
-      crate.get()->addTag("crate");
-
+      crate = makeEntityChild<Crate>();
       crate->setPosition(Vector2f(1000.0f, 100.0f));
-      auto s = crate->addComponent<SpriteComponent>();
-      cratetex = make_shared<Texture>(Texture());
-      cratetex.get()->loadFromFile("res/img/crate.png");
-
-      s->setTexture(cratetex);
-      s->getSprite().setTextureRect(IntRect(0, 0, 60, 60));
-      s->getSprite().setOrigin(30.f, 30.f);
-
-      crate->addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f), player.get()->getBody());
+      crate->load(player->getBody());
   }
 
   //Pause Menu load
@@ -153,6 +145,7 @@ void Level1Scene::Load() {
 
 void Level1Scene::UnLoad() {
   cout << "Scene 1 Unload" << endl;
+
   player.reset();
   crate.reset();
   ls::unload();
@@ -170,7 +163,6 @@ void Level1Scene::UnLoad() {
   Scene::UnLoad();
 
   hasUnloaded = true;
-
 }
 
 void Level1Scene::Update(const double& dt) {
@@ -178,9 +170,6 @@ void Level1Scene::Update(const double& dt) {
   /*if (ls::getTileAt(player->getPosition()) == ls::END) {
     Engine::ChangeScene((Scene*)&level2);
   }*/
-
-
-    cout << "x: " + to_string(player->getPosition().x) + " y: " + to_string(player->getPosition().y) +"\n";
 
   if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
       pthis = true;
