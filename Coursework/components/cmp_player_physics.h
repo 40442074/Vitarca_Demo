@@ -1,16 +1,9 @@
 #pragma once
 
-#include "cmp_physics.h"
+#include "cmp_canbot_physics.h"
 
-class PlayerPhysicsComponent : public PhysicsComponent {
+class PlayerPhysicsComponent : public CanBotPhysicsComponent {
 protected:
-  b2Vec2 _size;
-  sf::Vector2f _maxVelocity;
-  bool _grounded;
-  float _groundspeed;
-  b2Fixture* _legFixture;
-
-  bool isGrounded() const;
 
 public:
   void update(double dt) override;
@@ -18,8 +11,4 @@ public:
   explicit PlayerPhysicsComponent(Entity* p, const sf::Vector2f& size);
 
   PlayerPhysicsComponent() = delete;
-
-  b2Fixture* GetLegFixture() {
-	  return _legFixture;
-  }
 };

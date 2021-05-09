@@ -7,153 +7,29 @@ using namespace std;
 using namespace sf;
 using namespace Physics;
 
-bool PlayerPhysicsComponent::isGrounded() const {
-  auto touch = getTouching();
-  const auto& pos = _body->GetPosition();
-  const float halfPlrHeigt = _size.y * .5f;
-  const float halfPlrWidth = _size.x * .52f;
-  b2WorldManifold manifold;
-  for (const auto& contact : touch) {
-    contact->GetWorldManifold(&manifold);
-    const int numPoints = contact->GetManifold()->pointCount;
-    bool onTop = numPoints > 0;
-    // If all contacts are below the player.
-    for (int j = 0; j < numPoints; j++) {
-      onTop &= (manifold.points[j].y < pos.y - halfPlrHeigt);
-    }
-    if (onTop) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 void PlayerPhysicsComponent::update(double dt) {
+    const auto pos = _parent->getPosition();
+    _movingx = false;
 
-  const auto pos = _parent->getPosition();
-
-  //Teleport to start if we fall off map.
-  if (pos.y > ls::getHeight() * ls::getTileSize()) {
-    teleport(ls::getTilePosition(ls::findTiles(ls::START)[0]));
-  }
-
-    if (Keyboard::isKeyPressed(Keyboard::Down) || 
-        Keyboard::isKeyPressed(Keyboard::S))
-    {
-        _legFixture->SetSensor(true);
-
-        if (Keyboard::isKeyPressed(Keyboard::Left) ||
-            Keyboard::isKeyPressed(Keyboard::Right) ||
-            Keyboard::isKeyPressed(Keyboard::A) ||
-            Keyboard::isKeyPressed(Keyboard::D)) {
-            // Moving Either Left or Right
-            if (Keyboard::isKeyPressed(Keyboard::Right) ||
-                Keyboard::isKeyPressed(Keyboard::D)) {
-                if (getAngVelocity() > -10)
-                {
-                    _body->ApplyAngularImpulse(-10.0f * dt, true);
-                }
-                if (getVelocity().x < _maxVelocity.x)
-                    impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
-            }
-            else {
-                if (getAngVelocity() < 10)
-                {
-                    _body->ApplyAngularImpulse(10.0f * dt, true);
-                }
-                if (getVelocity().x > -_maxVelocity.x)
-                    impulse({ -(float)(dt * _groundspeed * 0.3f), 0 });
-            }
-        }
-        else {
-            // Dampen X axis and angular movement
-            dampenAng(0.999f);
-            dampenLin({ 0.999f, 1.0f });
-        }
+    //Teleport to start if we fall off map.
+    if (pos.y > ls::getHeight() * ls::getTileSize()) {
+        teleport(ls::getTilePosition(ls::findTiles(ls::START)[0]));
     }
-  else
-  {
-      _legFixture->SetSensor(false);
-      _body->SetTransform(_body->GetPosition(), 0);
-      _body->SetAngularVelocity(0);
-      if (Keyboard::isKeyPressed(Keyboard::Left) ||
-          Keyboard::isKeyPressed(Keyboard::Right) ||
-          Keyboard::isKeyPressed(Keyboard::A) ||
-          Keyboard::isKeyPressed(Keyboard::D)) {
-          // Moving Either Left or Right
-          if (Keyboard::isKeyPressed(Keyboard::Right) || 
-              Keyboard::isKeyPressed(Keyboard::D)) {
-              if (getVelocity().x < _maxVelocity.x)
-                  impulse({ (float)(dt * _groundspeed), 0 });
-          }
-          else {
-              if (getVelocity().x > -_maxVelocity.x)
-                  impulse({ -(float)(dt * _groundspeed), 0 });
-          }
-      }
-      else {
-          // Dampen X axis movement
-          dampenLin({ 0.99f, 1.0f });
-      }
-  }
 
-  // Handle Jump
-  if (Keyboard::isKeyPressed(Keyboard::Up) ||
-      Keyboard::isKeyPressed(Keyboard::W)) {
-    _grounded = isGrounded();
-    if (_grounded) {
-      setVelocity(Vector2f(getVelocity().x, 0.f));
-      teleport(Vector2f(pos.x, pos.y - 2.0f));
-      impulse(Vector2f(0, -6.f));
-    }
-  }
+    if (_state == Walking && (Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S)))
+        setState(Rolling);
+    else if (!(Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S)))
+        setState(Walking);
 
-  if (Keyboard::isKeyPressed(Keyboard::Down) ||
-      Keyboard::isKeyPressed(Keyboard::S))
-  {
-      setFriction(1.0f);
-  }
-  else
-  {
-      //Are we in air?
-      if (!_grounded) {
-          // Check to see if we have landed yet
-          _grounded = isGrounded();
-          // disable friction while jumping
-          setFriction(0.0f);
-      }
-      else {
-          setFriction(0.1f);
-      }
-  }
+    if (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D))
+        horizontalMove(true, dt);
+    else if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
+        horizontalMove(false, dt);
 
-  // Clamp velocity.
-  auto v = getVelocity();
-  v.x = copysign(min(abs(v.x), _maxVelocity.x), v.x);
-  v.y = copysign(min(abs(v.y), _maxVelocity.y), v.y);
-  setVelocity(v);
+    if (Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W)) 
+        jump(dt, pos);
 
-  PhysicsComponent::update(dt);
+    CanBotPhysicsComponent::update(dt);
 }
 
-PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p,
-    const Vector2f& size)
-    : PhysicsComponent(p, true, size, 0.5f, 0.5f) {
-
-    _size = sv2_to_bv2(size, true);
-    _maxVelocity = Vector2f(200.f, 400.f);
-    _groundspeed = 30.f;
-    _grounded = false;
-    _body->SetSleepingAllowed(false);
-    //Bullet items have higher-res collision detection
-    _body->SetBullet(true);
-
-    //Create leg space
-    b2PolygonShape legBottom;
-    legBottom.SetAsBox(_size.x * 0.5f, sf_to_bf(20.0f, true) * 0.5f, b2Vec2(0, -(_size.y / 2.0f) - sf_to_bf(10.0f, true)), 0);
-    b2FixtureDef legFixture;
-    legFixture.shape = &legBottom;
-    legFixture.isSensor = false;
-    _legFixture = _body->CreateFixture(&legFixture);
-}
+PlayerPhysicsComponent::PlayerPhysicsComponent(Entity* p, const Vector2f& size) : CanBotPhysicsComponent(p, size) {}
