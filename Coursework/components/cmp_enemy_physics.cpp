@@ -10,6 +10,7 @@ void EnemyPhysicsComponent::update(double dt) {
     const auto pos = _parent->getPosition();
     _movingx = false;
 
+    setState(Walking);
     horizontalMove(false, dt);
 
     CanBotPhysicsComponent::update(dt);

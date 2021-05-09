@@ -132,7 +132,6 @@ CanBotPhysicsComponent::CanBotPhysicsComponent(Entity* p, const Vector2f& size)
     _body->SetSleepingAllowed(false);
     //Bullet items have higher-res collision detection
     _body->SetBullet(true);
-    _state = Walking;
     _movingx = false;
 
     //Create leg space
@@ -142,4 +141,6 @@ CanBotPhysicsComponent::CanBotPhysicsComponent(Entity* p, const Vector2f& size)
     legFixture.shape = &legBottom;
     legFixture.isSensor = false;
     _legFixture = _body->CreateFixture(&legFixture);
+
+    setState(Walking);
 }
