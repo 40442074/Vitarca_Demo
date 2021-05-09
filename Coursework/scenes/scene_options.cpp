@@ -16,7 +16,8 @@ void OptionsMenuScene::Load() {
 	for (int i = 0; i < 3; i++) {
 
 		OptionsButtons[i] = makeEntity();
-		OptionsButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Options", optionText[i]);
+		OptionsButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, 
+			Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Options", optionText[i]);
 	}
 	setLoaded(true);
 }

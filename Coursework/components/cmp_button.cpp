@@ -132,10 +132,17 @@ void ButtonComponent::update(double dt) {
 			else if (tag == "1920 x 1080")
 			{
 				sceneTracker.SetWidthHeight(1920, 1080);
+				Engine::ChangeScene(&resScene);
 			}
 			else if (tag == "1280 x 720")
 			{
-				sceneTracker.SetWidthHeight(1280, 720);
+				sceneTracker.SetWidthHeight(1280, 720); //0.67 of 1080p
+				Engine::ChangeScene(&resScene);
+			}
+			else if (tag == "640 x 480")
+			{
+				sceneTracker.SetWidthHeight(640, 480); //0.45 of 1080p
+				Engine::ChangeScene(&resScene);
 			}
 		}
 	}
@@ -154,9 +161,11 @@ ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int
 	_pos = pos;
 	_text.setPosition(_pos);
 	_text.setColor(c);
+	_text.setCharacterSize(48 * sceneTracker.GetMultiplier());
 	auto xLength = _string.size() * _charSize;
 	_rect = IntRect(_pos.x, _pos.y, xLength, _charSize);
 	_buttonType = tag;
+
 	//sounds.Load();
 }
 

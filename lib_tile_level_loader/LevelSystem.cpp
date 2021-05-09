@@ -1,5 +1,6 @@
 #include "LevelSystem.h"
 #include <fstream>
+#include "../Coursework/scenes/scene_tracker.h"
 
 using namespace std;
 using namespace sf;

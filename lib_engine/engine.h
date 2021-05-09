@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <ecm.h>
+//#include <ecm.h>
+#include "../lib_ecm/ecm.h"
 #include <future>
 #include <maths.h>
 #include <mutex>

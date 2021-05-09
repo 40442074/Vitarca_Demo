@@ -1,6 +1,9 @@
 #include "BGSpriteLoader.h"
 #include <iostream>
 #include "LevelSystem.h"
+#include "game.h"
+#include "scenes/scene_tracker.h"
+
 
 using namespace std;
 using namespace sf;
@@ -10,17 +13,33 @@ std::vector<Sprite> totalSprites;
 std::vector<Sprite> spriteTypes;
 
 void BGSpriteLoader::ReadSpriteSheet()
-{
-    if (!BGspriteSheet.loadFromFile("res/img/TileSet-7-420x60.png")) {
-        cerr << "Failed to load spritesheet!" << std::endl;
+{ 
+    if (sceneTracker.GetMultiplier() > 0.95f)
+    {
+        if (!BGspriteSheet.loadFromFile("res/img/TileSet-7-420x60.png")) {
+            cerr << "Failed to load spritesheet!" << std::endl;
+        }
     }
+    else if (sceneTracker.GetMultiplier() < 0.95f && sceneTracker.GetMultiplier() > 0.5f)
+    {
+        if (!BGspriteSheet.loadFromFile("res/img/TileSet-7-281x40.png")) {
+            cerr << "Failed to load spritesheet!" << std::endl;
+        }
+    }
+    else if (sceneTracker.GetMultiplier() > 0.3f && sceneTracker.GetMultiplier() < 0.5f)
+    {
+        if (!BGspriteSheet.loadFromFile("res/img/TileSet-7-189x27.png")) {
+            cerr << "Failed to load spritesheet!" << std::endl;
+        }
+    }
+    
 
     for (int i = 0; i < 7; i++)
     {
         spriteTypes.push_back(Sprite());
         std::cout << "";
         spriteTypes[i].setTexture(BGspriteSheet);
-        spriteTypes[i].setTextureRect(sf::IntRect(i * 60, 0, 60, 60));
+        spriteTypes[i].setTextureRect(sf::IntRect(i * (60 * sceneTracker.GetMultiplier()), 0, 60 * sceneTracker.GetMultiplier(), 60 * sceneTracker.GetMultiplier()));
     }
 }
 

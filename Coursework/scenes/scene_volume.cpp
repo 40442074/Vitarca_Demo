@@ -4,6 +4,7 @@
 #include "../game.h"
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
+#include "../scenes/scene_tracker.h"
 
 using namespace std;
 using namespace sf;
@@ -20,21 +21,20 @@ void VolumeMenuScene::Load() {
 		if (i < 1) //if button is the title
 		{
 			soundVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
-				Vector2f(((Engine::getWindowSize().x / 2) - 600), Engine::getWindowSize().y / 2 - 100), "Sound", soundText[i]);
+				Vector2f(Engine::getWindowSize().x / 2 - Engine::getWindowSize().x / 3, Engine::getWindowSize().y / 2 - Engine::getWindowSize().y / 10), "Sound", soundText[i]);
 		}
 		else
 		{
 			if (i == 2) //if button is the number
 			{
 				soundVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
-					Vector2f(((Engine::getWindowSize().x / 2) - 200) + i * 150, Engine::getWindowSize().y / 2 - 100), "SoundNumber", soundText[i]);
+					Vector2f(Engine::getWindowSize().x / 2 - Engine::getWindowSize().x / 10 + i * Engine::getWindowSize().x / 9, Engine::getWindowSize().y / 2 - Engine::getWindowSize().y / 10), "SoundNumber", soundText[i]);
 			}
 			else
 			{
-				soundVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
-					Vector2f(((Engine::getWindowSize().x / 2) - 200) + i * 150, Engine::getWindowSize().y / 2 - 100), "Sound", soundText[i]);
+				soundVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48 * sceneTracker.GetMultiplier(), Color::Blue,
+					Vector2f(Engine::getWindowSize().x / 2 - Engine::getWindowSize().x / 10 + i * Engine::getWindowSize().x / 9, Engine::getWindowSize().y / 2 - Engine::getWindowSize().y / 10), "Sound", soundText[i]);
 			}
-			
 		}
 	}
 
@@ -44,26 +44,25 @@ void VolumeMenuScene::Load() {
 		if (i < 1) //if button is the title
 		{
 			musicVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
-				Vector2f(((Engine::getWindowSize().x / 2) - 600), Engine::getWindowSize().y / 2), "Music", "Music");
+				Vector2f(((Engine::getWindowSize().x / 2) - (Engine::getWindowSize().x / 3)), Engine::getWindowSize().y / 2), "Music", "Music");
 		}
-		else if (i == 5) //back to options button
+		else if (i == 4) //back to options button
 		{
 			musicVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
-				Vector2f(((Engine::getWindowSize().x / 2) - 400), Engine::getWindowSize().y / 2 + 350), "Music", soundText[i]);
+				Vector2f(Engine::getWindowSize().x / 2 - Engine::getWindowSize().x / 3, Engine::getWindowSize().y / 2 + Engine::getWindowSize().y/4), "Music", soundText[i]);
 		}
 		else
 		{
 			if (i == 2) //if button is the number
 			{
 				musicVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
-					Vector2f(((Engine::getWindowSize().x / 2) - 200) + i * 150, Engine::getWindowSize().y / 2), "MusicNumber", soundText[i]);
+					Vector2f(Engine::getWindowSize().x / 2 - Engine::getWindowSize().x / 10 + i * Engine::getWindowSize().x / 9, Engine::getWindowSize().y / 2), "MusicNumber", soundText[i]);
 			}
 			else
 			{
 				musicVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
-					Vector2f(((Engine::getWindowSize().x / 2) - 200) + i * 150, Engine::getWindowSize().y / 2), "Music", soundText[i]);
+					Vector2f(Engine::getWindowSize().x / 2 - Engine::getWindowSize().x / 10 + i * Engine::getWindowSize().x / 9, Engine::getWindowSize().y / 2), "Music", soundText[i]);
 			}
-
 		}
 	}
 }
