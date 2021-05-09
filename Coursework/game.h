@@ -12,7 +12,7 @@
 #include "scenes/scene_volume.h"
 #include "scenes/scene_res.h"
 //#include "scenes/pause.h"
-//#include "scenes/scene_tracker.h"
+#include "scenes/scene_tracker.h"
 
 //extern int gameX = 720;
 //extern int gameY = 1080;
@@ -31,4 +31,4 @@ extern Level1Scene level1;
 extern Level2Scene level2;
 extern Level3Scene level3;
 
-//extern SceneTracker sceneTracker;
+extern SceneTracker sceneTracker; //for resoultion

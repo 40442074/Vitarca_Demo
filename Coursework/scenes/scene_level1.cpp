@@ -180,7 +180,7 @@ void Level1Scene::Update(const double& dt) {
   }*/
 
 
-    cout << "x: " + to_string(player->getPosition().x) + " y: " + to_string(player->getPosition().y) +"\n";
+    //cout << "x: " + to_string(player->getPosition().x) + " y: " + to_string(player->getPosition().y) +"\n";
 
   if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
       pthis = true;

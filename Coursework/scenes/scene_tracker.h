@@ -1,12 +1,19 @@
 #pragma once
 #include "engine.h"
 
-class SceneTracker : public Scene {
+class SceneTracker{
 public:
 	SceneTracker() = default;
-	~SceneTracker() override = default;
 
-	void Load() override;
+	void Load();
 
-	void Update(const double& dt) override;
+	void Update(const double& dt);
+
+	void SetWidthHeight(int width, int height);
+	float GetWidth();
+	float GetHeight();
+	void SetWindowView();
+protected:
+	float xWidth = 1920;
+	float yHeight = 1080;
 };
