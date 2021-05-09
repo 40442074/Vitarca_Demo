@@ -7,6 +7,7 @@
 #include <future>
 #include <iostream>
 #include <stdexcept>
+#include "../Coursework/scenes/scene_tracker.h"
 
 using namespace sf;
 using namespace std;
@@ -80,7 +81,11 @@ void Engine::Render(RenderWindow& window) {
 
 void Engine::Start(unsigned int width, unsigned int height,
                    const std::string& gameName, Scene* scn) {
+
+
+  //sf::View view(sf::FloatRect(0, 0, sceneTracker.GetWidth(), sceneTracker.GetHeight()));
   RenderWindow window(VideoMode(width, height), gameName);
+  //window.setView(view);
   _gameName = gameName;
   _window = &window;
   Renderer::initialise(window);
@@ -93,6 +98,10 @@ void Engine::Start(unsigned int width, unsigned int height,
         window.close();
       }
     }
+
+    //sf::View view(sf::FloatRect(0, 0, sceneTracker.GetWidth(), sceneTracker.GetHeight()));
+    //window.setView(view);
+
     if (Keyboard::isKeyPressed(Keyboard::Escape)) {
       window.close();
     }
@@ -109,6 +118,12 @@ void Engine::Start(unsigned int width, unsigned int height,
   window.close();
   Physics::shutdown();
   // Render::shutdown();
+}
+
+void Engine::SetWindow(sf::View view, float x, float y)
+{
+    _window->setView(view);
+    _window->setSize(Vector2u(x, y));
 }
 
 std::shared_ptr<Entity> Scene::makeEntity() {

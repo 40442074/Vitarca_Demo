@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 
+#include "../scenes/scene_tracker.h"
+
 void ButtonComponent::update(double dt) {
 	string tag = _text.getString();
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -126,6 +128,14 @@ void ButtonComponent::update(double dt) {
 					}*/
 				_buttonType = "NotPaused";
 
+			}
+			else if (tag == "1920 x 1080")
+			{
+				sceneTracker.SetWidthHeight(1920, 1080);
+			}
+			else if (tag == "1280 x 720")
+			{
+				sceneTracker.SetWidthHeight(1280, 720);
 			}
 		}
 	}

@@ -3,8 +3,8 @@
 
 using namespace std;
 
-extern int gameX = 1920;
-extern int gameY = 1080;
+//extern int gameX = 1920;
+//extern int gameY = 1080;
 
 MenuScene menu;
 SoundManager sounds;
@@ -22,8 +22,8 @@ Level1Scene level1;
 Level2Scene level2;
 Level3Scene level3;
 
-//SceneTracker sceneTracker;
+SceneTracker sceneTracker; //for resolution
 
 int main() {
-	Engine::Start(gameX, gameY, "Vitarca", &splash);
+	Engine::Start(sceneTracker.GetWidth(), sceneTracker.GetHeight(), "Vitarca", &splash);
 }
