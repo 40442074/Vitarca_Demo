@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "ecm.h"
+#include <ecm.h>
 
 class Button : Entity {
 private:

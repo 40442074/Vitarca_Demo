@@ -4,13 +4,13 @@
 #include "../game.h"
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
-#include "../scenes/scene_tracker.h"
+//#include "../scenes/scene_tracker.h"
 
 using namespace std;
 using namespace sf;
 
 std::shared_ptr<Entity> resButtons[1];
-std::string resText[5] = { "Resolution", "1920 x 1080", "1280 x 720", "640 x 480", "Back to Options" };
+std::string resText[5] = { "Resolution", "1920 x 1080", "1280 x 720", "1024 x 576", "Back to Options" };
 
 void ResMenuScene::Load() {
 	for (int i = 0; i < 5; i++)

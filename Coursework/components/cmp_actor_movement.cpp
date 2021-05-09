@@ -2,6 +2,8 @@
 #include <LevelSystem.h>
 #include <engine.h>
 #include <iostream>
+#include "../scenes/scene_tracker.h"
+#include "../game.h"
 using namespace sf;
 using namespace std;
 

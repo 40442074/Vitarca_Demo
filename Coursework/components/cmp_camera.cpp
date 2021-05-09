@@ -1,4 +1,7 @@
 #include "cmp_camera.h"
+//#include "../scenes/scene_tracker.h"
+#include "../game.h"
+#include "system_physics.h"
 
 using namespace sf;
 using namespace std;
@@ -63,7 +66,7 @@ CameraComponent::CameraComponent(Entity* p, b2Fixture *pb, std::string tag) : Co
 
 	//Create collision cone fixture
 	b2PolygonShape cone;
-	b2Vec2 points[4] = { Physics::sv2_to_bv2(Vector2f(22, 0), true), Physics::sv2_to_bv2(Vector2f(-22, 0), true), Physics::sv2_to_bv2(Vector2f(-100, -332), true),  Physics::sv2_to_bv2(Vector2f(100, -332), true) };
+	b2Vec2 points[4] = { Physics::sv2_to_bv2(Vector2f(22 * sceneTracker.GetMultiplier(), 0), true), Physics::sv2_to_bv2(Vector2f(-22 * sceneTracker.GetMultiplier(), 0), true), Physics::sv2_to_bv2(Vector2f(-100 * sceneTracker.GetMultiplier(), -332 * sceneTracker.GetMultiplier()), true),  Physics::sv2_to_bv2(Vector2f(100 * sceneTracker.GetMultiplier(), -332 * sceneTracker.GetMultiplier()), true) };
 	cone.Set(points, 4);
 	b2FixtureDef coneFixture;
 	coneFixture.friction = 0.0f;

@@ -83,6 +83,7 @@ void CanBotPhysicsComponent::setState(CanBotState s) {
 }
 
 void CanBotPhysicsComponent::update(double dt) {
+
     //Dampen movement
     if (!_movingx)
     {
@@ -136,7 +137,7 @@ CanBotPhysicsComponent::CanBotPhysicsComponent(Entity* p, const Vector2f& size)
 
     //Create leg space
     b2PolygonShape legBottom;
-    legBottom.SetAsBox(_size.x * 0.5f, sf_to_bf(20.0f, true) * 0.5f, b2Vec2(0, -(_size.y / 2.0f) - sf_to_bf(10.0f, true)), 0);
+    legBottom.SetAsBox(_size.x * 0.5f, sf_to_bf(20.0f , true) * 0.5f, b2Vec2(0, -((_size.y / 2.0f)) - sf_to_bf(10.0f, true)), 0);
     b2FixtureDef legFixture;
     legFixture.shape = &legBottom;
     legFixture.isSensor = false;

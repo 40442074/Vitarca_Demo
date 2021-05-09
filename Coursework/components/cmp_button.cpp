@@ -1,14 +1,16 @@
 #include "cmp_button.h"
 #include <system_renderer.h>
 #include <system_resources.h>
-#include <engine.cpp>
 #include "../game.h"
 #include <SFML/Audio/Sound.hpp>
 #include <sstream>
 #include <iostream>
 #include <string>
 
-#include "../scenes/scene_tracker.h"
+//#include "../scenes/scene_tracker.h"
+
+using namespace sf;
+using namespace std;
 
 void ButtonComponent::update(double dt) {
 	string tag = _text.getString();
@@ -139,9 +141,9 @@ void ButtonComponent::update(double dt) {
 				sceneTracker.SetWidthHeight(1280, 720); //0.67 of 1080p
 				Engine::ChangeScene(&resScene);
 			}
-			else if (tag == "640 x 480")
+			else if (tag == "1024 x 576")
 			{
-				sceneTracker.SetWidthHeight(640, 480); //0.45 of 1080p
+				sceneTracker.SetWidthHeight(1024, 576); //0.53 of 1080p
 				Engine::ChangeScene(&resScene);
 			}
 		}

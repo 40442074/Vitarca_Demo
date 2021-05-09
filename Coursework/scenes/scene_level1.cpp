@@ -38,8 +38,10 @@ static shared_ptr<Entity> pauseTexE;
 static shared_ptr<SpriteComponent> pauseTexS;
 
 void Level1Scene::Load() {
+    sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
+
     cout << " Scene 1 Load" << endl;
-    ls::loadLevelFile("res/level1.txt", 60.0f);
+    ls::loadLevelFile("res/level1.txt", 60.0f * sceneTracker.GetMultiplier());
     spriteLoader.ReadSpriteSheet();
     spriteLoader.Load();
 
@@ -55,7 +57,7 @@ void Level1Scene::Load() {
     // Create player
     {
         player = makeEntityChild<Player>();
-        player.get()->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
+        player.get()->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + (Vector2f(50.0f, 20.0f)));
         player.get()->load();
     }
 
@@ -94,8 +96,9 @@ void Level1Scene::Load() {
         coneTex.get()->loadFromFile("res/img/enemy/camera_vision.png");
 
         camSprite->setTexture(coneTex);
+        camSprite->getSprite().setScale(Vector2f(sceneTracker.GetMultiplier(), sceneTracker.GetMultiplier()));
         camSprite->getSprite().setTextureRect(IntRect(0, 0, 317, 324));
-        camSprite->getSprite().setOrigin(165.f, 0.f);
+        camSprite->getSprite().setOrigin(165.f * sceneTracker.GetMultiplier(), 0.f * sceneTracker.GetMultiplier());
         camSprite->getSprite().setColor(Color::Blue);
         cam = camera->addComponent<CameraComponent>(player.get()->getFixture(), "Vision");
       
@@ -107,16 +110,16 @@ void Level1Scene::Load() {
         cameraTex = make_shared<Texture>(Texture());
         cameraTex.get()->loadFromFile("res/img/enemy/camera_top.png");
         camTopSprite->setTexture(cameraTex);
-        camTopSprite->getSprite().setScale(Vector2f(1.9f, 1.9f));
+        camTopSprite->getSprite().setScale(Vector2f(sceneTracker.GetMultiplier(), sceneTracker.GetMultiplier()));
         camTopSprite->getSprite().setTextureRect(IntRect(0, 0, 39, 27));
-        camTopSprite->getSprite().setOrigin(17.5f, 0.5f);
+        camTopSprite->getSprite().setOrigin(17.5f * sceneTracker.GetMultiplier(), 0.5f * sceneTracker.GetMultiplier());
         camTopE->addComponent<CameraComponent>(player.get()->getFixture(), "Top");
     }
 
     //Create test crate
     {
         crate = makeEntityChild<Crate>();
-        crate->setPosition(Vector2f(1000.0f, 100.0f));
+        crate->setPosition(Vector2f(1000.0f * sceneTracker.GetMultiplier(), 100.0f * sceneTracker.GetMultiplier()));
         crate->load(player->getBody());
     }
 
@@ -124,7 +127,7 @@ void Level1Scene::Load() {
     for (int i = 0; i < 3; i++)
     {
         testButtons[i] = makeEntity();
-        testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f((Engine::getWindowSize().x / 2) - 250, (100 * i) + 250), "Pause", pauseText[i]);
+        testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Pause", pauseText[i]);
         testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
     }
   

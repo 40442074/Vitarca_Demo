@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ecm.h"
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <ecm.h>
 
 class SpriteComponent : public Component {
 protected:

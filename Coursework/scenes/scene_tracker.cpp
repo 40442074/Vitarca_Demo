@@ -5,6 +5,7 @@ using namespace std;
 using namespace sf;
 
 void SceneTracker::Load() {
+
 }
 
 void SceneTracker::Update(const double& dt) {
@@ -26,12 +27,7 @@ void SceneTracker::SetWidthHeight(int width, int height)
 	xWidth = width;
 	yHeight = height;
 
-	if (yHeight > 760)
-		multiplier = 1.0f;
-	else if (yHeight > 600 && yHeight < 800)
-		multiplier = 0.67f;
-	else if (yHeight < 600)
-		multiplier = 0.45f;
+	multiplier = (float)height / 1080.0f;
 
 	SetWindowView();
 }
@@ -45,4 +41,13 @@ void SceneTracker::SetWindowView() {
 
 float SceneTracker::GetMultiplier() {
 	return multiplier;
+}
+
+float SceneTracker::GetPhysics() {
+	return _physicsScale;
+}
+
+void SceneTracker::SetPhysics(float f)
+{
+	_physicsScale = f;
 }

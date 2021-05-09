@@ -4,7 +4,7 @@
 #include "../game.h"
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
-#include "../scenes/scene_tracker.h"
+//#include "../scenes/scene_tracker.h"
 
 using namespace std;
 using namespace sf;
@@ -32,7 +32,7 @@ void VolumeMenuScene::Load() {
 			}
 			else
 			{
-				soundVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48 * sceneTracker.GetMultiplier(), Color::Blue,
+				soundVol[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
 					Vector2f(Engine::getWindowSize().x / 2 - Engine::getWindowSize().x / 10 + i * Engine::getWindowSize().x / 9, Engine::getWindowSize().y / 2 - Engine::getWindowSize().y / 10), "Sound", soundText[i]);
 			}
 		}

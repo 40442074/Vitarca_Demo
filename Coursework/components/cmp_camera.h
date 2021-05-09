@@ -1,7 +1,7 @@
 #pragma once
-#include "ecm.h"
 #include "SFML/Graphics/Sprite.hpp"
-#include "system_physics.h"
+#include <ecm.h>
+#include "../Box2D/Box2D/Dynamics/b2Fixture.h"
 
 class CameraComponent : public Component{
 public:

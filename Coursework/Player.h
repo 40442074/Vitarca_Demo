@@ -1,7 +1,8 @@
 #pragma once
-#include "ecm.h"
+
 #include "SFML/Graphics/Texture.hpp"
 #include "Box2D/Dynamics/b2Fixture.h"
+#include <ecm.h>
 
 class Player : public Entity {
 private:
