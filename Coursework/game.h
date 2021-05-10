@@ -2,6 +2,9 @@
 #include "scenes/scene_level1.h"
 #include "scenes/scene_level2.h"
 #include "scenes/scene_level3.h"
+#include "scenes/scene_level4.h"
+#include "scenes/scene_level5.h"
+#include "scenes/scene_level6.h"
 #include "scenes/scene_menu.h"
 #include "scenes/scene_level_select.h"
 #include "scenes/scene_options.h"
@@ -11,11 +14,6 @@
 #include "GameManager.h"
 #include "scenes/scene_volume.h"
 #include "scenes/scene_res.h"
-//#include "scenes/pause.h"
-#include "scenes/scene_tracker.h"
-
-//extern int gameX = 720;
-//extern int gameY = 1080;
 
 extern BGSpriteLoader spriteLoader;
 extern SoundManager sounds;
@@ -26,9 +24,9 @@ extern LevelMenuScene levelSelect;
 extern OptionsMenuScene optionsScene;
 extern VolumeMenuScene volScene;
 extern ResMenuScene resScene;
-//extern PauseMenu pauseScene;
 extern Level1Scene level1;
 extern Level2Scene level2;
 extern Level3Scene level3;
-
-extern SceneTracker sceneTracker; //for resoultion
+extern Level4Scene level4;
+extern Level5Scene level5;
+extern Level6Scene level6;

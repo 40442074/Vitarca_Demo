@@ -7,8 +7,6 @@
 #include <iostream>
 #include <string>
 
-//#include "../scenes/scene_tracker.h"
-
 using namespace sf;
 using namespace std;
 
@@ -124,7 +122,8 @@ void ButtonComponent::update(double dt) {
 			}
 			else if (tag == "Resume")
 			{
-				_buttonType = "NotPaused";
+				_buttonType = "NotPaused";	
+				resumeClicked = true;
 			}
 			else if (tag == "1920 x 1080")
 			{
@@ -163,7 +162,6 @@ ButtonComponent::ButtonComponent(Entity* const p, const std::string f, const int
 	_rect = IntRect(_pos.x, _pos.y, xLength, _charSize);
 	_buttonType = tag;
 
-	//sounds.Load();
 }
 
 void ButtonComponent::SetText(const std::string& str) {
@@ -179,4 +177,14 @@ std::string ButtonComponent::GetButtonType()
 void ButtonComponent::SetButtonType(std::string s)
 {
 	_buttonType = s;
+}
+
+bool ButtonComponent::GetResumeClick()
+{
+	return resumeClicked;
+}
+
+void ButtonComponent::SetResumeClick(bool b)
+{
+	resumeClicked = b;
 }

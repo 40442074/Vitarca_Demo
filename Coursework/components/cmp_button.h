@@ -20,6 +20,8 @@ public:
 
 	void SetButtonType(std::string s);
 
+	bool GetResumeClick();
+	void SetResumeClick(bool b);
 
 protected:
 	std::shared_ptr<sf::Font> _font;
@@ -31,4 +33,5 @@ protected:
 	sf::Color _colour;
 	sf::Vector2f _pos;
 	std::string _buttonType;
+	bool resumeClicked = false;
 };

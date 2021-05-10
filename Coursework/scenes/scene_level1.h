@@ -11,4 +11,8 @@ public:
   void Update(const double& dt) override;
 
   void Render() override;
+
+protected:
+	bool hasUnloaded = false;
+	sf::Color camColour;
 };
