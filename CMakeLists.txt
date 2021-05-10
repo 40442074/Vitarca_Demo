@@ -47,11 +47,12 @@ add_library(lib_maths INTERFACE)
 target_sources(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths/maths.h")
 target_include_directories(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths" INTERFACE ${SFML_INCS})
 
-add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} 
-  -E copy_directory
-    "${PROJECT_SOURCE_DIR}/res"
-    res
-)
+#### Target for copying resources to build dir####
+
+  add_custom_target(copy_resources ALL 
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/res" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/res
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/res" res
+  )
 
 add_custom_target(copy_openal32 ALL COMMAND ${CMAKE_COMMAND}
   -E copy
@@ -70,3 +71,26 @@ source_group("scenes" FILES ${SCENES})
 target_include_directories(Coursework PRIVATE ${SFML_INCS})
 target_link_libraries(Coursework lib_engine)
 add_dependencies(Coursework copy_resources)
+
+#### Link Dependencies ####
+foreach (exe ${EXECUTABLES})
+  #set working directory to build dir
+  set_target_properties(${exe} PROPERTIES 
+    VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+  )
+
+  target_link_libraries(${exe}
+    lib_maths
+    optimized sfml-audio debug sfml-audio-d
+    optimized sfml-window debug sfml-window-d
+    optimized sfml-system debug sfml-system-d
+    optimized sfml-graphics debug sfml-graphics-d
+    optimized sfml-main
+  )
+  
+  if(MSVC) # Hide Console in release builds
+    set_target_properties(${exe} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
+  endif(MSVC)
+  
+  add_dependencies(${exe} sfml-graphics sfml-audio copy_resources)
+endforeach ()
