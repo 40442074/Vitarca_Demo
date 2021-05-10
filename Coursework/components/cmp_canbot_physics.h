@@ -28,4 +28,8 @@ public:
 	explicit CanBotPhysicsComponent(Entity* p, const sf::Vector2f& size);
 
 	CanBotPhysicsComponent() = delete;
+
+	CanBotState getState() {
+		return _state;
+	}
 };

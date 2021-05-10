@@ -43,14 +43,14 @@ void CanBotPhysicsComponent::horizontalMove(bool right, double dt) {
     {
         if (right)
         {
-            if (getAngVelocity() > -10)
+            if (getAngVelocity() > -8)
                 _body->ApplyAngularImpulse(-10.0f * dt, true);
             if (getVelocity().x < _maxVelocity.x)
                 impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
         }
         else
         {
-            if (getAngVelocity() < 10)
+            if (getAngVelocity() < 8)
                 _body->ApplyAngularImpulse(10.0f * dt, true);
             if (getVelocity().x > -_maxVelocity.x)
                 impulse({ (float)(dt * -_groundspeed * 0.3f), 0 });
