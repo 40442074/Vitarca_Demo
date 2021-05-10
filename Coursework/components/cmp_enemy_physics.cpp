@@ -11,7 +11,29 @@ void EnemyPhysicsComponent::update(double dt) {
     _movingx = false;
 
     setState(Walking);
-    horizontalMove(false, dt);
+
+    if (_movingLeft)
+    {
+        horizontalMove(false, dt);
+        auto currTile = ls::getTileIndex(pos);
+        auto left = ls::getTile(Vector2ul(currTile.x - 1, currTile.y));
+        auto leftanddown = ls::getTile(Vector2ul(currTile.x - 1, currTile.y - 1));
+
+        if (ls::getTile(Vector2ul(currTile.x - 1, currTile.y)) == ls::WALL || ls::getTile(Vector2ul(currTile.x - 1, currTile.y + 1)) == ls::EMPTY)
+        {
+            _movingLeft = false;
+        }
+    }
+    else
+    {
+        horizontalMove(true, dt);
+        auto currTile = ls::getTileIndex(pos);
+
+        if (ls::getTile(Vector2ul(currTile.x + 1, currTile.y)) == ls::WALL || ls::getTile(Vector2ul(currTile.x + 1, currTile.y + 1)) == ls::EMPTY)
+        {
+            _movingLeft = true;
+        }
+    }
 
     CanBotPhysicsComponent::update(dt);
 }

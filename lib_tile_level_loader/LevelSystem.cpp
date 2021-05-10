@@ -312,6 +312,14 @@ sf::Vector2f LevelSystem::getTilePosition(sf::Vector2ul p) {
   return (Vector2f(p.x, p.y) * _tileSize) + _offset;
 }
 
+sf::Vector2ul LevelSystem::getTileIndex(Vector2f v) {
+    auto a = v - _offset;
+    if (a.x < 0 || a.y < 0) {
+        throw string("Tile out of range ");
+    }
+    return Vector2ul((v - _offset) / (_tileSize));
+}
+
 std::vector<sf::Vector2ul> LevelSystem::findTiles(LevelSystem::Tile type) {
   auto v = vector<sf::Vector2ul>();
   for (size_t i = 0; i < _width * _height; ++i) {

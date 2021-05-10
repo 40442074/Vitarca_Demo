@@ -4,6 +4,7 @@
 
 class EnemyPhysicsComponent : public CanBotPhysicsComponent {
 protected:
+	bool _movingLeft = true;
 
 public:
 	void update(double dt) override;
