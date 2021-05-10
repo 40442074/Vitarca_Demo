@@ -181,6 +181,7 @@ void Level1Scene::Update(const double& dt) {
 
     /*if (ls::getTileAt(player->getPosition()) == ls::END) {
         Engine::ChangeScene((Scene*)&level2);
+        sceneTracker.SetLevelComplete(0, true);
     }*/
 
     if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
@@ -234,6 +235,11 @@ void Level1Scene::Update(const double& dt) {
     }
 
     pthis = plast;
+
+    if (Keyboard::isKeyPressed(Keyboard::D))
+    {
+        sceneTracker.WriteToFile();
+    }
 }
 
 void Level1Scene::Render() {
