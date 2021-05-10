@@ -1,4 +1,4 @@
-#include "scene_level1.h"
+#include "scene_level5.h"
 #include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
 #include "../components/cmp_camera.h"
@@ -39,11 +39,11 @@ static shared_ptr<Texture> pauseTex;
 static shared_ptr<Entity> pauseTexE;
 static shared_ptr<SpriteComponent> pauseTexS;
 
-void Level1Scene::Load() {
+void Level5Scene::Load() {
     sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
 
-    cout << " Scene 1 Load" << endl;
-    ls::loadLevelFile("res/level1.txt", 60.0f * sceneTracker.GetMultiplier());
+    cout << " Scene 5 Load" << endl;
+    ls::loadLevelFile("res/level5.txt", 60.0f * sceneTracker.GetMultiplier());
     spriteLoader.ReadSpriteSheet();
     spriteLoader.Load();
 
@@ -85,7 +85,7 @@ void Level1Scene::Load() {
 
     //Simulate long loading times
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    cout << " Scene 1 Load Done" << endl;
+    cout << " Scene 5 Load Done" << endl;
 
     ////create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
     {
@@ -154,8 +154,8 @@ void Level1Scene::Load() {
     setLoaded(true);
 }
 
-void Level1Scene::UnLoad() {
-    cout << "Scene 1 Unload" << endl;
+void Level5Scene::UnLoad() {
+    cout << "Scene 5 Unload" << endl;
 
     player.reset();
     enemy.reset();
@@ -177,10 +177,10 @@ void Level1Scene::UnLoad() {
     hasUnloaded = true;
 }
 
-void Level1Scene::Update(const double& dt) {
+void Level5Scene::Update(const double& dt) {
 
     if (ls::getTileAt(player->getPosition()) == ls::END) {
-        Engine::ChangeScene((Scene*)&level2);
+        Engine::ChangeScene((Scene*)&level6);
         sceneTracker.SetLevelComplete(0, true);
     }
 
@@ -238,7 +238,7 @@ void Level1Scene::Update(const double& dt) {
 
 }
 
-void Level1Scene::Render() {
+void Level5Scene::Render() {
     ls::render(Engine::GetWindow());
     spriteLoader.Render(Engine::GetWindow());
     Scene::Render();

@@ -1,4 +1,4 @@
-#include "scene_level1.h"
+#include "scene_level6.h"
 #include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
 #include "../components/cmp_camera.h"
@@ -39,11 +39,11 @@ static shared_ptr<Texture> pauseTex;
 static shared_ptr<Entity> pauseTexE;
 static shared_ptr<SpriteComponent> pauseTexS;
 
-void Level1Scene::Load() {
+void Level6Scene::Load() {
     sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
 
-    cout << " Scene 1 Load" << endl;
-    ls::loadLevelFile("res/level1.txt", 60.0f * sceneTracker.GetMultiplier());
+    cout << " Scene 6 Load" << endl;
+    ls::loadLevelFile("res/level6.txt", 60.0f * sceneTracker.GetMultiplier());
     spriteLoader.ReadSpriteSheet();
     spriteLoader.Load();
 
@@ -154,7 +154,7 @@ void Level1Scene::Load() {
     setLoaded(true);
 }
 
-void Level1Scene::UnLoad() {
+void Level6Scene::UnLoad() {
     cout << "Scene 1 Unload" << endl;
 
     player.reset();
@@ -177,12 +177,12 @@ void Level1Scene::UnLoad() {
     hasUnloaded = true;
 }
 
-void Level1Scene::Update(const double& dt) {
+void Level6Scene::Update(const double& dt) {
 
-    if (ls::getTileAt(player->getPosition()) == ls::END) {
+   /* if (ls::getTileAt(player->getPosition()) == ls::END) {
         Engine::ChangeScene((Scene*)&level2);
         sceneTracker.SetLevelComplete(0, true);
-    }
+    }*/
 
     if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
         pthis = true;
@@ -238,7 +238,7 @@ void Level1Scene::Update(const double& dt) {
 
 }
 
-void Level1Scene::Render() {
+void Level6Scene::Render() {
     ls::render(Engine::GetWindow());
     spriteLoader.Render(Engine::GetWindow());
     Scene::Render();
