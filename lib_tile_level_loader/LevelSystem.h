@@ -16,7 +16,7 @@ public:
 
   typedef unsigned char Tile;
 
-  enum TILE { WALL, CAMERA1, CAMERA2, CAMERA3, CAMERA4, ENEMY, END, START, EMPTY, PUZZLE };
+  enum TILE { WALL, CAMERA1, CAMERA2, CAMERA3, CAMERA4, ENEMY, END, START, EMPTY };
 
   static Tile getTile(sf::Vector2ul);
 

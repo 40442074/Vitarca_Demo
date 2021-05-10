@@ -111,9 +111,6 @@ void LevelSystem::loadLevelFile(const std::string& path, float tileSize) {
         case ' ':
             temp_tiles.push_back(EMPTY);
             break;
-        case 'p':
-            temp_tiles.push_back(PUZZLE);
-            break;
         case '\n':      // end of line
             if (w == 0) { // if we haven't written width yet
                 w = i;      // set width

@@ -4,15 +4,15 @@ w                              w
 w                              w
 w                              w
 w                              w
+w                              w
+w                              w
+w                              w
 w                              f
-      wwwwwwwwwwwwpwwwwwwwwwwwww
-     w            p            w
-s   w             p            w
-ww w              p            w
-w                 p            w
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+      wwwwwwwwwwwwwwwwwww  wwwww
+     w                    w    w
+s   w                    w     w
+ww w                    w      w
+w                              w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww

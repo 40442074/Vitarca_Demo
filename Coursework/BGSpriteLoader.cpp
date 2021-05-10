@@ -14,13 +14,13 @@ std::vector<Sprite> spriteTypes;
 
 void BGSpriteLoader::ReadSpriteSheet()
 { 
-    if (!BGspriteSheet.loadFromFile("res/img/TileSet-7-420x60.png")) {
+    if (!BGspriteSheet.loadFromFile("res/img/TileSet-360x60.png")) {
         cerr << "Failed to load spritesheet!" << std::endl;
     }
     
     spriteTypes.clear();
     totalSprites.clear();
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 6; i++)
     {
         spriteTypes.push_back(Sprite());
         spriteTypes[i].setTexture(BGspriteSheet);
@@ -44,19 +44,19 @@ void BGSpriteLoader::Load()
         }
         else if (tiles[i] == ls::CAMERA1)
         {
-            totalSprites.push_back(spriteTypes[3]);
+            totalSprites.push_back(spriteTypes[2]);
         }
         else if (tiles[i] == ls::CAMERA2)
         {
-            totalSprites.push_back(spriteTypes[4]);
+            totalSprites.push_back(spriteTypes[3]);
         }
         else if (tiles[i] == ls::CAMERA3)
         {
-            totalSprites.push_back(spriteTypes[5]);
+            totalSprites.push_back(spriteTypes[4]);
         }
         else if (tiles[i] == ls::CAMERA4)
         {
-            totalSprites.push_back(spriteTypes[6]);
+            totalSprites.push_back(spriteTypes[5]);
         }
         else if (tiles[i] == ls::ENEMY)
         {
@@ -73,10 +73,6 @@ void BGSpriteLoader::Load()
         else if (tiles[i] == ls::EMPTY)
         {
             totalSprites.push_back(spriteTypes[0]);
-        }
-        else if (tiles[i] == ls::PUZZLE)
-        {
-            totalSprites.push_back(spriteTypes[2]);
         }
         totalSprites[i].setPosition(ls::getTilePosition(Vector2ul(i % width, (i - (i % width)) / width)));
     }
