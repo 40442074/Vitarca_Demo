@@ -22,6 +22,7 @@ void SplashScene::Update(const double& dt) {
 	cout << " Splash Load Done" << endl;
 	Engine::setVsync(true);
 	sceneTracker.InitialiseLevelComplete();
+	sceneTracker.WriteToFile();
 	Engine::ChangeScene(&menu);
 	Scene::Update(dt);
 }

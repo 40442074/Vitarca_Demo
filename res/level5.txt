@@ -6,11 +6,11 @@ w                              w
 w                              w
 w                              w
 w                              w
-w                              w
-s                              f
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-w                              w
-w                              w
+w                w             w
+s                ww            f
+wwwwww  wwwwwwwwwwwwwww  wwwwwww
+w     w                 w      w
+w      w               w       w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww

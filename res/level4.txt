@@ -8,9 +8,9 @@ w                              w
 w                              w
 w                              w
 s                              f
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-w                              w
-w                              w
+wwwwww  wwwwwwwwwwwwwww  wwwwwww
+w     w                 w      w
+w      w               w       w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww

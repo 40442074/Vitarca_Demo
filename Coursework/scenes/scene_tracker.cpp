@@ -79,13 +79,19 @@ void SceneTracker::SetPhysics(float f)
 	_physicsScale = f;
 }
 
-void SceneTracker::WriteToFile() {
+std::string SceneTracker::GetPath()
+{
 	char* path;
 	size_t len;
 	_dupenv_s(&path, &len, "APPDATA");
 	AppDataPath = path;
 	AppDataPath += "\\Vitarca";
-	createDir(this->AppDataPath.c_str());
+	return AppDataPath;
+}
+
+void SceneTracker::WriteToFile() {
+	auto path = GetPath();
+	createDir(path.c_str());
 
 	std::string newPath = AppDataPath.c_str();
 	ofstream MyFile(newPath + "\\Testfile.txt");
@@ -98,4 +104,15 @@ void SceneTracker::WriteToFile() {
 void SceneTracker::createDir(const char* path)
 {
 	CreateDirectoryA(path, NULL);
+}
+
+void SceneTracker::ReadFromFile()
+{
+	string textRead;
+	auto path = GetPath();
+	ifstream ReadFile(path + "\\Testfile.txt");
+
+	while (getline(ReadFile, textRead)) {
+		cout << textRead << "\n";
+	}
 }

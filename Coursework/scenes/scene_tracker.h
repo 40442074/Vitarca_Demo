@@ -21,7 +21,9 @@ public:
 	float GetPhysics();
 	void SetPhysics(float f);
 	void WriteToFile();
+	std::string GetPath();
 	void createDir(const char* path);
+	void ReadFromFile();
 protected:
 	float xWidth = 1920;
 	float yHeight = 1080;
