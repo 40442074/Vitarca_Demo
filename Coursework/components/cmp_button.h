@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics/Text.hpp>
 #include <ecm.h>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Event.hpp>
 
 struct MyKeys
 {
@@ -47,5 +50,5 @@ protected:
 	std::map<std::string, MyKeys> Keys;
 	MyKeys key;
 
-	Event eventT;
+	sf::Event eventT;
 };
