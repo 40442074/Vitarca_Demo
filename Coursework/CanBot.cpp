@@ -26,9 +26,9 @@ void CanBot::load() {
         _legSprites[i]->getSprite().setScale(1.f/5.f, 1.f/5.f);
     }
 
-    _feet[0]->setPosition(Vector2f(getPosition().x - 13.5f, getPosition().y + 34.f));
+    _feet[0]->setPosition(Vector2f(getPosition().x, getPosition().y + 34.f));
     _ftUp[0] = true;
-    _feet[1]->setPosition(Vector2f(getPosition().x + 13.5f - 30.f, getPosition().y + 44.f));
+    _feet[1]->setPosition(Vector2f(getPosition().x, getPosition().y + 44.f));
     _ftUp[1] = false;
 }
 
@@ -105,6 +105,21 @@ void CanBot::update(double dt, b2Body * b) {
         _feet[0]->setPosition(Vector2f(_feet[0]->getPosition().x + b->GetLinearVelocity().x, getPosition().y + 34.f));
     if (_ftUp[1])
         _feet[1]->setPosition(Vector2f(_feet[1]->getPosition().x + b->GetLinearVelocity().x, getPosition().y + 34.f));
+
+    if (_physCmp->getState() == Rolling || !_physCmp->getGrounded())
+    {
+        _feet[0]->setVisible(false);
+        _feet[1]->setVisible(false);
+    }
+    else if (!_feet[0]->isVisible() && !_feet[1]->isVisible())
+    {
+        _feet[0]->setPosition(Vector2f(getPosition().x, getPosition().y + 34.f));
+        _ftUp[0] = true;
+        _feet[1]->setPosition(Vector2f(getPosition().x, getPosition().y + 44.f));
+        _ftUp[1] = false;
+        _feet[0]->setVisible(true);
+        _feet[1]->setVisible(true);
+    }
 
     Entity::update(dt);
 }

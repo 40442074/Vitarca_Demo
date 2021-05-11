@@ -37,4 +37,8 @@ public:
 	bool getFacingR() {
 		return _facingR;
 	}
+
+	bool getGrounded() {
+		return _grounded;
+	}
 };
