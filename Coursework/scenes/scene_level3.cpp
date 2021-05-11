@@ -9,6 +9,7 @@
 #include <iostream>
 #include <thread>
 #include "../BGSpriteLoader.h"
+#include "pause.h"
 
 using namespace std;
 using namespace sf;
@@ -16,6 +17,9 @@ using namespace sf;
 static shared_ptr<Player> player;
 static shared_ptr<Crate> crate;
 static shared_ptr<Texture> playertex, cratetex;
+
+//Pause menu
+static shared_ptr<PauseMenu> pauseMenu;
 
 void Level3Scene::Load() {
   sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
@@ -36,6 +40,8 @@ void Level3Scene::Load() {
   }
 
 
+  pauseMenu = makeEntityChild<PauseMenu>();
+  pauseMenu->Load();
   // Add physics colliders to level tiles.
   {
       auto walls = ls::findTiles(ls::WALL);
@@ -71,14 +77,29 @@ void Level3Scene::UnLoad() {
 }
 
 void Level3Scene::Update(const double& dt) {
-  Scene::Update(dt);
+    pauseMenu->Update(dt);
+
   const auto pp = player->getPosition();
-  if (ls::getTileAt(pp) == ls::END) {
-      sceneTracker.SetLevelComplete(2, true);
-      Engine::ChangeScene((Scene*)&level4);
-  } //else if (!player->isAlive()) {
-  //  Engine::ChangeScene((Scene*)&level3);
-  //}
+
+  if (!pauseMenu->GetPaused())  //if the game isnt paused
+  {
+      pauseMenu->setVisible(false);    //set the pause menu invisible     
+      pauseMenu->SetPaused("NotPaused"); //lock buttons from being activated
+      //do update
+      if (ls::getTileAt(pp) == ls::END) {
+          sceneTracker.SetLevelComplete(2, true);
+          Engine::ChangeScene((Scene*)&level4);
+      } //else if (!player->isAlive()) {
+      //  Engine::ChangeScene((Scene*)&level3);
+      //}
+      Scene::Update(dt);
+  }
+  else//if the game is paused
+  {
+      pauseMenu->setVisible(true); //set pause menu visible
+      pauseMenu->SetPaused("Paused"); //allow buttons to be clicked
+  }
+
 }
 
 void Level3Scene::Render() {

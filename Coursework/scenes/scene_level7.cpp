@@ -10,6 +10,7 @@
 #include <iostream>
 #include <thread>
 #include "../BGSpriteLoader.h"
+#include "pause.h"
 
 #include "../components/cmp_text.h"
 #include "../components/cmp_button.h"
@@ -25,6 +26,9 @@ static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
 
 static shared_ptr<CameraComponent> cam;
 static shared_ptr<SpriteComponent> camSprite, camTopSprite;
+
+//Pause menu
+static shared_ptr<PauseMenu> pauseMenu;
 
 void Level7Scene::Load() {
     sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
@@ -45,6 +49,9 @@ void Level7Scene::Load() {
         player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
         player->load();
     }
+
+    pauseMenu = makeEntityChild<PauseMenu>();
+    pauseMenu->Load();
 
     //Create test enemy
     {
@@ -128,17 +135,29 @@ void Level7Scene::UnLoad() {
 }
 
 void Level7Scene::Update(const double& dt) {
+    pauseMenu->Update(dt);
 
-    if (ls::getTileAt(player->getPosition()) == ls::END) {
-        sceneTracker.SetLevelComplete(6, true);
-        //Engine::ChangeScene((Scene*)&level8);
-        
-    }
-
-    if (!hasUnloaded)
+    if (!pauseMenu->GetPaused())  //if the game isnt paused
     {
-        camColour = cam->GetColour();
-        camSprite->getSprite().setColor(camColour);
+        pauseMenu->setVisible(false);    //set the pause menu invisible     
+        pauseMenu->SetPaused("NotPaused"); //lock buttons from being activated
+        //do update
+        if (ls::getTileAt(player->getPosition()) == ls::END) {
+            sceneTracker.SetLevelComplete(6, true);
+            Engine::ChangeScene((Scene*)&menu);
+
+        }
+        Scene::Update(dt);
+        if (!hasUnloaded)
+        {
+            camColour = cam->GetColour();
+            camSprite->getSprite().setColor(camColour);
+        }
+    }
+    else//if the game is paused
+    {
+        pauseMenu->setVisible(true); //set pause menu visible
+        pauseMenu->SetPaused("Paused"); //allow buttons to be clicked
     }
 }
 

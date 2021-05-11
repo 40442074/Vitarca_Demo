@@ -3,9 +3,13 @@
 #include <LevelSystem.h>
 #include <SFML/Window/Keyboard.hpp>
 #include "../game.h"
+#include "../Keys.h"
+
 
 using namespace std;
 using namespace sf;
+
+sf::Event eventT;
 
 void PlayerPhysicsComponent::update(double dt) {
     const auto pos = _parent->getPosition();
@@ -16,9 +20,8 @@ void PlayerPhysicsComponent::update(double dt) {
         teleport(ls::getTilePosition(ls::findTiles(ls::START)[0]));
     }
 
-    if (_state == Walking && (Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S)))
+    if (_state == Walking && (Keyboard::isKeyPressed(Keyboard::Key::S)))
     {
-        sounds.PlayPwalkSound();
         setState(Rolling);
     }
     else if (!(Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S)))
@@ -26,7 +29,6 @@ void PlayerPhysicsComponent::update(double dt) {
         sounds.PlayPwalkSound();
         setState(Walking);
     }
-        
 
     if (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D))
         horizontalMove(true, dt);
