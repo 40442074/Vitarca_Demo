@@ -19,6 +19,10 @@ public:
 	void SoundManager::PlayPwalkSound();
 	void SoundManager::PlayEWalkSound();
 	void SoundManager::PlayCDragSound();
+
+	void SoundManager::PausePwalkSound();
+	void SoundManager::PauseEWalkSound();
+	void SoundManager::PauseCDragSound();
 	
 
 	//void Update(const double& dt);
@@ -26,4 +30,6 @@ protected:
 	sf::SoundBuffer _buffers[4];
 	sf::Sound _sounds[4];
 	sf::Music _music;
+	sf::Time soundTime, crateDuration;
+	float timeSeconds, crateTiming;
 };

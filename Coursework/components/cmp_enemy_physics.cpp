@@ -2,6 +2,7 @@
 #include "system_physics.h"
 #include <LevelSystem.h>
 #include <SFML/Window/Keyboard.hpp>
+#include "../game.h"
 
 using namespace std;
 using namespace sf;
@@ -22,6 +23,7 @@ void EnemyPhysicsComponent::update(double dt) {
         if (ls::getTile(Vector2ul(currTile.x - 1, currTile.y)) == ls::WALL || ls::getTile(Vector2ul(currTile.x - 1, currTile.y + 1)) == ls::EMPTY)
         {
             _movingLeft = false;
+            sounds.PlayEWalkSound();
         }
     }
     else
@@ -32,6 +34,7 @@ void EnemyPhysicsComponent::update(double dt) {
         if (ls::getTile(Vector2ul(currTile.x + 1, currTile.y)) == ls::WALL || ls::getTile(Vector2ul(currTile.x + 1, currTile.y + 1)) == ls::EMPTY)
         {
             _movingLeft = true;
+            sounds.PlayEWalkSound();
         }
     }
 

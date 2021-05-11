@@ -2,6 +2,7 @@
 #include "system_physics.h"
 #include <LevelSystem.h>
 #include <SFML/Window/Keyboard.hpp>
+#include "../game.h"
 
 using namespace std;
 using namespace sf;
@@ -16,9 +17,16 @@ void PlayerPhysicsComponent::update(double dt) {
     }
 
     if (_state == Walking && (Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S)))
+    {
+        sounds.PlayPwalkSound();
         setState(Rolling);
+    }
     else if (!(Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S)))
+    {
+        sounds.PlayPwalkSound();
         setState(Walking);
+    }
+        
 
     if (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D))
         horizontalMove(true, dt);

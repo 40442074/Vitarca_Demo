@@ -25,6 +25,7 @@ void CratePhysicsComponent::update(double dt)
 	{
 		_player->setGrabbingPos(Physics::invert_height(Physics::bv2_to_sv2(_body->GetPosition())));
 
+		sounds.PlayCDragSound();
 		if (!Mouse::isButtonPressed(Mouse::Button::Left) || length(Physics::bv2_to_sv2(_body->GetPosition() - _playerBody->GetPosition())) > 500.0 * sceneTracker.GetMultiplier())
 		{
 			_beingHeld = false;
@@ -44,6 +45,11 @@ void CratePhysicsComponent::update(double dt)
 
 			_body->ApplyLinearImpulseToCenter(Physics::sv2_to_bv2(normtopoint * 5000.0f * (float)dt), true);
 		}
+	}
+	else
+	{
+		sounds.PauseCDragSound();
+		cout << "PAUSED";
 	}
 
 	PhysicsComponent::update(dt);

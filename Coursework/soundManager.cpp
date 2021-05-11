@@ -18,6 +18,10 @@ void SoundManager::Load() {		//creates sound buffers to load sound effects for u
 	}
 	
 	_music.openFromFile("res/sounds/soundtrack.ogg"); //loads music to be played
+	soundTime = _buffers[1].getDuration();
+	crateDuration = _buffers[3].getDuration();
+	_sounds[1].setLoop(true);
+	_sounds[3].setLoop(true);
 }
 
 void SoundManager::PlayButtonSound()
@@ -26,24 +30,41 @@ void SoundManager::PlayButtonSound()
 }
 void SoundManager::PlayPwalkSound()
 {
-	if (_sounds[1].Playing == false)
+	float dt = 1 / 60;	
+	timeSeconds -= dt;
+	if (timeSeconds <= 0.0f)
 	{
-		_sounds[1].play(); //causes the sound effect to be played
+		_sounds[1].play();
+		timeSeconds = soundTime.asSeconds();
 	}
 }
 void SoundManager::PlayEWalkSound()
 {
-	if (_sounds[2].Playing == false)
-	{
-		_sounds[2].play(); //causes the sound effect to be played
-	}
+	_sounds[2].setLoop(true);
+	_sounds[2].play();
 }
 void SoundManager::PlayCDragSound()
 {
-	if (_sounds[3].Playing == false)
+	float dt = 1 / 60;
+	crateTiming -= dt;
+	if (crateTiming <= 0.0f)
 	{
-		_sounds[3].play(); //causes the sound effect to be played
+		_sounds[3].play();
+		crateTiming = crateDuration.asSeconds();
 	}
+}
+
+void SoundManager::PausePwalkSound()
+{
+	_sounds[1].pause();
+}
+void SoundManager::PauseEWalkSound()
+{
+	_sounds[2].pause();
+}
+void SoundManager::PauseCDragSound()
+{
+	_sounds[3].pause();
 }
 
 void SoundManager::PlaySoundtrack() {
