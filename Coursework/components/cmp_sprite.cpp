@@ -3,6 +3,7 @@
 #include "system_renderer.h"
 
 using namespace std;
+using namespace sf;
 
 //Sprite --------------------------------------------------
 

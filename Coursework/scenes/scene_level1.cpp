@@ -42,7 +42,7 @@ void Level1Scene::Load() {
     // Create player
     {
         player = makeEntityChild<Player>();
-        player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
+        player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(120.0f, 20.0f));
         player->load();
     }
 

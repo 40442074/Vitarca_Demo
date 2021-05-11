@@ -8,6 +8,7 @@ class SpriteComponent : public Component {
 protected:
   std::shared_ptr<sf::Sprite> _sprite;
   std::shared_ptr<sf::Texture> _texture;
+
 public:
   SpriteComponent() = delete;
 

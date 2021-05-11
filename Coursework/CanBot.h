@@ -10,12 +10,18 @@ class CanBot : public Entity {
 protected:
 	std::shared_ptr<sf::Texture> _texture;
 	std::shared_ptr<SpriteComponent> _sprite;
+
 	std::shared_ptr<CanBotPhysicsComponent> _physCmp;
 
-	const int _ssHeight = 3;
+	std::shared_ptr<Entity> _feet[2];
+	std::shared_ptr<SpriteComponent> _legSprites[2];
+	std::shared_ptr<sf::Texture> _legTexture;
+	bool _ftUp[2];
+
 	const int _ssWidth = 5;
 	float _sRotation, _sRotVel, _sRotGoal;
-	const float _sInterval = 0;
+
+	sf::Vector2f _legPositions[2];
 
 public:
 	CanBot(Scene* s);
