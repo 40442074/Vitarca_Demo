@@ -124,7 +124,7 @@ void CanBotPhysicsComponent::update(double dt) {
 }
 
 CanBotPhysicsComponent::CanBotPhysicsComponent(Entity* p, const Vector2f& size)
-    : PhysicsComponent(p, true, size, 0.5f, 0.5f) {
+    : PhysicsComponent(p, true, size, 0.5f, 0.3f) {
 
     _size = sv2_to_bv2(size, true);
     _maxVelocity = Vector2f(200.f, 400.f);
