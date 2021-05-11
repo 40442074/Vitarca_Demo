@@ -15,7 +15,8 @@ protected:
 	float _groundspeed;
 	b2Fixture* _legFixture;
 	CanBotState _state;
-	bool _movingx;
+	bool _movingX;
+	bool _facingR;
 
 	bool isGrounded() const;
 	void horizontalMove(bool right, double dt);
@@ -31,5 +32,9 @@ public:
 
 	CanBotState getState() {
 		return _state;
+	}
+
+	bool getFacingR() {
+		return _facingR;
 	}
 };

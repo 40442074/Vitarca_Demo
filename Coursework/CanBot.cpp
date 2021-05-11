@@ -24,9 +24,13 @@ void CanBot::update(double dt, b2Body * b) {
     }
     else
     {
-        _sRotVel = 0.0f;
-    }
+        if (_physCmp->getFacingR())
+            _sRotGoal = 0.0f;
+        else
+            _sRotGoal = 180.0f;
 
+        _sRotVel = ((_sRotGoal - _sRotation) * 3.0f);     
+    }
     _sRotation += _sRotVel * dt;
 
     //Keep rotation within 360 degrees
