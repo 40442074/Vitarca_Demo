@@ -21,6 +21,21 @@ void LevelMenuScene::Load() {
 		levelButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, 
 			Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "LevelSelect", levelText[i]);
 		levelButtons[i]->setPosition(Vector2f(200, 200 * i));
+
+		if (i == 7)
+		{
+			levelButtons[i] = makeEntity();
+			levelButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
+				Vector2f(Engine::getWindowSize().x / 2 + 100, Engine::getWindowSize().y / 3), "LevelSelect", levelText[i]);
+			levelButtons[i]->setPosition(Vector2f(200, 200 * i));
+		}
+		else
+		{
+			levelButtons[i] = makeEntity();
+			levelButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
+				Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "LevelSelect", levelText[i]);
+			levelButtons[i]->setPosition(Vector2f(200, 200 * i));
+		}
 	}
 	setLoaded(true);
 }
