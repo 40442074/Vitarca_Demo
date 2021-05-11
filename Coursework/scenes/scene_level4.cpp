@@ -1,6 +1,6 @@
 #include "scene_level4.h"
 #include "../game.h"
-#include "../Player.h"
+#include "../CanBot.h"
 #include "../components/cmp_camera.h"
 #include "../components/cmp_bullet.h"
 #include <LevelSystem.h>
