@@ -15,7 +15,8 @@ protected:
 	float _groundspeed;
 	b2Fixture* _legFixture;
 	CanBotState _state;
-	bool _movingx;
+	bool _movingX;
+	bool _facingR;
 
 	bool isGrounded() const;
 	void horizontalMove(bool right, double dt);
@@ -28,4 +29,12 @@ public:
 	explicit CanBotPhysicsComponent(Entity* p, const sf::Vector2f& size);
 
 	CanBotPhysicsComponent() = delete;
+
+	CanBotState getState() {
+		return _state;
+	}
+
+	bool getFacingR() {
+		return _facingR;
+	}
 };

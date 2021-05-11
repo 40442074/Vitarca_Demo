@@ -8,7 +8,7 @@ using namespace sf;
 
 void PlayerPhysicsComponent::update(double dt) {
     const auto pos = _parent->getPosition();
-    _movingx = false;
+    _movingX = false;
 
     //Teleport to start if we fall off map.
     if (pos.y > ls::getHeight() * ls::getTileSize()) {

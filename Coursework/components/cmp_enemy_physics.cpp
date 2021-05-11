@@ -8,7 +8,7 @@ using namespace sf;
 
 void EnemyPhysicsComponent::update(double dt) {
     const auto pos = _parent->getPosition();
-    _movingx = false;
+    _movingX = false;
 
     setState(Walking);
 

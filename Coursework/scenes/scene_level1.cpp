@@ -3,8 +3,7 @@
 #include "../components/cmp_camera.h"
 #include "../components/cmp_crate_physics.h"
 #include "../game.h"
-#include "../Player.h"
-#include "../Enemy.h"
+#include "../CanBot.h"
 #include "../Crate.h"
 #include <LevelSystem.h>
 #include <iostream>

@@ -30,7 +30,8 @@ bool CanBotPhysicsComponent::isGrounded() const {
 }
 
 void CanBotPhysicsComponent::horizontalMove(bool right, double dt) {
-    _movingx = true;
+    _movingX = true;
+    _facingR = right;
 
     if (_state == Walking)
     {
@@ -43,14 +44,14 @@ void CanBotPhysicsComponent::horizontalMove(bool right, double dt) {
     {
         if (right)
         {
-            if (getAngVelocity() > -10)
+            if (getAngVelocity() > -5)
                 _body->ApplyAngularImpulse(-10.0f * dt, true);
             if (getVelocity().x < _maxVelocity.x)
                 impulse({ (float)(dt * _groundspeed * 0.3f), 0 });
         }
         else
         {
-            if (getAngVelocity() < 10)
+            if (getAngVelocity() < 5)
                 _body->ApplyAngularImpulse(10.0f * dt, true);
             if (getVelocity().x > -_maxVelocity.x)
                 impulse({ (float)(dt * -_groundspeed * 0.3f), 0 });
@@ -85,7 +86,7 @@ void CanBotPhysicsComponent::setState(CanBotState s) {
 void CanBotPhysicsComponent::update(double dt) {
 
     //Dampen movement
-    if (!_movingx)
+    if (!_movingX)
     {
         if (_state == Walking)
             dampenLin({ 0.99f, 1.0f });
@@ -132,7 +133,8 @@ CanBotPhysicsComponent::CanBotPhysicsComponent(Entity* p, const Vector2f& size)
     _body->SetSleepingAllowed(false);
     //Bullet items have higher-res collision detection
     _body->SetBullet(true);
-    _movingx = false;
+    _movingX = false;
+    _facingR = false;
 
     //Create leg space
     b2PolygonShape legBottom;
