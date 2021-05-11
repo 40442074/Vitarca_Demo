@@ -108,7 +108,7 @@ void Level6Scene::Load() {
     {
         crate = makeEntityChild<Crate>();
         crate->setPosition(Vector2f(1000.0f * sceneTracker.GetMultiplier(), 100.0f * sceneTracker.GetMultiplier()));
-        crate->load(player->getBody());
+        crate->load(player.get());
     }
     setLoaded(true);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics/Texture.hpp"
 #include "Box2D/Dynamics/b2Body.h"
+#include "CanBot.h"
 #include <ecm.h>
 
 class Crate : public Entity {
@@ -10,5 +11,5 @@ private:
 public:
 	Crate(Scene* s);
 
-	void load(b2Body* pb);
+	void load(Player *p);
 };

@@ -8,7 +8,7 @@
 using namespace std;
 using namespace sf;
 
-void Crate::load(b2Body *pb) {
+void Crate::load(Player *p) {
     addTag("crate");
 
     auto s = addComponent<SpriteComponent>();
@@ -18,7 +18,7 @@ void Crate::load(b2Body *pb) {
     s->getSprite().setTextureRect(IntRect(0, 0, 60, 60));
     s->getSprite().setOrigin(30.f * sceneTracker.GetMultiplier(), 30.f * sceneTracker.GetMultiplier());
 
-    addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f), pb);
+    addComponent<CratePhysicsComponent>(Vector2f(60.0f, 60.0f), p->getBody(), p);
 }
 
 Crate::Crate(Scene* s) : Entity(s) {

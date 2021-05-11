@@ -18,12 +18,18 @@ void CratePhysicsComponent::update(double dt)
 		&& length(Physics::bv2_to_sv2(_playerBody->GetPosition() - mousepos)) < 200.0f * sceneTracker.GetMultiplier()) //Mouse is less than 200 pixels from player
 	{
 		_beingHeld = true;
+		_player->setGrabbing(true);
 	}
 
 	if (_beingHeld)
 	{
+		_player->setGrabbingPos(Physics::invert_height(Physics::bv2_to_sv2(_body->GetPosition())));
+
 		if (!Mouse::isButtonPressed(Mouse::Button::Left) || length(Physics::bv2_to_sv2(_body->GetPosition() - _playerBody->GetPosition())) > 500.0 * sceneTracker.GetMultiplier())
+		{
 			_beingHeld = false;
+			_player->setGrabbing(false);
+		}
 
 		auto normtomouse = normalize(Physics::bv2_to_sv2(mousepos - _body->GetPosition())); //Direction (normal) from box to mouse
 		auto lengthtobody = (float)length(Physics::bv2_to_sv2(mousepos - _playerBody->GetPosition())); //Length from box to mouse
@@ -43,12 +49,13 @@ void CratePhysicsComponent::update(double dt)
 	PhysicsComponent::update(dt);
 }
 
-CratePhysicsComponent::CratePhysicsComponent(Entity* p, const sf::Vector2f& size, b2Body *pb) : PhysicsComponent(p, true, size, 1.0f)
+CratePhysicsComponent::CratePhysicsComponent(Entity* p, const sf::Vector2f& size, b2Body *pb, Player *pl) : PhysicsComponent(p, true, size, 1.0f)
 {
 	_size = Physics::sv2_to_bv2(size, true);
 
 	_body->SetTransform(_body->GetPosition(), 1);
 	_playerBody = pb;
+	_player = pl;
 
 	_beingHeld = false;
 }

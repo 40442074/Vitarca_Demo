@@ -13,14 +13,21 @@ protected:
 
 	std::shared_ptr<CanBotPhysicsComponent> _physCmp;
 
+	//Limbs
 	sf::Vector2f _feet[2];
-	std::shared_ptr<Entity> _legs[2];
-	std::shared_ptr<SpriteComponent> _legSprites[2];
-	std::shared_ptr<sf::Texture> _legTexture;
 	bool _ftUp[2];
+	std::shared_ptr<Entity> _legs[2];
+	std::shared_ptr<Entity> _arms[2];
+	std::shared_ptr<SpriteComponent> _legSprites[2];
+	std::shared_ptr<SpriteComponent> _armSprites[2];
+	std::shared_ptr<sf::Texture> _limbTexture;
 
+	//Sprite rotations
 	const int _ssWidth = 5;
 	float _sRotation, _sRotVel, _sRotGoal;
+
+	bool _grabbing = false;
+	sf::Vector2f _grabbingPos;
 
 	sf::Vector2f _legPositions[2];
 
@@ -30,6 +37,13 @@ public:
 	void update(double dt, b2Body* b);
 
 	void load();
+
+	void setGrabbing(bool g) {
+		_grabbing = g;
+	}
+	void setGrabbingPos(sf::Vector2f p) {
+		_grabbingPos = p;
+	}
 };
 
 class Player : public CanBot {
