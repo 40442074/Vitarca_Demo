@@ -70,12 +70,14 @@ void CanBot::update(double dt, b2Body * b) {
     {
         if (_feet[0]->getPosition().x - (getPosition().x/* - 13.5f*/) < -30.f && !_ftUp[0])
         {
+            _feet[0]->setPosition(Vector2f(_feet[0]->getPosition().x, getPosition().y + 34.f));
             _ftUp[0] = true;
             _feet[1]->setPosition(Vector2f(getPosition().x/* + 13.5f*/ + 30.f, getPosition().y + 44.f));
             _ftUp[1] = false;
         }
         if (_feet[1]->getPosition().x - (getPosition().x/* + 13.5f*/) < -30.f && !_ftUp[1])
         {
+            _feet[1]->setPosition(Vector2f(_feet[1]->getPosition().x, getPosition().y + 34.f));
             _ftUp[1] = true;
             _feet[0]->setPosition(Vector2f(getPosition().x/* - 13.5f*/ + 30.f, getPosition().y + 44.f));
             _ftUp[0] = false;
@@ -85,22 +87,24 @@ void CanBot::update(double dt, b2Body * b) {
     {
         if (_feet[0]->getPosition().x - (getPosition().x/* - 13.5f*/) > 30.f && !_ftUp[0])
         {
+            _feet[0]->setPosition(Vector2f(_feet[0]->getPosition().x, getPosition().y + 34.f));
             _ftUp[0] = true;
             _feet[1]->setPosition(Vector2f(getPosition().x/* + 13.5f*/ - 30.f, getPosition().y + 44.f));
             _ftUp[1] = false;
         }
         if (_feet[1]->getPosition().x - (getPosition().x/* + 13.5f*/) > 30.f && !_ftUp[1])
         {
+            _feet[1]->setPosition(Vector2f(_feet[1]->getPosition().x, getPosition().y + 34.f));
             _ftUp[1] = true;
-            _feet[0]->setPosition(Vector2f(getPosition().x/* - 13.5f*/ - 30.f, getPosition().y + 44.f));
+            _feet[0]->setPosition(Vector2f(getPosition().x/*- 13.5f*/ - 30.f, getPosition().y + 44.f));
             _ftUp[0] = false;
         }
     }
 
     if (_ftUp[0])
-        _feet[0]->setPosition(Vector2f(getPosition().x/* - 13.5f*/, getPosition().y + 34.f));
+        _feet[0]->setPosition(Vector2f(_feet[0]->getPosition().x + b->GetLinearVelocity().x, getPosition().y + 34.f));
     if (_ftUp[1])
-        _feet[1]->setPosition(Vector2f(getPosition().x/* + 13.5f*/, getPosition().y + 34.f));
+        _feet[1]->setPosition(Vector2f(_feet[1]->getPosition().x + b->GetLinearVelocity().x, getPosition().y + 34.f));
 
     Entity::update(dt);
 }
