@@ -18,12 +18,13 @@ static shared_ptr<Crate> crate;
 static shared_ptr<Texture> playertex, cratetex;
 
 void Level3Scene::Load() {
+  sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
   cout << "Scene 3 Load" << endl;
   ls::loadLevelFile("res/level3.txt", 60.0f * sceneTracker.GetMultiplier());
   spriteLoader.ReadSpriteSheet();
   spriteLoader.Load();
-  auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
-  ls::setOffset(Vector2f(0, ho));
+  auto ho = Engine::getWindowSize().y - (ls::getHeight() * 60.f);
+  ls::setOffset(Vector2f(0, 0));
 
   hasUnloaded = false;
 
@@ -73,13 +74,14 @@ void Level3Scene::Update(const double& dt) {
   Scene::Update(dt);
   const auto pp = player->getPosition();
   if (ls::getTileAt(pp) == ls::END) {
-    Engine::ChangeScene((Scene*)&level4);
+      sceneTracker.SetLevelComplete(2, true);
+      Engine::ChangeScene((Scene*)&level4);
   } //else if (!player->isAlive()) {
   //  Engine::ChangeScene((Scene*)&level3);
   //}
 }
 
-void Level2Scene::Render() {
+void Level3Scene::Render() {
   ls::render(Engine::GetWindow());
   spriteLoader.Render(Engine::GetWindow());
   Scene::Render();

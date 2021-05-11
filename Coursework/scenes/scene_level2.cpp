@@ -82,8 +82,8 @@ void Level2Scene::Update(const double& dt) {
         pauseMenu->SetPaused("NotPaused"); //lock buttons from being activated
         //do update
         if (ls::getTileAt(player->getPosition()) == ls::END) {
-            Engine::ChangeScene((Scene*)&level3);
-            sceneTracker.SetLevelComplete(0, true);
+            sceneTracker.SetLevelComplete(1, true);
+            Engine::ChangeScene((Scene*)&level3);           
         }
         Scene::Update(dt);
     }

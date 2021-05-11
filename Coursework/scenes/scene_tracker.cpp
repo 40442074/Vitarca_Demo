@@ -47,7 +47,7 @@ float SceneTracker::GetMultiplier() {
 }
 
 void SceneTracker::InitialiseLevelComplete() {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		levelsComplete.push_back(false);
 	}
@@ -64,7 +64,7 @@ void SceneTracker::SetLevelComplete(int position, bool f)
 }
 
 void SceneTracker::ClearLevelComplete() {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		levelsComplete[i] = false;
 	}

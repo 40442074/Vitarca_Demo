@@ -36,11 +36,6 @@ void Level5Scene::Load() {
 
     auto ho = Engine::getWindowSize().y - (ls::getHeight() * 60.f);
     ls::setOffset(Vector2f(0, 0));
-
-    //pause code
-    //isPaused = false;
-    //plast = false;
-    //pthis = false;
     hasUnloaded = false;
 
     // Create player
@@ -133,12 +128,6 @@ void Level5Scene::UnLoad() {
     camSprite.reset();
     cam.reset();
     camTopSprite.reset();
-  /*  pauseTexS.reset();
-    pauseTexE.reset();*/
-    for (int i = 0; i < 3; i++)
-    {
-        //testButtons[i].reset();
-    }
     Scene::UnLoad();
 
     hasUnloaded = true;
@@ -147,8 +136,8 @@ void Level5Scene::UnLoad() {
 void Level5Scene::Update(const double& dt) {
 
     if (ls::getTileAt(player->getPosition()) == ls::END) {
+        sceneTracker.SetLevelComplete(4, true);
         Engine::ChangeScene((Scene*)&level6);
-        sceneTracker.SetLevelComplete(0, true);
     }
   
     if (!hasUnloaded)
@@ -156,9 +145,6 @@ void Level5Scene::Update(const double& dt) {
         camColour = cam->GetColour();
         camSprite->getSprite().setColor(camColour);
     }
-
-    //pthis = plast;
-
 }
 
 void Level5Scene::Render() {

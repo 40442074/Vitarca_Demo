@@ -100,7 +100,8 @@ void Level4Scene::Update(const double& dt) {
   Scene::Update(dt);
   const auto pp = player->getPosition();
   if (ls::getTileAt(pp) == ls::END) {
-    Engine::ChangeScene((Scene*)&level5);
+      sceneTracker.SetLevelComplete(3, true);
+      Engine::ChangeScene((Scene*)&level5);
   } /*else if (!player->isAlive()) {
     Engine::ChangeScene((Scene*)&level4);
   }*/
