@@ -13,7 +13,8 @@ protected:
 
 	std::shared_ptr<CanBotPhysicsComponent> _physCmp;
 
-	std::shared_ptr<Entity> _feet[2];
+	sf::Vector2f _feet[2];
+	std::shared_ptr<Entity> _legs[2];
 	std::shared_ptr<SpriteComponent> _legSprites[2];
 	std::shared_ptr<sf::Texture> _legTexture;
 	bool _ftUp[2];

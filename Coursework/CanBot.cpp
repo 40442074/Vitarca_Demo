@@ -2,6 +2,7 @@
 #include "components/cmp_player_physics.h"
 #include "components/cmp_enemy_physics.h"
 #include "game.h"
+#include "system_physics.h"
 
 using namespace std;
 using namespace sf;
@@ -15,21 +16,18 @@ void CanBot::load() {
     _sprite->getSprite().setTextureRect(IntRect(0, 0, 27, 48));
     _sprite->getSprite().setOrigin(13.5f * sceneTracker.GetMultiplier(), 24.f * sceneTracker.GetMultiplier());
 
-    _legTexture->loadFromFile("res/img/crate.png");
+    _legTexture->loadFromFile("res/img/leg.png");
     for (int i = 0; i < 2; i++)
     {
-        _feet[i] = scene->makeEntity();
-        _legSprites[i] = _feet[i]->addComponent<SpriteComponent>();
+        _legs[i] = scene->makeEntity();
+        _legSprites[i] = _legs[i]->addComponent<SpriteComponent>();
         _legSprites[i]->setTexture(_legTexture);
-        _legSprites[i]->getSprite().setTextureRect(IntRect(0, 0, 60, 60));
-        _legSprites[i]->getSprite().setOrigin(30.f * sceneTracker.GetMultiplier(), 30.f * sceneTracker.GetMultiplier());
-        _legSprites[i]->getSprite().setScale(1.f/5.f, 1.f/5.f);
+        _legSprites[i]->getSprite().setTextureRect(IntRect(0, 0, 7, 20));
+        _legSprites[i]->getSprite().setOrigin(3.5f * sceneTracker.GetMultiplier(), 3.5f * sceneTracker.GetMultiplier());
+        _legSprites[i]->getSprite().setScale(1.f, 1.f);
     }
-
-    _feet[0]->setPosition(Vector2f(getPosition().x, getPosition().y + 34.f));
-    _ftUp[0] = true;
-    _feet[1]->setPosition(Vector2f(getPosition().x, getPosition().y + 44.f));
-    _ftUp[1] = false;
+    _legs[0]->setPosition(_physCmp->getCornerPos(2));
+    _legs[1]->setPosition(_physCmp->getCornerPos(3));
 }
 
 void CanBot::update(double dt, b2Body * b) {
@@ -68,57 +66,74 @@ void CanBot::update(double dt, b2Body * b) {
 
     if (_physCmp->getFacingR())
     {
-        if (_feet[0]->getPosition().x - (getPosition().x/* - 13.5f*/) < -30.f && !_ftUp[0])
+        if (_feet[0].x - (getPosition().x) < -30.f && !_ftUp[0])
         {
-            _feet[0]->setPosition(Vector2f(_feet[0]->getPosition().x, getPosition().y + 34.f));
+            _feet[0] = Vector2f(_feet[0].x, getPosition().y + 34.f);
             _ftUp[0] = true;
-            _feet[1]->setPosition(Vector2f(getPosition().x/* + 13.5f*/ + 30.f, getPosition().y + 44.f));
+            _feet[1] = Vector2f(getPosition().x + 30.f, getPosition().y + 44.f);
             _ftUp[1] = false;
         }
-        if (_feet[1]->getPosition().x - (getPosition().x/* + 13.5f*/) < -30.f && !_ftUp[1])
+        if (_feet[1].x - getPosition().x < -30.f && !_ftUp[1])
         {
-            _feet[1]->setPosition(Vector2f(_feet[1]->getPosition().x, getPosition().y + 34.f));
+            _feet[1] = Vector2f(_feet[1].x, getPosition().y + 34.f);
             _ftUp[1] = true;
-            _feet[0]->setPosition(Vector2f(getPosition().x/* - 13.5f*/ + 30.f, getPosition().y + 44.f));
+            _feet[0] = Vector2f(getPosition().x + 30.f, getPosition().y + 44.f);
             _ftUp[0] = false;
         }
     }
     else
     {
-        if (_feet[0]->getPosition().x - (getPosition().x/* - 13.5f*/) > 30.f && !_ftUp[0])
+        if (_feet[0].x - getPosition().x > 30.f && !_ftUp[0])
         {
-            _feet[0]->setPosition(Vector2f(_feet[0]->getPosition().x, getPosition().y + 34.f));
+            _feet[0] = Vector2f(_feet[0].x, getPosition().y + 34.f);
             _ftUp[0] = true;
-            _feet[1]->setPosition(Vector2f(getPosition().x/* + 13.5f*/ - 30.f, getPosition().y + 44.f));
+            _feet[1] = Vector2f(getPosition().x - 30.f, getPosition().y + 44.f);
             _ftUp[1] = false;
         }
-        if (_feet[1]->getPosition().x - (getPosition().x/* + 13.5f*/) > 30.f && !_ftUp[1])
+        if (_feet[1].x - (getPosition().x) > 30.f && !_ftUp[1])
         {
-            _feet[1]->setPosition(Vector2f(_feet[1]->getPosition().x, getPosition().y + 34.f));
+            _feet[1] = Vector2f(_feet[1].x, getPosition().y + 34.f);
             _ftUp[1] = true;
-            _feet[0]->setPosition(Vector2f(getPosition().x/*- 13.5f*/ - 30.f, getPosition().y + 44.f));
+            _feet[0] = Vector2f(getPosition().x - 30.f, getPosition().y + 44.f);
             _ftUp[0] = false;
         }
     }
 
     if (_ftUp[0])
-        _feet[0]->setPosition(Vector2f(_feet[0]->getPosition().x + b->GetLinearVelocity().x, getPosition().y + 34.f));
+        _feet[0] = Vector2f(_feet[0].x + b->GetLinearVelocity().x, getPosition().y + 34.f);
     if (_ftUp[1])
-        _feet[1]->setPosition(Vector2f(_feet[1]->getPosition().x + b->GetLinearVelocity().x, getPosition().y + 34.f));
+        _feet[1] = Vector2f(_feet[1].x + b->GetLinearVelocity().x, getPosition().y + 34.f);
 
+    Vector2f footTarget[2];
     if (_physCmp->getState() == Rolling || !_physCmp->getGrounded())
     {
-        _feet[0]->setVisible(false);
-        _feet[1]->setVisible(false);
+        footTarget[0] = Vector2f(_physCmp->getCornerPos(2).x, _physCmp->getCornerPos(2).y + 5.0f);
+        footTarget[1] = Vector2f(_physCmp->getCornerPos(3).x, _physCmp->getCornerPos(3).y + 5.0f);
     }
-    else if (!_feet[0]->isVisible() && !_feet[1]->isVisible())
+    else
     {
-        _feet[0]->setPosition(Vector2f(getPosition().x, getPosition().y + 34.f));
-        _ftUp[0] = true;
-        _feet[1]->setPosition(Vector2f(getPosition().x, getPosition().y + 44.f));
-        _ftUp[1] = false;
-        _feet[0]->setVisible(true);
-        _feet[1]->setVisible(true);
+        footTarget[0] = _feet[0];
+        footTarget[1] = _feet[1];
+        /*if (!_feet[0]->isVisible() && !_feet[1]->isVisible())
+        {
+            _feet[0] = Vector2f(getPosition().x, getPosition().y + 34.f);
+            _ftUp[0] = true;
+            _feet[1] = Vector2f(getPosition().x, getPosition().y + 44.f);
+            _ftUp[1] = false;
+        }*/
+    }
+
+    for (int i = 0; i < 2; i++)
+    {
+        _legs[i]->setPosition(_physCmp->getCornerPos(i + 2));
+
+        _legSprites[i]->getSprite().setScale(1, length(_legs[i]->getPosition() - footTarget[i]) / 20.0f);
+
+        auto slope = (footTarget[i].y - _legs[i]->getPosition().y) / (footTarget[i].x - _legs[i]->getPosition().x);
+        if (slope >= 0)
+            _legs[i]->setRotation((atan(slope) * (180.0 / M_PI)) - 90.0);
+        else
+            _legs[i]->setRotation((atan(slope) * (180.0 / M_PI)) - 270.0);
     }
 
     Entity::update(dt);
@@ -129,6 +144,11 @@ CanBot::CanBot(Scene* s) : Entity(s) {
     _legTexture = make_shared<Texture>(Texture());
     _sRotation = 0;
     _sRotVel = 0;
+
+    _feet[0] = Vector2f(getPosition().x, getPosition().y + 34.f);
+    _ftUp[0] = true;
+    _feet[1] = Vector2f(getPosition().x, getPosition().y + 44.f);
+    _ftUp[1] = false;
 }
 
 //--------------------Player--------------------

@@ -6,6 +6,9 @@
 #include <iostream> // std::cout, std::fixed
 #include <sstream>
 #include <vector>
+#include <math.h>
+
+#define _USE_MATH_DEFINES
 
 namespace sf {
 
@@ -49,6 +52,10 @@ template <typename T, typename U> Vector2<T> Vcast(const Vector2<U>& v) {
 
 static double deg2rad(double degrees) {
   return degrees * 4.0 * atan(1.0) / 180.0;
+}
+
+static double rad2deg(double radians) {
+    return radians * (180.0 / (4.0 * atan(1.0)));
 }
 
 template <typename T>

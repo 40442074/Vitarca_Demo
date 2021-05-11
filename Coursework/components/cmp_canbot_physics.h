@@ -1,5 +1,6 @@
 #pragma once
 #include "cmp_physics.h"
+#include "system_physics.h"
 
 enum CanBotState
 {
@@ -40,5 +41,11 @@ public:
 
 	bool getGrounded() {
 		return _grounded;
+	}
+
+	sf::Vector2f getCornerPos(int i) {
+		float x = i == 1 || i == 3 ? 0.35f : -0.35f;
+		float y = i == 0 || i == 1 ? 0.65f : -0.65f;
+		return Physics::invert_height(Physics::bv2_to_sv2(_body->GetWorldPoint(b2Vec2(x, y))));
 	}
 };
