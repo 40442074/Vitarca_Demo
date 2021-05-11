@@ -49,7 +49,6 @@ void CratePhysicsComponent::update(double dt)
 	else
 	{
 		sounds.PauseCDragSound();
-		cout << "PAUSED";
 	}
 
 	PhysicsComponent::update(dt);

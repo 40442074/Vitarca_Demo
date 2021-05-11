@@ -78,7 +78,7 @@ void SceneTracker::SetOverwrite(bool b)
 void SceneTracker::ClearLevelComplete() {
 	for (int i = 0; i < 7; i++)
 	{
-		levelsComplete[i] = false;		//clears the current progress in the text file
+		levelsComplete[i] = false;		//clears the current progress whilst running
 	}
 }
 

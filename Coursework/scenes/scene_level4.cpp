@@ -5,6 +5,8 @@
 #include "../components/cmp_bullet.h"
 #include <LevelSystem.h>
 #include <iostream>
+#include "../BGSpriteLoader.h"
+#include "pause.h"
 using namespace std;
 using namespace sf;
 
@@ -14,11 +16,17 @@ static shared_ptr<Texture> playertex, coneTex, cameraTex;
 static shared_ptr<CameraComponent> cam;
 static shared_ptr<SpriteComponent> camSprite, camTopSprite;
 
+//Pause menu
+static shared_ptr<PauseMenu> pauseMenu;
+
 void Level4Scene::Load() {
   cout << "Scene 4 Load" << endl;
-  ls::loadLevelFile("res/level4.txt", 40.0f);
+  ls::loadLevelFile("res/level4.txt", 60.0f * sceneTracker.GetMultiplier());
+  spriteLoader.ReadSpriteSheet();
+  spriteLoader.Load();
+
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
-  ls::setOffset(Vector2f(0, ho));
+  ls::setOffset(Vector2f(0, 0));
 
   // Create player
   {
@@ -26,6 +34,10 @@ void Level4Scene::Load() {
       player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
       player->load();
   }
+
+  pauseMenu = makeEntityChild<PauseMenu>();
+  pauseMenu->Load();
+
   // Add physics colliders to level tiles.
   {
       auto walls = ls::findTiles(ls::WALL);
@@ -97,15 +109,27 @@ void Level4Scene::UnLoad() {
 
 
 void Level4Scene::Update(const double& dt) {
-  Scene::Update(dt);
   const auto pp = player->getPosition();
-  if (ls::getTileAt(pp) == ls::END) {
-      sceneTracker.SetLevelComplete(3, true);
-      Engine::ChangeScene((Scene*)&level5);
-  } /*else if (!player->isAlive()) {
-    Engine::ChangeScene((Scene*)&level4);
-  }*/
-  
+  pauseMenu->Update(dt);
+
+  if (!pauseMenu->GetPaused())  //if the game isnt paused
+  {
+      pauseMenu->setVisible(false);    //set the pause menu invisible     
+      pauseMenu->SetPaused("NotPaused"); //lock buttons from being activated
+      //do update
+      if (ls::getTileAt(pp) == ls::END) {
+          sceneTracker.SetLevelComplete(3, true);
+          Engine::ChangeScene((Scene*)&level5);
+      } /*else if (!player->isAlive()) {
+        Engine::ChangeScene((Scene*)&level4);
+      }*/
+      Scene::Update(dt);
+  }
+  else//if the game is paused
+  {
+      pauseMenu->setVisible(true); //set pause menu visible
+      pauseMenu->SetPaused("Paused"); //allow buttons to be clicked
+  }
 }
 
 void Level4Scene::Render() {

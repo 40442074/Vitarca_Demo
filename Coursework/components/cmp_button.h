@@ -32,7 +32,7 @@ public:
 	bool GetIsClicked();
 	void SetIsClicked(bool b);
 	void SetParentKeys();
-	std::map<std::string, MyKeys> GetKeys();
+	//std::map<std::string, MyKeys> GetKeys();
 protected:
 	std::shared_ptr<sf::Font> _font;
 	std::string _string;
@@ -47,7 +47,7 @@ protected:
 	std::string _parentKeys[4];
 	std::string _parentKey;
 
-	std::map<std::string, MyKeys> Keys;
+	//std::map<std::string, MyKeys> Keys;
 	MyKeys key;
 
 	sf::Event eventT;

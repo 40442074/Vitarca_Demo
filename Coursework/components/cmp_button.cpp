@@ -8,39 +8,40 @@
 #include <string>
 #include <stdio.h>
 #include <SFML/Window/Keyboard.hpp>
+#include "../Keys.h"
 
 using namespace sf;
 using namespace std;   //now need to getKeys to player physics to see if it works.
 
-bool KeyPressEvent(MyKeys k, sf::Event e)
-{
-	if (k.KeyCode == e.key.code)	//if the keycode of the MYKeys struct equals the keycode of the event
-	{
-		return true;	//then return true
-	}else 
-	{
-		return false;
-	}
-}
+//bool KeyPressEvent(MyKeys k, sf::Event e)
+//{
+//	if (k.KeyCode == e.key.code)	//if the keycode of the MYKeys struct equals the keycode of the event
+//	{
+//		return true;	//then return true
+//	}else 
+//	{
+//		return false;
+//	}
+//}
 
-std::map<std::string, MyKeys> ButtonComponent::GetKeys()
-{
-	return Keys;
-}
+//std::map<std::string, MyKeys> ButtonComponent::GetKeys()
+//{
+//	return Keys;
+//}
 
 void ButtonComponent::SetParentKeys()
 {
-	key.KeyCode = sf::Keyboard::D;	//initilaising struct values and _parent keys to remember which key belongs to which action
-	Keys["Right"] = key;
+	//key.KeyCode = sf::Keyboard::D;	//initilaising struct values and _parent keys to remember which key belongs to which action
+	//Keys["Right"] = key;
 
-	key.KeyCode = sf::Keyboard::A;
-	Keys["Left"] = key;
+	//key.KeyCode = sf::Keyboard::A;
+	//Keys["Left"] = key;
 
-	key.KeyCode = sf::Keyboard::S;
-	Keys["Down"] = key;
+	//key.KeyCode = sf::Keyboard::S;
+	//Keys["Down"] = key;
 
-	key.KeyCode = sf::Keyboard::Space;
-	Keys["Jump"] = key;
+	//key.KeyCode = sf::Keyboard::Space;
+	//Keys["Jump"] = key;
 
 	string tag = _text.getString();
 	_parentKeys[0] = "d";
@@ -80,58 +81,58 @@ void ButtonComponent::update(double dt) {
 		mousethis = false;
 	}
 
-	//remappable controls
-	if (_buttonType == "remappable" && isClicked)
-	{
-		//button has been clicked.
-		
-		while (Engine::GetWindow().pollEvent(eventT))
-		{
-			if (KeyPressEvent(Keys["Right"], eventT))
-			{
-				//walk right code.
-			}
-			else if (KeyPressEvent(Keys["Left"], eventT))
-			{
-				//walk Left code.
-			}else if (KeyPressEvent(Keys["Down"], eventT))
-			{
-				//walk Down code.
-			}else if (KeyPressEvent(Keys["Jump"], eventT))
-			{
-				//jump code.
-			}
-			if (eventT.type == sf::Event::TextEntered)	//if the text event is a text event
-			{
-				cout << "YOU ENTERED = " << eventT.text.unicode << "\n";
-				_text.setString(eventT.text.unicode);	//set the value of the button to the character entered for visual confirmation
-				isClicked = false;
-				if (_parentKey == "d")					//if this button had a parent key of " "
-				{
-					auto as = eventT.text.unicode;		//get the uni code and cast to keycode
-					key.KeyCode = (sf::Keyboard::Key)as;
-					Keys["Right"] = key;				//set the action up as this new keycode
-				}else if (_parentKey == "a")
-				{
-					auto as = eventT.text.unicode;
-					key.KeyCode = (sf::Keyboard::Key)as;
-					Keys["Left"] = key;
-				}
-				else if (_parentKey == "s")
-				{
-					auto as = eventT.text.unicode;
-					key.KeyCode = (sf::Keyboard::Key)as;
-					Keys["Down"] = key;
-				}
-				else if (_parentKey == "space")
-				{
-					auto as = eventT.text.unicode;
-					key.KeyCode = (sf::Keyboard::Key)as;
-					Keys["Jump"] = key;
-				}
-			}
-		}
-	}
+	////remappable controls
+	//if (_buttonType == "remappable" && isClicked)
+	//{
+	//	//button has been clicked.
+	//	
+	//	while (Engine::GetWindow().pollEvent(eventT))
+	//	{
+	//		//if (KeyPressEvent(Keys["Right"], eventT))
+	//		//{
+	//		//	//walk right code.
+	//		//}
+	//		//else if (KeyPressEvent(Keys["Left"], eventT))
+	//		//{
+	//		//	//walk Left code.
+	//		//}else if (KeyPressEvent(Keys["Down"], eventT))
+	//		//{
+	//		//	//walk Down code.
+	//		//}else if (KeyPressEvent(Keys["Jump"], eventT))
+	//		//{
+	//		//	//jump code.
+	//		//}
+	//		if (eventT.type == sf::Event::TextEntered)	//if the text event is a text event
+	//		{
+	//			cout << "YOU ENTERED = " << eventT.text.unicode << "\n";
+	//			_text.setString(eventT.text.unicode);	//set the value of the button to the character entered for visual confirmation
+	//			isClicked = false;
+	//			if (_parentKey == "d")					//if this button had a parent key of " "
+	//			{
+	//				auto as = eventT.text.unicode;		//get the uni code and cast to keycode
+	//				key.KeyCode = (sf::Keyboard::Key)as;
+	//				Keys::keys["Right"] = key.KeyCode;				//set the action up as this new keycode
+	//			}else if (_parentKey == "a")
+	//			{
+	//				auto as = eventT.text.unicode;
+	//				key.KeyCode = (sf::Keyboard::Key)as;
+	//				Keys::keys["Left"] = key.KeyCode;
+	//			}
+	//			else if (_parentKey == "s")
+	//			{
+	//				auto as = eventT.text.unicode;
+	//				key.KeyCode = (sf::Keyboard::Key)as;
+	//				Keys::keys["Down"] = key.KeyCode;
+	//			}
+	//			else if (_parentKey == "space")
+	//			{
+	//				auto as = eventT.text.unicode;
+	//				key.KeyCode = (sf::Keyboard::Key)as;
+	//				Keys::keys["Jump"] = key.KeyCode;
+	//			}
+	//		}
+	//	}
+	//}
 
 	//if string contains numbers for volume ui
 	if (_buttonType == "SoundNumber")			//if the button has this buttontype, meaning it has a numerical value
