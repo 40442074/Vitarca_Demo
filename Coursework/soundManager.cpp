@@ -4,7 +4,7 @@ using namespace std;
 using namespace sf;
 
 
-void SoundManager::Load() {
+void SoundManager::Load() {		//creates sound buffers to load sound effects for use
 	for (int i = 0; i < 1; i++)
 	{
 		_buffers[0].loadFromFile("res/sounds/button_click.wav");
@@ -13,12 +13,12 @@ void SoundManager::Load() {
 		_sounds[i].setBuffer(_buffers[i]);
 	}
 	
-	_music.openFromFile("res/sounds/soundtrack.ogg");
+	_music.openFromFile("res/sounds/soundtrack.ogg"); //loads music to be played
 }
 
 void SoundManager::PlayButtonSound()
 {
-	_sounds[0].play();
+	_sounds[0].play(); //causes the sound effect to be played
 }
 
 void SoundManager::PlaySoundtrack() {
@@ -26,7 +26,7 @@ void SoundManager::PlaySoundtrack() {
 }
 
 float SoundManager::GetSoundVolume() {
-	return _sounds->getVolume();
+	return _sounds->getVolume();			//gets and sets volume, for use within options and volume menus
 }
 
 float SoundManager::GetMusicVolume() {

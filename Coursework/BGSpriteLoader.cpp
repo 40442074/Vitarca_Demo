@@ -2,30 +2,29 @@
 #include <iostream>
 #include "LevelSystem.h"
 #include "game.h"
-//#include "scenes/scene_tracker.h"
 
 
 using namespace std;
 using namespace sf;
 
-Texture BGspriteSheet;
+Texture BGspriteSheet;      //creates base texture for image, then splits it into spritetypes with an intrect
 std::vector<Sprite> totalSprites;
-std::vector<Sprite> spriteTypes;
+std::vector<Sprite> spriteTypes; //total sprites are for the individual copies of a spritetype to be displayed on screen
 
 void BGSpriteLoader::ReadSpriteSheet()
 { 
-    if (!BGspriteSheet.loadFromFile("res/img/TileSet-360x60.png")) {
+    if (!BGspriteSheet.loadFromFile("res/img/TileSet-360x60.png")) { //if the image cant be loaded, throw error
         cerr << "Failed to load spritesheet!" << std::endl;
     }
     
-    spriteTypes.clear();
+    spriteTypes.clear(); //clear the lists before initialising
     totalSprites.clear();
     for (int i = 0; i < 6; i++)
     {
         spriteTypes.push_back(Sprite());
-        spriteTypes[i].setTexture(BGspriteSheet);
+        spriteTypes[i].setTexture(BGspriteSheet); //sceneTracker multiplier is used with resolution scaling to set the scale of the textures
         spriteTypes[i].setScale(Vector2f(sceneTracker.GetMultiplier(), sceneTracker.GetMultiplier()));
-        spriteTypes[i].setTextureRect(sf::IntRect(i * 60, 0, 60, 60));
+        spriteTypes[i].setTextureRect(sf::IntRect(i * 60, 0, 60, 60)); //the positon on the image and size of the individual sprite types
     }
 }
 
@@ -35,12 +34,12 @@ void BGSpriteLoader::Load()
     auto tiles = ls::getTileNames();
     //for each tile in the list, how many are of wall or empty etc.
     //want to set the position of all of the sprites
-    auto width = ls::getWidth();
+    auto width = ls::getWidth();            //cals level system to get how many tiles there are found in the text file
     for (int i = 0; i < tiles.size(); i++)
     {
         if (tiles[i] == ls::WALL)
         {
-            totalSprites.push_back(spriteTypes[1]);
+            totalSprites.push_back(spriteTypes[1]); //push back the appropriate type of sprite
         }
         else if (tiles[i] == ls::CAMERA1)
         {
@@ -90,6 +89,6 @@ void BGSpriteLoader::Render(RenderWindow& window)
 {
     for (int i = 0; i < totalSprites.size(); i++)
     {
-        window.draw(totalSprites[i]);
+        window.draw(totalSprites[i]); //draw the total sprites.
     }
 }

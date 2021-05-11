@@ -13,12 +13,7 @@ std::shared_ptr<Entity> levelButtons[4];
 std::string levelText[4] = { "Level-1", "Level-2", "Level-3", "Back to Main Menu" };
 
 void LevelMenuScene::Load() {
-	{
-		auto txt = makeEntity();
-		auto t = txt->addComponent<TextComponent>(
-			"Vitarca Level Select\nPress Space to Start");
-		txt->setPosition(Vector2f(200, 200));
-	}
+	sceneTracker.ReadFromFile(); //calls a read to check which levels have been unlocked via savedata
 
 	for (int i = 0; i < 4; i++) {
 

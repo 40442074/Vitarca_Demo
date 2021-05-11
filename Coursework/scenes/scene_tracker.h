@@ -24,11 +24,15 @@ public:
 	std::string GetPath();
 	void createDir(const char* path);
 	void ReadFromFile();
+	void UpdateSaveData();
+	inline bool DoesFileExist();
+	void SetOverwrite(bool b);
 protected:
 	float xWidth = 1920;
 	float yHeight = 1080;
 	float multiplier = 1.0f;
 	std::vector<bool> levelsComplete;
+	bool overwriteSaveData = false;
 	float _physicsScale;
 	std::string AppDataPath;
 };

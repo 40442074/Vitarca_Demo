@@ -9,11 +9,11 @@
 using namespace std;
 using namespace sf;
 
-PauseMenu::PauseMenu(Scene* s) : Entity(s) {
+PauseMenu::PauseMenu(Scene* s) : Entity(s) { //default constructor for pause menu as it derives from entity
 
 }
 
-void PauseMenu::Load() {
+void PauseMenu::Load() {    //initialises bools and creates pause menu buttons same as scene_Options.cpp
 	_isPaused = false;
 	_plast = false;
 	_pthis = false;
@@ -25,8 +25,8 @@ void PauseMenu::Load() {
 	}
 }
 
-void PauseMenu::SetPaused(std::string s)
-{
+void PauseMenu::SetPaused(std::string s) //sets the buttonType to check whether game is paused,
+{                                       //this enables or disables int rects via cmp_button.cpp
     for (int i = 0; i < 3; i++) {
         _pauseComponents[i].get()->SetButtonType(s);
     }
@@ -37,29 +37,22 @@ void PauseMenu::Update(const double& dt) {
     if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
         _pthis = true;
     else
-        _plast = false;
+        _plast = false; //ensuring one click
 
     if (_pthis && !_plast)
     {
         _isPaused = true;
     }
-    else
-    {
-        //if (_pauseComponents[0]->GetButtonType() == "Paused") //and resume button isclicked
-        //{
-        //    _isPaused = false;
-        //}
-    }
     
     _pthis = _plast;
 
-    if (_pauseComponents[0]->GetResumeClick() == true)
+    if (_pauseComponents[0]->GetIsClicked() == true) //check if resume is clicked
     {
         _isPaused = false;
-        _pauseComponents[0]->SetResumeClick(false);
+        _pauseComponents[0]->SetIsClicked(false);
     }
 
-    Entity::update(dt);
+    Entity::update(dt); 
 }
 
 bool PauseMenu::GetPaused() {

@@ -3,6 +3,12 @@
 #include <SFML/Graphics/Text.hpp>
 #include <ecm.h>
 
+struct MyKeys
+{
+	sf::Keyboard::Key KeyCode;
+	sf::Mouse::Button MouseButton;
+};
+
 class ButtonComponent : public Component {
 public:
 	ButtonComponent() = delete;
@@ -20,9 +26,10 @@ public:
 
 	void SetButtonType(std::string s);
 
-	bool GetResumeClick();
-	void SetResumeClick(bool b);
-
+	bool GetIsClicked();
+	void SetIsClicked(bool b);
+	void SetParentKeys();
+	std::map<std::string, MyKeys> GetKeys();
 protected:
 	std::shared_ptr<sf::Font> _font;
 	std::string _string;
@@ -33,5 +40,12 @@ protected:
 	sf::Color _colour;
 	sf::Vector2f _pos;
 	std::string _buttonType;
-	bool resumeClicked = false;
+	bool isClicked = false;
+	std::string _parentKeys[4];
+	std::string _parentKey;
+
+	std::map<std::string, MyKeys> Keys;
+	MyKeys key;
+
+	Event eventT;
 };

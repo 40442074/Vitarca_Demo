@@ -26,16 +26,10 @@ void MenuScene::Load() {
 }
 
 void MenuScene::Update(const double& dt) {
-  // cout << "Menu Update "<<dt<<"\n";
-
   if (sf::Keyboard::isKeyPressed(Keyboard::Space)) {
     Engine::ChangeScene(&level1);
   }
-  if (sf::Keyboard::isKeyPressed(Keyboard::P)) {
-      //sounds.PlayButtonSound();
-  }
-  
-  //renders menu sprite
+
   gManager.Render();
   Scene::Update(dt);
 }
