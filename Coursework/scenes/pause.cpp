@@ -14,8 +14,6 @@ PauseMenu::PauseMenu(Scene* s) : Entity(s) {
 }
 
 void PauseMenu::Load() {
-
-	//pause code
 	_isPaused = false;
 	_plast = false;
 	_pthis = false;
@@ -25,12 +23,6 @@ void PauseMenu::Load() {
 			Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Pause", _pauseText[i]);
 		_pauseComponents[i].get()->SetButtonType("NotPaused");
 	}
-
-	//for (int i = 0; i < 3; i++) {
-	//	_pauseButtons[i] = makeEntity();
-	//	_pauseButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, 
-	//		Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Pause", _pauseText[i]);
-	//}
 }
 
 void PauseMenu::SetPaused(std::string s)
@@ -66,8 +58,6 @@ void PauseMenu::Update(const double& dt) {
         _isPaused = false;
         _pauseComponents[0]->SetResumeClick(false);
     }
-    
-    
 
     Entity::update(dt);
 }

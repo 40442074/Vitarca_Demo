@@ -1,4 +1,4 @@
-#include "scene_level6.h"
+#include "scene_level7.h"
 #include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
 #include "../components/cmp_camera.h"
@@ -12,8 +12,8 @@
 #include <thread>
 #include "../BGSpriteLoader.h"
 
-//#include "../components/cmp_text.h"
-//#include "../components/cmp_button.h"
+#include "../components/cmp_text.h"
+#include "../components/cmp_button.h"
 
 using namespace std;
 using namespace sf;
@@ -36,11 +36,11 @@ static shared_ptr<SpriteComponent> camSprite, camTopSprite;
 //static shared_ptr<Entity> pauseTexE;
 //static shared_ptr<SpriteComponent> pauseTexS;
 
-void Level6Scene::Load() {
+void Level7Scene::Load() {
     sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
 
-    cout << " Scene 6 Load" << endl;
-    ls::loadLevelFile("res/level6.txt", 60.0f * sceneTracker.GetMultiplier());
+    cout << " Scene 7 Load" << endl;
+    ls::loadLevelFile("res/level7.txt", 60.0f * sceneTracker.GetMultiplier());
     spriteLoader.ReadSpriteSheet();
     spriteLoader.Load();
 
@@ -82,7 +82,7 @@ void Level6Scene::Load() {
 
     //Simulate long loading times
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    cout << " Scene 6 Load Done" << endl;
+    cout << " Scene 7 Load Done" << endl;
 
     ////create camera vision cone and top of camera, apply textures and give camComponents and spritecomponents
     {
@@ -122,12 +122,12 @@ void Level6Scene::Load() {
         camTopE->addComponent<CameraComponent>(player.get()->getFixture(), "Top");
     }
 
-    //Create test crate
-    {
-        crate = makeEntityChild<Crate>();
-        crate->setPosition(Vector2f(1000.0f * sceneTracker.GetMultiplier(), 100.0f * sceneTracker.GetMultiplier()));
-        crate->load(player->getBody());
-    }
+    ////Create test crate
+    //{
+    //    crate = makeEntityChild<Crate>();
+    //    crate->setPosition(Vector2f(1000.0f * sceneTracker.GetMultiplier(), 100.0f * sceneTracker.GetMultiplier()));
+    //    crate->load(player->getBody());
+    //}
 
     ////Pause Menu load
     //for (int i = 0; i < 3; i++)
@@ -151,8 +151,8 @@ void Level6Scene::Load() {
     setLoaded(true);
 }
 
-void Level6Scene::UnLoad() {
-    cout << "Scene 6 Unload" << endl;
+void Level7Scene::UnLoad() {
+    cout << "Scene 7 Unload" << endl;
 
     player.reset();
     enemy.reset();
@@ -174,12 +174,12 @@ void Level6Scene::UnLoad() {
     hasUnloaded = true;
 }
 
-void Level6Scene::Update(const double& dt) {
+void Level7Scene::Update(const double& dt) {
 
-    if (ls::getTileAt(player->getPosition()) == ls::END) {
-        Engine::ChangeScene((Scene*)&level7);
+   /* if (ls::getTileAt(player->getPosition()) == ls::END) {
+        Engine::ChangeScene((Scene*)&level8);
         sceneTracker.SetLevelComplete(0, true);
-    }
+    }*/
 
     //if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
     //    pthis = true;
@@ -231,11 +231,11 @@ void Level6Scene::Update(const double& dt) {
         camSprite->getSprite().setColor(camColour);
     }
 
-    //pthis = plast;
+  /*  pthis = plast;*/
 
 }
 
-void Level6Scene::Render() {
+void Level7Scene::Render() {
     ls::render(Engine::GetWindow());
     spriteLoader.Render(Engine::GetWindow());
     Scene::Render();

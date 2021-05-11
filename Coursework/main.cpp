@@ -24,6 +24,7 @@ Level3Scene level3;
 Level4Scene level4;
 Level5Scene level5;
 Level6Scene level6;
+Level7Scene level7;
 
 SceneTracker sceneTracker; //for resolution
 

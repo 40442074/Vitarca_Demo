@@ -2,7 +2,7 @@
 
 #include "engine.h"
 
-class Level2Scene : public Scene {
+class Level7Scene : public Scene {
 public:
   void Load() override;
 
@@ -11,7 +11,6 @@ public:
   void Update(const double& dt) override;
 
   void Render() override;
-
 protected:
 	bool hasUnloaded = false;
 	sf::Color camColour;

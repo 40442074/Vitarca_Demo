@@ -27,15 +27,6 @@ static shared_ptr<Texture> playertex, coneTex, cameraTex, cratetex;
 static shared_ptr<CameraComponent> cam;
 static shared_ptr<SpriteComponent> camSprite, camTopSprite;
 
-//Pause menu
-//shared_ptr<Entity> testButtons[3];
-//std::string pauseText[3] = { "Resume", "Restart Level", "Back to Main Menu" };
-//bool pthis, plast, isPaused;
-//
-//static shared_ptr<Texture> pauseTex;
-//static shared_ptr<Entity> pauseTexE;
-//static shared_ptr<SpriteComponent> pauseTexS;
-
 void Level5Scene::Load() {
     sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
 
@@ -128,26 +119,6 @@ void Level5Scene::Load() {
         crate->setPosition(Vector2f(1000.0f * sceneTracker.GetMultiplier(), 100.0f * sceneTracker.GetMultiplier()));
         crate->load(player->getBody());
     }
-
-    ////Pause Menu load
-    //for (int i = 0; i < 3; i++)
-    //{
-    //    testButtons[i] = makeEntity();
-    //    testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Pause", pauseText[i]);
-    //    testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
-    //}
-  
-    //for (int i = 0; i < 3; i++)
-    //{
-    //    testButtons[i]->setVisible(false);
-    //}
-
-    //pauseTexE = makeEntity();
-    //pauseTexS = pauseTexE->addComponent<SpriteComponent>();
-    //pauseTex = make_shared<Texture>(Texture());
-    //pauseTex.get()->loadFromFile("res/img/menu/pause_BG.png");
-    //pauseTexS->setTexture(pauseTex);
-    //pauseTexE->setVisible(false);
     setLoaded(true);
 }
 
@@ -163,8 +134,8 @@ void Level5Scene::UnLoad() {
     camSprite.reset();
     cam.reset();
     camTopSprite.reset();
-    //pauseTexS.reset();
-    //pauseTexE.reset();
+  /*  pauseTexS.reset();
+    pauseTexE.reset();*/
     for (int i = 0; i < 3; i++)
     {
         //testButtons[i].reset();
@@ -180,50 +151,6 @@ void Level5Scene::Update(const double& dt) {
         Engine::ChangeScene((Scene*)&level6);
         sceneTracker.SetLevelComplete(0, true);
     }
-
-    //if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
-    //    pthis = true;
-    //else
-    //    plast = false;
-
-    //if (pthis && !plast) 
-    //{  
-    //    isPaused = true;
-    //}
-
-    //if (!isPaused)
-    //{
-    //    Scene::Update(dt);  
-    //}
-    //else
-    //{
-    //    for (int i = 0; i < 3; i++)
-    //    {
-    //        if(!testButtons[i]->isVisible())
-    //            testButtons[i]->setVisible(true);
-    //        if(!hasUnloaded)
-    //            pauseTexE->setVisible(true);
-
-    //        testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
-    //        testButtons[i]->update(dt);
-    //    } 
-    //    //RESUME BELOW
-    //    auto t = testButtons[0].get()->get_components<ButtonComponent>();
-    //    auto b = t[0]->GetButtonType();
-
-    //    if (b == "NotPaused")
-    //    {
-    //        isPaused = false;
-    //        testButtons[0]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
-    //        for (int i = 0; i < 3; i++)
-    //        {
-    //            testButtons[i]->setVisible(false);
-    //            if(i > 0)
-    //                testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
-    //        }
-    //        pauseTexE->setVisible(false);       
-    //    }
-    //}
   
     if (!hasUnloaded)
     {

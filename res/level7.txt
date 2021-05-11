@@ -1,5 +1,5 @@
-wwwwwwwwwwwwwwwwccwwwwwwwwwwwwww
-w               cc             w
+wwwwwwwwwccwwwwwwwwwwwwwwwwwwwww
+w        cc                    w
 w                              w
 w                              w
 w                              w
@@ -7,12 +7,12 @@ w                              w
 w                              w
 w                              w
 w                              w
-s                              f
-wwwwwwwww  wwwwwwwwwwww  wwwwwww
-w        w              w      w
-w         w            w       w
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w                              f
+      wwwwwwwwwwwwwwwwwww  wwwww
+     w                    w    w
+s   w                    w     w
+ww w                    w      w
+w                              w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww

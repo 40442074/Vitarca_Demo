@@ -10,9 +10,6 @@
 #include <iostream>
 #include <thread>
 #include "../BGSpriteLoader.h"
-
-//#include "../components/cmp_text.h"
-//#include "../components/cmp_button.h"
 #include "pause.h"
 
 using namespace std;
@@ -28,7 +25,7 @@ static shared_ptr<CameraComponent> cam;
 static shared_ptr<SpriteComponent> camSprite, camTopSprite;
 
 //Pause menu
-std::shared_ptr<PauseMenu> pauseMenu;
+static shared_ptr<PauseMenu> pauseMenu;
 
 void Level1Scene::Load() {
     sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
