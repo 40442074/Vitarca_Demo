@@ -21,6 +21,9 @@ ResMenuScene resScene;
 Level1Scene level1;
 Level2Scene level2;
 Level3Scene level3;
+Level4Scene level4;
+Level5Scene level5;
+Level6Scene level6;
 
 SceneTracker sceneTracker; //for resolution
 

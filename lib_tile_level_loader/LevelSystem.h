@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-
+#include "../Coursework/scenes/scene_tracker.h"
 #define ls LevelSystem
 
 class LevelSystem {
@@ -64,3 +64,5 @@ private:
 
   ~LevelSystem() = delete;
 };
+
+extern SceneTracker sceneTracker;

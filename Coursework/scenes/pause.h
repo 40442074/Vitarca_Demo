@@ -1,23 +1,20 @@
 #pragma once
-#include "engine.h"
+//#include "engine.h"
+#include <ecm.h>
+#include "../components/cmp_button.h"
 
-
-class PauseMenu : public Scene {
+class PauseMenu : public Entity {
 public:
-	PauseMenu() = default;
-	~PauseMenu() override = default;
+	PauseMenu(Scene* s);
 
-	void Load() override;
+	void Load();
 
-	void Update(const double& dt) override;
-
-	void GetPositions(sf::Vector2f positions[], int size);
-	void ClearPositions();
-
-	std::vector<sf::Vector2f> SetPositions();
+	void Update(const double& dt);
+	bool GetPaused();
+	void SetPaused(std::string s);
 
 protected:
-	std::shared_ptr<Entity> _pauseButtons[3];
+	std::shared_ptr<ButtonComponent> _pauseComponents[3];
 	std::string _pauseText[3] = { "Resume", "Restart Level", "Back to Main Menu" };
-	std::vector<sf::Vector2f> _positions;
+	bool _pthis = false, _plast = false, _isPaused = false;
 };

@@ -9,48 +9,73 @@
 using namespace std;
 using namespace sf;
 
+PauseMenu::PauseMenu(Scene* s) : Entity(s) {
+
+}
 
 void PauseMenu::Load() {
 
+	//pause code
+	_isPaused = false;
+	_plast = false;
+	_pthis = false;
+
 	for (int i = 0; i < 3; i++) {
-		_pauseButtons[i] = makeEntity();
-		_pauseButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, 
+		_pauseComponents[i] = addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue,
 			Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Pause", _pauseText[i]);
+		_pauseComponents[i].get()->SetButtonType("NotPaused");
 	}
-	setLoaded(true);
+
+	//for (int i = 0; i < 3; i++) {
+	//	_pauseButtons[i] = makeEntity();
+	//	_pauseButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, 
+	//		Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Pause", _pauseText[i]);
+	//}
+}
+
+void PauseMenu::SetPaused(std::string s)
+{
+    for (int i = 0; i < 3; i++) {
+        _pauseComponents[i].get()->SetButtonType(s);
+    }
 }
 
 void PauseMenu::Update(const double& dt) {
 
-	gManager.Render();
+    if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
+        _pthis = true;
+    else
+        _plast = false;
 
-	Scene::Update(dt);
+    if (_pthis && !_plast)
+    {
+        _isPaused = true;
+    }
+    else
+    {
+        //if (_pauseComponents[0]->GetButtonType() == "Paused") //and resume button isclicked
+        //{
+        //    _isPaused = false;
+        //}
+    }
+    
+    _pthis = _plast;
+
+    if (_pauseComponents[0]->GetResumeClick() == true)
+    {
+        _isPaused = false;
+        _pauseComponents[0]->SetResumeClick(false);
+    }
+    
+    
+
+    Entity::update(dt);
 }
 
-void PauseMenu::GetPositions(sf::Vector2f positions[], int size) {
-	if (size > 0)
-	{
-		for (int i = 0; i < size; i++)
-		{
-			//_positions.push_back(positions[i]);
-		}
-	}
-	
+bool PauseMenu::GetPaused() {
+    return _isPaused;
 }
 
-void PauseMenu::ClearPositions() {
-	_positions.clear();
-}
 
-std::vector<sf::Vector2f> PauseMenu::SetPositions() {
-	if (_positions.size() > 0)
-	{
-		return _positions;
-	}
-	else
-	{
-		throw string("empty array: ");
-	}
-	
-}
+
 

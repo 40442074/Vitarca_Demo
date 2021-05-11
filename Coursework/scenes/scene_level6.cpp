@@ -1,18 +1,19 @@
-#include "scene_level1.h"
+#include "scene_level6.h"
+#include "../components/cmp_player_physics.h"
 #include "../components/cmp_sprite.h"
 #include "../components/cmp_camera.h"
 #include "../components/cmp_crate_physics.h"
 #include "../game.h"
-#include "../CanBot.h"
+#include "../Player.h"
+#include "../Enemy.h"
 #include "../Crate.h"
 #include <LevelSystem.h>
 #include <iostream>
 #include <thread>
 #include "../BGSpriteLoader.h"
 
-//#include "../components/cmp_text.h"
-//#include "../components/cmp_button.h"
-#include "pause.h"
+#include "../components/cmp_text.h"
+#include "../components/cmp_button.h"
 
 using namespace std;
 using namespace sf;
@@ -27,19 +28,29 @@ static shared_ptr<CameraComponent> cam;
 static shared_ptr<SpriteComponent> camSprite, camTopSprite;
 
 //Pause menu
-std::shared_ptr<PauseMenu> pauseMenu;
+//shared_ptr<Entity> testButtons[3];
+//std::string pauseText[3] = { "Resume", "Restart Level", "Back to Main Menu" };
+//bool pthis, plast, isPaused;
+//
+//static shared_ptr<Texture> pauseTex;
+//static shared_ptr<Entity> pauseTexE;
+//static shared_ptr<SpriteComponent> pauseTexS;
 
-void Level1Scene::Load() {
+void Level6Scene::Load() {
     sceneTracker.SetPhysics(30.0f / sceneTracker.GetMultiplier());
 
-    cout << " Scene 1 Load" << endl;
-    ls::loadLevelFile("res/level1.txt", 60.0f * sceneTracker.GetMultiplier());
+    cout << " Scene 6 Load" << endl;
+    ls::loadLevelFile("res/level6.txt", 60.0f * sceneTracker.GetMultiplier());
     spriteLoader.ReadSpriteSheet();
     spriteLoader.Load();
 
     auto ho = Engine::getWindowSize().y - (ls::getHeight() * 60.f);
     ls::setOffset(Vector2f(0, 0));
 
+    //pause code
+    //isPaused = false;
+    //plast = false;
+    //pthis = false;
     hasUnloaded = false;
 
     // Create player
@@ -48,9 +59,6 @@ void Level1Scene::Load() {
         player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]) + Vector2f(50.0f, 20.0f));
         player->load();
     }
-
-    pauseMenu = makeEntityChild<PauseMenu>();
-    pauseMenu->Load();
 
     //Create test enemy
     {
@@ -114,17 +122,36 @@ void Level1Scene::Load() {
         camTopE->addComponent<CameraComponent>(player.get()->getFixture(), "Top");
     }
 
-    //Create test crate
-    {
-        crate = makeEntityChild<Crate>();
-        crate->setPosition(Vector2f(1000.0f * sceneTracker.GetMultiplier(), 100.0f * sceneTracker.GetMultiplier()));
-        crate->load(player->getBody());
-    }
+    ////Create test crate
+    //{
+    //    crate = makeEntityChild<Crate>();
+    //    crate->setPosition(Vector2f(1000.0f * sceneTracker.GetMultiplier(), 100.0f * sceneTracker.GetMultiplier()));
+    //    crate->load(player->getBody());
+    //}
 
+    ////Pause Menu load
+    //for (int i = 0; i < 3; i++)
+    //{
+    //    testButtons[i] = makeEntity();
+    //    testButtons[i]->addComponent<ButtonComponent>("PressStart2P-Regular.ttf", 48, Color::Blue, Vector2f(Engine::getWindowSize().x / 6, Engine::getWindowSize().y / 3 + Engine::getWindowSize().y / 10 * i), "Pause", pauseText[i]);
+    //    testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
+    //}
+  
+    //for (int i = 0; i < 3; i++)
+    //{
+    //    testButtons[i]->setVisible(false);
+    //}
+
+    //pauseTexE = makeEntity();
+    //pauseTexS = pauseTexE->addComponent<SpriteComponent>();
+    //pauseTex = make_shared<Texture>(Texture());
+    //pauseTex.get()->loadFromFile("res/img/menu/pause_BG.png");
+    //pauseTexS->setTexture(pauseTex);
+    //pauseTexE->setVisible(false);
     setLoaded(true);
 }
 
-void Level1Scene::UnLoad() {
+void Level6Scene::UnLoad() {
     cout << "Scene 1 Unload" << endl;
 
     player.reset();
@@ -136,38 +163,79 @@ void Level1Scene::UnLoad() {
     camSprite.reset();
     cam.reset();
     camTopSprite.reset();
+    //pauseTexS.reset();
+    //pauseTexE.reset();
+    for (int i = 0; i < 3; i++)
+    {
+        //testButtons[i].reset();
+    }
     Scene::UnLoad();
 
     hasUnloaded = true;
 }
 
-void Level1Scene::Update(const double& dt) {
-    pauseMenu->Update(dt);
+void Level6Scene::Update(const double& dt) {
 
-    if (!pauseMenu->GetPaused())  //if the game isnt paused
+   /* if (ls::getTileAt(player->getPosition()) == ls::END) {
+        Engine::ChangeScene((Scene*)&level2);
+        sceneTracker.SetLevelComplete(0, true);
+    }*/
+
+    //if (Keyboard::isKeyPressed(Keyboard::P)) //pause menu
+    //    pthis = true;
+    //else
+    //    plast = false;
+
+    //if (pthis && !plast) 
+    //{  
+    //    isPaused = true;
+    //}
+
+    //if (!isPaused)
+    //{
+    //    Scene::Update(dt);  
+    //}
+    //else
+    //{
+    //    for (int i = 0; i < 3; i++)
+    //    {
+    //        if(!testButtons[i]->isVisible())
+    //            testButtons[i]->setVisible(true);
+    //        if(!hasUnloaded)
+    //            pauseTexE->setVisible(true);
+
+    //        testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
+    //        testButtons[i]->update(dt);
+    //    } 
+    //    //RESUME BELOW
+    //    auto t = testButtons[0].get()->get_components<ButtonComponent>();
+    //    auto b = t[0]->GetButtonType();
+
+    //    if (b == "NotPaused")
+    //    {
+    //        isPaused = false;
+    //        testButtons[0]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("Paused");
+    //        for (int i = 0; i < 3; i++)
+    //        {
+    //            testButtons[i]->setVisible(false);
+    //            if(i > 0)
+    //                testButtons[i]->GetCompatibleComponent<ButtonComponent>()[0]->SetButtonType("NotPaused");
+    //        }
+    //        pauseTexE->setVisible(false);       
+    //    }
+    //}
+  
+    if (!hasUnloaded)
     {
-        pauseMenu->setVisible(false);    //set the pause menu invisible     
-        pauseMenu->SetPaused("NotPaused"); //lock buttons from being activated
-        //do update
-        if (ls::getTileAt(player->getPosition()) == ls::END) {
-            Engine::ChangeScene((Scene*)&level2);
-            sceneTracker.SetLevelComplete(0, true);
-        }
-        Scene::Update(dt);
-        if (!hasUnloaded)
-        {
-            camColour = cam->GetColour();
-            camSprite->getSprite().setColor(camColour);
-        }
+        camColour = cam->GetColour();
+        camSprite->getSprite().setColor(camColour);
     }
-    else//if the game is paused
-    {
-        pauseMenu->setVisible(true); //set pause menu visible
-        pauseMenu->SetPaused("Paused"); //allow buttons to be clicked
-    }
+
+  /*  pthis = plast;*/
+
 }
 
-void Level1Scene::Render() {
+void Level6Scene::Render() {
     ls::render(Engine::GetWindow());
     spriteLoader.Render(Engine::GetWindow());
     Scene::Render();
