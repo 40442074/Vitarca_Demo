@@ -9,6 +9,7 @@
 #include "scenes/scene_menu.h"
 #include "scenes/scene_level_select.h"
 #include "scenes/scene_options.h"
+#include "scenes/scene_controls.h"
 #include "BGSpriteLoader.h"
 #include "soundManager.h"
 #include "scenes/scene_splash.h"
@@ -25,6 +26,7 @@ extern LevelMenuScene levelSelect;
 extern OptionsMenuScene optionsScene;
 extern VolumeMenuScene volScene;
 extern ResMenuScene resScene;
+extern ControlScene controlScene;
 extern Level1Scene level1;
 extern Level2Scene level2;
 extern Level3Scene level3;

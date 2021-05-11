@@ -6,7 +6,7 @@
 #include <iostream>
 //#include "../scenes/scene_tracker.h"
 
-using namespace std;
+using namespace std;  //creates volume buttons with various spacings to look pleasing to the eye.
 using namespace sf;
 
 std::shared_ptr<Entity> soundVol[5];

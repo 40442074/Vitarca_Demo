@@ -15,7 +15,7 @@ LevelMenuScene levelSelect;
 OptionsMenuScene optionsScene;
 VolumeMenuScene volScene;
 ResMenuScene resScene;
-//PauseMenu pauseScene;
+ControlScene controlScene;
 
 
 Level1Scene level1;
