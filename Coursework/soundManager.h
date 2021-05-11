@@ -16,9 +16,14 @@ public:
 	void SetMusicVolume(float vol);
 	void SetSoundVolume(float vol);
 
+	void SoundManager::PlayPwalkSound();
+	void SoundManager::PlayEWalkSound();
+	void SoundManager::PlayCDragSound();
+	
+
 	//void Update(const double& dt);
 protected:
-	sf::SoundBuffer _buffers[1];
-	sf::Sound _sounds[1];
+	sf::SoundBuffer _buffers[4];
+	sf::Sound _sounds[4];
 	sf::Music _music;
 };
